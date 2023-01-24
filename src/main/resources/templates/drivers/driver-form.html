@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      		layout:decorate="/login/_layout">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+
+    <!-- Bootstrap CSS -->
+	<link th:rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}" />
+	<link th:rel="stylesheet" th:href="@{/css/bootstrap-datepicker.standalone.css}" />
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}" />
+	<link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.11.2/css/all.css} " />
+	<link th:rel="stylesheet" th:href="@{/css/bootstrap-sidebar.css}" />
+	
+	<!-- JS for Calendar -->
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/bootstrap-datepicker.js}"></script>
+	
+	
+	<title>Add Driver</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+	    <h2>Drivers</h2>
+		<hr>
+		<p class="h4 mb-4">Add Driver</p>
+		
+		
+		<form action="#" th:action="@{/drivers/saveDriver}"
+						 th:object="${driver}" method="POST">
+			<div class="form-inline row">
+						
+							<label for="firstName" class="h5 mb-4 col-sm-2">First Name</label>
+							<input type="text" th:field="*{firstName}" id="firstName" name="firstName"
+										class="form-control mb-4 col-sm-2" placeholder="First Name">
+							<ul>
+							       <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}" class="alert alert-danger" />
+							</ul>
+	
+			</div>
+			
+			<div class="form-inline row">
+						
+							<label for="lastName" class="h5 mb-4 col-sm-2">Last Name</label>		
+							<input type="text" th:field="*{lastName}" id="lastName" name="lastName"
+									class="form-control mb-4 col-sm-2" placeholder="Last Name">
+							<ul >
+							       <li th:each="err : ${#fields.errors('lastName')}" th:text="${err}" class="alert alert-danger col-xs-1" />
+							</ul>
+			</div>
+			
+			<div class="form-inline row">
+	
+					<label for="birthDate" class="h5 mb-4 col-sm-2">Birth Date</label>
+					<div class="input-group date mb-4">
+						<input type="text" class="form-control" id="birthDate" name="birthDate"
+							autocomplete="off" th:field="*{driverPersonalInfo.birthDate}" />
+						<div class="input-group-append ">
+							<span class="input-group-text">
+							<i class="far fa-calendar-alt"></i></span>
+						</div>
+					</div>
+					<ul>
+						<li th:each="err : ${#fields.errors('driverPersonalInfo.birthDate')}" th:text="${err}" class="alert alert-danger" />
+					</ul>
+			</div>
+			
+			<div class="form-inline row">
+					<label for="address" class="h5 mb-4 col-sm-2">Address</label>		
+					<input type="text" th:field="*{driverPersonalInfo.address}" id="address" name="address"
+							class="form-control mb-4 col-sm-2" placeholder="Address">
+					
+					<ul>
+						<li th:each="err : ${#fields.errors('lastName')}"  th:errors="*{lastName}"th:text="${err}" class="alert alert-danger" />
+					</ul>
+			</div>
+					
+			<div class="form-inline row">
+					<label for="licenseId" class="h5 mb-4 col-sm-2">License ID</label>		
+					<input type="text" th:field="*{driverPersonalInfo.licenseId}" id="licenseId" name="licenseId"
+							class="form-control mb-4 col-sm-2" placeholder="License ID">	
+					<ul>
+						<li th:each="err : ${#fields.errors('driverPersonalInfo.licenseId')}" 
+						th:errors="*{driverPersonalInfo.licenseId}" th:text="${err}" class="alert alert-danger" />
+					</ul>
+							
+			</div>
+			
+			<div class="form-inline row">
+	
+					<label for="licenseExpirationDate" class="h5 mb-4 col-sm-2">Lic. Expiration Date</label>
+					<div class="input-group date mb-4">
+						<input type="text" class="form-control" id="licenseExpirationDate" name="licenseExpirationDate"
+							autocomplete="off" th:field="*{driverPersonalInfo.licenseExpirationDate}" />
+						<div class="input-group-append ">
+							<span class="input-group-text">
+							<i class="far fa-calendar-alt"></i></span>
+						</div>
+					</div>
+					<ul>
+						<li th:each="err : ${#fields.errors('driverPersonalInfo.licenseExpirationDate')}" th:text="${err}" class="alert alert-danger" />
+					</ul>
+			</div>
+			
+			<div class="form-inline row">
+					<label for="mobileNumber" class="h5 mb-4 col-sm-2">Mobile Number</label>
+					<input type="text" th:field="*{driverPersonalInfo.mobileNumber}" id="mobileNumber" name="mobileNumber"
+							class="form-control mb-4 col-sm-2" placeholder="09XX-XXX-XXXX">
+					<ul>
+						<li th:each="err : ${#fields.errors('driverPersonalInfo.mobileNumber')}" 
+							th:text="${err}" class="alert alert-danger" />
+					</ul>
+							
+			</div>
+					
+			<div class="form-inline row">
+	
+				<label for="fbEmailAddress" class="h5 mb-4 col-sm-2">Facebook Email</label>
+				<input type="text" th:field="*{driverPersonalInfo.fbEmailAddress}" id="fbEmailAddress" name="fbEmailAddress"
+							class="form-control mb-4 col-sm-2" placeholder="@Facebook Email">
+				<ul>
+					<li th:each="err : ${#fields.errors('driverPersonalInfo.fbEmailAddress')}" 
+							th:text="${err}" class="alert alert-danger" />
+				</ul>
+							
+			</div>
+			
+			<div class="form-inline row">
+	
+					<label for="employmentDate" class="h5 mb-4 col-sm-2">Employment Date</label>
+					<div class="input-group date mb-4">
+						<input type="text" class="form-control" id="employmentDate" name="employmentDate"
+							autocomplete="off" th:field="*{employmentDate}" />
+						<div class="input-group-append">
+							<span class="input-group-text">
+							<i class="far fa-calendar-alt"></i></span>
+						</div>
+					</div>
+					<ul>
+						<li th:each="err : ${#fields.errors('employmentDate')}" 
+							th:text="${err}" class="alert alert-danger" />
+					</ul>
+			</div>
+						
+			<button type="submit" class="btn btn-info col-1">Save</button>
+		</form>
+	    <div class="line"></div>
+    
+
+    
+		<script>
+		$('.input-group.date').datepicker({
+			autoclose : true,
+			todayHighlight : true,
+			format : 'yyyy-mm-dd',
+		});
+		</script>
+	</div>
+</body>
+</html>
+
+
+

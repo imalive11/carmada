@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      		layout:decorate="/login/_layout">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap JS -->
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	
+	<!-- Bootstrap CSS -->
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}" />
+	<link th:rel="stylesheet" th:href="@{/css/bootstrap-sidebar.css}" />
+	
+	<title>Carmada</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+            <h2 style="margin-top: 1.5em;">Daily Boundary Report</h2>
+	<hr>
+	
+    <form th:action="@{/employees/search}" class="form-inline">
+
+		<input class="form-control mr-sm-2 mb-3" type="search" name="employeeName" placeholder="Search by name" />
+
+		<button class="btn btn-success mb-3" type="submit">Search</button>
+    </form>	
+	
+	
+	<table style="margin-top: 1.25em;" class="table table-bordered table-striped">
+		<thead class="thead-dark">
+			<tr>
+				
+				<th>Vehicle Plate Number</th>
+				<th>Driver Name</th>
+				<th>Boundary</th>
+				<th>Status</th>
+				<th>Transaction ID</th>				
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr th:each="tempPayment : ${currentDatePayments}">
+			
+				
+				<td th:text="${tempPayment.vehicle.plateNumber}" />	
+				<td th:text="${tempPayment.driver.firstName}" />
+				<td th:text="${tempPayment.amountBoundary}" />
+				<td></td>
+				<td th:text="${tempPayment.id}" />
+			</tr>
+		</tbody>		
+	</table>
+      <div class="line"></div>
+
+            <h2>Daily KPI</h2>
+            <div class="row" style="text-align: center;">
+            <div class="col-sm-2">
+			    <div class="card">
+			      <div class="card-body" >
+			        <h5 class="card-title" >Total Revenue</h5>
+			        <p class="card-text" style="font-size:3em" th:text="${totalRevenue}"></p>
+			        <a href="#" class="btn btn-primary">Go somewhere</a>
+			      </div>
+			    </div>
+			  </div>
+	          <div class="col-sm-2">
+			    <div class="card">
+			      <div class="card-body" >
+			        <h5 class="card-title" >Active Drivers</h5>
+			        <p class="card-text" style="font-size:3em">30</p>
+			        <a href="#" class="btn btn-primary">Go somewhere</a>
+			      </div>
+			    </div>
+			  </div>
+			  <div class="col-sm-2">
+			    <div class="card">
+			      <div class="card-body">
+			        <h5 class="card-title">Active Vehicles</h5>
+			        <p class="card-text" style="font-size:3em">30</p>
+			        <a href="#" class="btn btn-primary">Go somewhere</a>
+			      </div>
+			    </div>
+			  </div>
+			  <div class="col-sm-2">
+			    <div class="card">
+			      <div class="card-body">
+			        <h5 class="card-title">Complete Boundary</h5>
+			        <p class="card-text" style="font-size:3em">20</p>
+			        <a href="#" class="btn btn-primary">List Drivers</a>
+			      </div>
+			    </div>
+			  </div>
+			  <div class="col-sm-2">
+			    <div class="card">
+			      <div class="card-body">
+			        <h5 class="card-title">Incomplete Boundary</h5>
+			        <p class="card-text" style="font-size:3em">30</p>
+			        <a href="#" class="btn btn-primary">List Drivers</a>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+           
+            <div class="line"></div>
+
+   <!--             <h2>Daily Expenses</h2>
+           	<table style="margin-top: 1.25em;" class="table table-bordered table-striped">
+				<thead class="thead-dark">
+					<tr>
+						
+						<th>Reference Number</th>
+						<th>Item</th>
+						<th>Item Description</th>
+						<th>Cost</th>
+						<th>Requested By</th>
+						<th>Status</th>
+						<th>Transaction ID</th>				
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:each="tempPayment : ${payments}">
+					
+						
+						<td th:text="${tempPayment.vehicle.plateNumber}" />	
+						<td th:text="${tempPayment.driver.firstName}" />
+						<td th:text="${tempPayment.amountBoundary}" />
+						<td></td>
+						<td th:text="${tempPayment.id}" />
+					</tr>
+				</tbody>		
+			</table>
+            <div class="line"></div>
+
+            <h3>Service Repair Tasks</h3>
+            <table style="margin-top: 1.25em;" class="table table-bordered table-striped">
+				<thead class="thead-dark">
+					<tr>
+						
+						<th>Job Number</th>
+						<th>Technician</th>
+						<th>Job Description</th>
+						<th>Status</th>
+						<th>Transaction ID</th>				
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:each="tempPayment : ${payments}">
+					
+						
+						<td th:text="${tempPayment.vehicle.plateNumber}" />	
+						<td th:text="${tempPayment.driver.firstName}" />
+						<td th:text="${tempPayment.amountBoundary}" />
+						<td></td>
+						<td th:text="${tempPayment.id}" />
+					</tr>
+				</tbody>		
+			</table>   -->  
+    </div>
+    <script>
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+    </script>
+</body>
+</html>
+
+
+

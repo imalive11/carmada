@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html lang="en" 
+		xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      		layout:decorate="/login/_layout">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Bootstrap JS -->
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	
+	<!-- Bootstrap CSS -->
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}" />
+	<link th:rel="stylesheet" th:href="@{/css/bootstrap-sidebar.css}" />
+
+	<title>Drivers</title>
+	<style>
+		  .buttons {
+			margin: 0 auto;
+			display: inline;}
+	</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+            <h2>Drivers</h2>
+
+			<form th:action="@{/employees/search}" class="form-inline">
+				
+				<input class="form-control mr-sm-2 mb-3" type="search" name="employeeName" placeholder="Search by name" />
+		
+				<button class="btn btn-success mb-3 mr-sm-5" type="submit">Search</button>
+				
+				<a th:href="@{/drivers/addDriver}"
+					class="btn btn-primary mb-3">
+					Add Driver
+				</a>
+		    </form>	
+			
+			<table style="margin-top: 1.25em;" class="table table-bordered table-striped">
+				<thead class="thead-dark">
+					<tr>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Address</th>
+						<th>License ID</th>
+						<th>Mobile Number</th>
+						<th>Facebook Email</th>
+						<th>Employment Date (Year-Month-Day)</th>
+		
+						<!-- <div sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')"> -->
+						
+							<th>Action</th>
+										
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:each="tempDriver : ${drivers}">
+					
+						<td th:text="${tempDriver.firstName}" />	
+						<td th:text="${tempDriver.lastName}" />	
+						<td th:text="${tempDriver.driverPersonalInfo.address}" />
+						<td th:text="${tempDriver.driverPersonalInfo.licenseId}" />
+						<td th:text="${tempDriver.driverPersonalInfo.mobileNumber}" />
+						<td th:text="${tempDriver.driverPersonalInfo.fbEmailAddress}" />
+						<td th:text="${#dates.format(tempDriver.employmentDate, 'dd/MM/yyyy')}" />
+						
+						
+						<!-- <div sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')"> -->
+						<div class="buttons">
+							<td>
+								<div>
+								<!-- <div sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')"> -->
+			
+									<!-- Add "update" button/link -->
+									<a th:href="@{/employees/showFormForUpdate(driverId=${tempDriver.id})}"
+									   class="btn btn-info btn-sm" >
+										Update
+									</a>
+			
+								</div>	
+												
+								<div>
+								<!-- <div sec:authorize="hasRole('ROLE_ADMIN')"> -->  
+								
+									<!-- Add "delete" button/link -->					
+									<a th:href="@{/drivers/delete(driverId=${tempDriver.id})}"
+									   class="btn btn-danger btn-sm"
+									   onclick="if (!(confirm('Are you sure you want to delete this Driver?'))) return false"  style="display:inline">
+										Delete
+									</a>
+			
+								</div>	
+								</div>				
+							</td>
+						</div>
+					</tr>
+				</tbody>		
+			</table>
+        <div class="line"></div>
+     </div>
+    <script>
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+    </script>
+
+	
+</body>
+</html>
