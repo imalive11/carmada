@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.springboot</groupId>
-	<artifactId>crudrest</artifactId>
+	<artifactId>CARMADAt</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
 	<name>crudrest</name>
 	<description>Demo project for Spring Boot</description>
@@ -48,6 +48,17 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		
+		<dependency>  
+			<groupId>org.springframework.boot</groupId>  
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>  
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+       
+        
 		<!-- Add MySQL and C3P0 support -->
 
 		<dependency>
@@ -135,7 +146,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 	</dependencies>
