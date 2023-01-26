@@ -6,9 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -44,7 +44,7 @@ public class DriverPersonalInfo {
 	private String fbEmailAddress;
 	
 	@NotEmpty(message = "Missing Contact Number")
-	@Max(value = 11, message = "Starts with 09")
+	@Size(max = 12, message = "Starts with 09")
 	@Column(name="mobile_number")
 	private String mobileNumber;
 	
