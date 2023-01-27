@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.carmada.payment.entity.Payment;
@@ -25,7 +26,7 @@ public class Vehicle {
 	@Column(name="id")
 	private int id;
 
-	@NotNull(message = "Missing Plate Number")
+	@NotEmpty(message = "Missing Plate Number")
 	@Column(name="plate_no")
 	private String plateNumber;
 
@@ -33,7 +34,7 @@ public class Vehicle {
 	@Column(name="year_model")
 	private Integer yearModel;
 
-	@NotNull(message = "Missing Brand")
+	@NotEmpty(message = "Missing Brand")
 	@Column(name="brand")
 	private String brand;
 	
