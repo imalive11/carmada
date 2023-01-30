@@ -62,13 +62,7 @@ public class PaymentController {
 	@GetMapping("/addPayment")
 	public String addPayment(Model model) {
 		
-		List<Driver> drivers = driverService.findAll();
-		
-		model.addAttribute("drivers", drivers);
-		
-		List<Vehicle> vehicles = vehicleService.findAll();
-		
-		model.addAttribute("vehicles", vehicles);
+		listDriverAndVehicleForDropdown(model);
 		
 		Payment payment = new Payment();
 		
@@ -78,10 +72,13 @@ public class PaymentController {
 	}
 	
 	@PostMapping("/savePayment")
-	public String savePayment(@Valid @ModelAttribute("payment") Payment payment, BindingResult bindingResult) {
+	public String savePayment(@Valid @ModelAttribute("payment") Payment payment, BindingResult bindingResult, Model model) {
 		
 		if (bindingResult.hasErrors()) {
-			return "/payments/payment-form";
+			
+			listDriverAndVehicleForDropdown(model);
+			
+			return "payments/payment-form";
 		}
 		
 		paymentService.save(payment);
@@ -89,7 +86,16 @@ public class PaymentController {
 		return "redirect:/payments/";
 	}
 	
+	private void listDriverAndVehicleForDropdown(Model model) {
 
+		List<Driver> drivers = driverService.findAll();
+		
+		model.addAttribute("drivers", drivers);
+		
+		List<Vehicle> vehicles = vehicleService.findAll();
+		
+		model.addAttribute("vehicles", vehicles);
+	}
 	
 
 }

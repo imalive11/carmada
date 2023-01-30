@@ -57,7 +57,7 @@ public class VehicleController {
 	public String saveVehicle(@Valid @ModelAttribute("vehicle") Vehicle vehicle, BindingResult bindingResult) {
 		
 		if (bindingResult.hasErrors()) {
-			return "/vehicles/vehicle-form";
+			return "vehicles/vehicle-form";
 		}
 		vehicleService.save(vehicle);
 		
