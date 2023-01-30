@@ -40,7 +40,11 @@ public class SecurityConfig {
 				configurer
 					.antMatchers("/**").hasRole("EMPLOYEE")
 					.antMatchers("/leaders/**").hasRole("MANAGER")
-					.antMatchers("/systems/**").hasRole("ADMIN"))
+					.antMatchers("/systems/**").hasRole("ADMIN")
+					.antMatchers("/static/favicon/apple-touch-icon.png").permitAll()
+					.antMatchers("/static/favicon/favicon-32x32.png").permitAll()
+					.antMatchers("/static/favicon/favicon-16x16.png").permitAll()
+					.antMatchers("/static/favicon/site.webmanifest").permitAll())
 			
 			.formLogin(configurer -> 
 				configurer
