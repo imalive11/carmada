@@ -11,4 +11,6 @@ import com.carmada.vehicle.entity.Vehicle;
 public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
 	
 	public List<Vehicle> findAllByOrderByIdAsc();
+	
+	public List<Vehicle> findByPlateNumberIgnoreCaseContains(String name);
 }

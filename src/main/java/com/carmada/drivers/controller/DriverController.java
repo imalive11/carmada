@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.carmada.drivers.entity.Driver;
 import com.carmada.drivers.entity.DriverPersonalInfo;
@@ -44,7 +45,7 @@ public class DriverController {
 //        return "redirect:error";
 //    }
 //	
-	@GetMapping("/")
+	@GetMapping
 	public String listAll(Model model){
 		List<Driver> drivers;
 		try {
@@ -56,11 +57,25 @@ public class DriverController {
 		}
 		
 		model.addAttribute("drivers", drivers);
+		return "drivers/list-drivers";
+	}
+	
+	@GetMapping("/search")
+	public String findByName(@RequestParam("name") String name, Model model){
+
+		List<Driver> drivers = driverService.findByName(name);
+		
+		if (drivers.isEmpty() == true) {
+			model.addAttribute("errorMessage", "Driver not found!");
+			return "drivers/list-drivers";
+		}
+		
+		model.addAttribute("drivers", drivers);
 		
 		return "drivers/list-drivers";
 	}
 	
-	@GetMapping("/addDriver")
+	@GetMapping("/add")
 	public String addDriver(Model model) {
 		
 		Driver driver = new Driver();
@@ -74,7 +89,7 @@ public class DriverController {
 		return "drivers/driver-form";
 	}
 	
-	@PostMapping("/saveDriver")
+	@PostMapping("/save")
 	public String saveDriver(@Valid @ModelAttribute("driver") Driver driver, BindingResult bindingResult) {
 		
 		if (bindingResult.hasErrors()) {
@@ -83,6 +98,27 @@ public class DriverController {
 		driverService.save(driver);
 		
 		return "redirect:/drivers/";
+	}
+	
+	@GetMapping("/delete")
+	public String delete(@RequestParam("driverId") int theId) {
+		
+		driverService.delete(theId);
+		
+		return "redirect:/drivers/";
+		
+	}
+	
+	@GetMapping("/update")
+	public String showFormForUpdate(@RequestParam("driverId") int theId,
+									Model model) {
+		
+		Driver driver = driverService.findById(theId);
+		
+		model.addAttribute("driver", driver);
+		
+		// send over to our form
+		return "drivers/driver-form";			
 	}
 	
 

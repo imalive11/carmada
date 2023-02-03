@@ -36,6 +36,8 @@
 		<form action="#" th:action="@{/vehicles/saveVehicle}"
 						 th:object="${vehicle}" method="POST">
 			
+			<input type="hidden" th:field="*{id}" />
+			
 			<div class="form-inline row">
 					<label for="plateNumber" class="h5 mb-4 col-sm-2">Plate Number</label>		
 					<input type="text" th:field="*{plateNumber}" id="plateNumber" name="plateNumber"

@@ -31,8 +31,11 @@
 		<p class="h4 mb-4">Add Driver</p>
 		
 		
-		<form action="#" th:action="@{/drivers/saveDriver}"
+		<form action="#" th:action="@{/drivers/save}"
 						 th:object="${driver}" method="POST">
+						 
+			<input type="hidden" th:field="*{id}" />
+			
 			<div class="form-inline row">
 						
 							<label for="firstName" class="h5 mb-4 col-sm-2">First Name</label>

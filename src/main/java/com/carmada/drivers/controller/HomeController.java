@@ -41,9 +41,6 @@ public class HomeController {
 		
 		model.addAttribute("currentDatePayments", currentDatePayments);
 		
-		//FOR Logging
-		
-		
 		return "login/home-page";
 	}
 

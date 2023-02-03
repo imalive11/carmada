@@ -20,9 +20,9 @@
 
 <body>
 	<div layout:fragment="content">
-            <h2 style="margin-top: 1.5em;">Daily Boundary Report</h2>
+            <h2 style="margin-top: 1.5em;">Dashboard</h2>
 	<hr>
-	
+	<!-- 
     <form th:action="@{/employees/search}" class="form-inline">
 
 		<input class="form-control mr-sm-2 mb-3" type="search" name="employeeName" placeholder="Search by name" />
@@ -48,16 +48,16 @@
 			
 				
 				<td th:text="${tempPayment.vehicle.plateNumber}" />	
-				<td th:text="${tempPayment.driver.firstName}" />
+				<td th:text="${tempPayment.driverName}" />
 				<td th:text="${tempPayment.amountBoundary}" />
 				<td></td>
 				<td th:text="${tempPayment.id}" />
 			</tr>
 		</tbody>		
 	</table>
+	
       <div class="line"></div>
-
-            <h2>Daily KPI</h2>
+ -->
             <div class="row" style="text-align: center;">
             <div class="col-sm-2">
 			    <div class="card">
@@ -106,9 +106,9 @@
 			  </div>
 			</div>
            
-            <div class="line"></div>
+   <!--             <div class="line"></div>
 
-   <!--             <h2>Daily Expenses</h2>
+            <h2>Daily Expenses</h2>
            	<table style="margin-top: 1.25em;" class="table table-bordered table-striped">
 				<thead class="thead-dark">
 					<tr>
