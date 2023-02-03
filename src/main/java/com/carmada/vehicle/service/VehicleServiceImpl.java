@@ -53,5 +53,13 @@ public class VehicleServiceImpl implements VehicleService {
 		this.vehicleRepository.deleteById(id);
 
 	}
+	
+	@Override
+	@Transactional
+	public List<Vehicle> findByPlate(String name) {
+		List<Vehicle> vehicles = vehicleRepository.findByPlateNumberIgnoreCaseContains(name);
+		
+		return vehicles;
+	}
 
 }

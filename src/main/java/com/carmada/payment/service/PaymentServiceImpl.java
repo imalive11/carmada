@@ -27,7 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	@Transactional
 	public List<Payment> findAll() {
-		return paymentRepository.findAllByOrderByIdAsc();
+		return paymentRepository.findAllByOrderByIdDesc();
 	}
 	
 	@Override
@@ -69,5 +69,14 @@ public class PaymentServiceImpl implements PaymentService {
 		this.paymentRepository.deleteById(id);
 
 	}
+	@Override
+	public List<Payment> findByDriver(String driverName) {
+		List<Payment> result = 
+				this.paymentRepository
+					.findByDriverFirstNameIgnoreCaseContainsOrDriverLastNameIgnoreCaseContains(driverName, driverName);
+		
+		return result;
+	}
+
 
 }

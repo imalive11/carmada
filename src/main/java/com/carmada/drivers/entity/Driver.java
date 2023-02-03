@@ -42,7 +42,43 @@ public class Driver {
     @Size(min = 1, max = 30)
 	@Column(name="last_name")
 	private String lastName;
+
+	@NotNull(message = "Missing Date of Employment")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name="employment_date" , columnDefinition = "DATE")
+    private Date employmentDate;
+
 	
+	@OneToOne(cascade=CascadeType.ALL)
+	@Valid
+	@JoinColumn(name="driver_info_id")
+	private DriverPersonalInfo driverPersonalInfo;
+
+	@OneToMany(mappedBy="driver", 
+			fetch= FetchType.LAZY,
+			cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+					CascadeType.DETACH, CascadeType.REFRESH})
+	private List<Payment> payments;
+	
+	public void add(Payment tempPayment) {
+
+		if (this.payments == null) {
+			this.payments = new ArrayList<>();
+		}
+
+		this.payments.add(tempPayment);
+
+		tempPayment.setDriver(this);
+	}
+	
+	public DriverPersonalInfo getDriverPersonalInfo() {
+		return driverPersonalInfo;
+	}
+
+	public void setDriverPersonalInfo(DriverPersonalInfo driverPersonalInfo) {
+		this.driverPersonalInfo = driverPersonalInfo;
+	}
+
 	public Date getEmploymentDate() {
 		return employmentDate;
 	}
@@ -58,42 +94,7 @@ public class Driver {
 	public void setPayments(List<Payment> payments) {
 		this.payments = payments;
 	}
-
-	@NotNull(message = "Missing Date of Employment")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name="employment_date" , columnDefinition = "DATE")
-    private Date employmentDate;
-
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@Valid
-	@JoinColumn(name="driver_info_id")
-	private DriverPersonalInfo driverPersonalInfo;
-
-	@OneToMany(mappedBy="driver", fetch= FetchType.LAZY,
-			cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-					CascadeType.DETACH, CascadeType.REFRESH})
-	private List<Payment> payments;
-
-	public void add(Payment tempPayment) {
-
-		if (this.payments == null) {
-			this.payments = new ArrayList<>();
-		}
-
-		this.payments.add(tempPayment);
-
-		tempPayment.setDriver(this);
-	}
-
-	public DriverPersonalInfo getDriverPersonalInfo() {
-		return driverPersonalInfo;
-	}
-
-	public void setDriverPersonalInfo(DriverPersonalInfo driverPersonalInfo) {
-		this.driverPersonalInfo = driverPersonalInfo;
-	}
-
 	public int getId() {
 		return id;
 	}

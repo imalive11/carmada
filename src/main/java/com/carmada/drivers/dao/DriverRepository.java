@@ -11,4 +11,6 @@ import com.carmada.drivers.entity.Driver;
 public interface DriverRepository extends JpaRepository<Driver, Integer> {
 	
 	public List<Driver> findAllByOrderByLastNameAsc();
+
+	public List<Driver> findByFirstNameIgnoreCaseContainsOrLastNameIgnoreCaseContains(String firstName, String lastName);
 }

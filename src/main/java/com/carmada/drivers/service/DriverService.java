@@ -13,4 +13,6 @@ public interface DriverService {
 	public void save(Driver driver);
 	
 	public void delete(int id);
+
+	public List<Driver> findByName(String name);
 }

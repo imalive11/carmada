@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.carmada.vehicle.entity.Vehicle;
 import com.carmada.vehicle.service.VehicleService;
@@ -33,7 +34,7 @@ public class VehicleController {
 		databinder.registerCustomEditor(String.class, stringTrimmerEditor);
 	}
 	
-	@GetMapping("/")
+	@GetMapping
 	public String listAll(Model model){
 		List<Vehicle> vehicles = vehicleService.findAll();
 	
@@ -43,7 +44,22 @@ public class VehicleController {
 		return "vehicles/list-vehicles";
 	}
 	
-	@GetMapping("/addVehicle")
+	@GetMapping("/search")
+	public String findByPlate(@RequestParam("name") String name, Model model){
+
+		List<Vehicle> vehicles = vehicleService.findByPlate(name);
+		
+		if (vehicles.isEmpty() == true) {
+			model.addAttribute("errorMessage", "Driver not found!");
+			return "vehicles/list-vehicles";
+		}
+
+		model.addAttribute("vehicles", vehicles);
+		
+		return "vehicles/list-vehicles";
+	}
+	
+	@GetMapping("/add")
 	public String addVehicle(Model model) {
 
 		Vehicle vehicle = new Vehicle();
@@ -53,7 +69,7 @@ public class VehicleController {
 		return "vehicles/vehicle-form";
 	}
 	
-	@PostMapping("/saveVehicle")
+	@PostMapping("/save")
 	public String saveVehicle(@Valid @ModelAttribute("vehicle") Vehicle vehicle, BindingResult bindingResult) {
 		
 		if (bindingResult.hasErrors()) {
@@ -64,6 +80,16 @@ public class VehicleController {
 		return "redirect:/vehicles/";
 	}
 	
+	@GetMapping("/update")
+	public String showFormForUpdate(@RequestParam("vehicleId") int id,
+									Model theModel) {
+		
+		Vehicle vehicle = vehicleService.findById(id);
+		
+		theModel.addAttribute("vehicle", vehicle);
+		
+		return "vehicles/vehicle-form";			
+	}
 
 	
 

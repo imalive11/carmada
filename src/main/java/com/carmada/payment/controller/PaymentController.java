@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.carmada.drivers.entity.Driver;
 import com.carmada.drivers.service.DriverService;
@@ -50,7 +51,7 @@ public class PaymentController {
         return "error";
     }
 	
-	@GetMapping("/")
+	@GetMapping
 	public String listAll(Model model){
 		List<Payment> payments = paymentService.findAll();
 		
@@ -59,7 +60,22 @@ public class PaymentController {
 		return "payments/list-payments";
 	}
 	
-	@GetMapping("/addPayment")
+	@GetMapping("/search")
+	public String findByDriver(@RequestParam("name") String name, Model model){
+
+		List<Payment> payments = paymentService.findByDriver(name);
+		
+		if (payments.isEmpty() == true) {
+			model.addAttribute("errorMessage", "Driver not found!");
+			return "payments/list-payments";
+		}
+
+		model.addAttribute("payments", payments);
+		
+		return "payments/list-payments";
+	}
+	
+	@GetMapping("/add")
 	public String addPayment(Model model) {
 		
 		listDriverAndVehicleForDropdown(model);
@@ -71,7 +87,7 @@ public class PaymentController {
 		return "payments/payment-form";
 	}
 	
-	@PostMapping("/savePayment")
+	@PostMapping("/save")
 	public String savePayment(@Valid @ModelAttribute("payment") Payment payment, BindingResult bindingResult, Model model) {
 		
 		if (bindingResult.hasErrors()) {
@@ -80,10 +96,21 @@ public class PaymentController {
 			
 			return "payments/payment-form";
 		}
-		
+		payment.set();
 		paymentService.save(payment);
 		
 		return "redirect:/payments/";
+	}
+	
+	@GetMapping("/update")
+	public String showFormForUpdate(@RequestParam("paymentId") int id,
+									Model theModel) {
+		
+		Payment payment = paymentService.findById(id);
+		
+		theModel.addAttribute("payment", payment);
+		
+		return "payments/payment-form";			
 	}
 	
 	private void listDriverAndVehicleForDropdown(Model model) {

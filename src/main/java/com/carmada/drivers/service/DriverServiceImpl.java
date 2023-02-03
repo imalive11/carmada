@@ -27,18 +27,14 @@ public class DriverServiceImpl implements DriverService {
 
 	@Override
 	@Transactional
-	public Driver findById(int id) {
+	public List<Driver> findByName(String name) {
 		
-		Optional<Driver> result = this.driverRepository.findById(id);
+		List<Driver> result = 
+				this.driverRepository
+					.findByFirstNameIgnoreCaseContainsOrLastNameIgnoreCaseContains(name, name);
 		
-		Driver driver = null;
+		return result;
 		
-		if(result.isPresent() == true) {
-			driver = result.get();
-		} else {
-			throw new RuntimeException("Did not find Driver by id: " + driver);
-		}
-		return driver;
 	}
 
 	@Override
@@ -53,5 +49,18 @@ public class DriverServiceImpl implements DriverService {
 		this.driverRepository.deleteById(id);
 
 	}
+	@Override
+	public Driver findById(int id) {
+		Optional<Driver> result = driverRepository.findById(id);
+		
+		Driver driver = null;
+		if(result.isPresent() == true) {
+			driver = result.get();
+		} else {
+			throw new RuntimeException("Did not find Driver by id: " + driver);
+		}
+		return driver;
+	}
+
 
 }

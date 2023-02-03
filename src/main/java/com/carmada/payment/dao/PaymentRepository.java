@@ -11,7 +11,9 @@ import com.carmada.payment.entity.Payment;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 	
-	public List<Payment> findAllByOrderByIdAsc();
+	public List<Payment> findAllByOrderByIdDesc();
 	
 	public List<Payment> findByTravelDateAfter(Date dateToday);
+	
+	public List<Payment> findByDriverFirstNameIgnoreCaseContainsOrDriverLastNameIgnoreCaseContains(String firstName, String lastName);
 }

@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan(basePackages="com.carmada.security")
+@ComponentScan(basePackages="com.carmada")
 public class SecurityConfig {
 
 	// add a reference to our security data source
@@ -39,12 +39,9 @@ public class SecurityConfig {
 			.authorizeRequests(configurer -> 
 				configurer
 					.antMatchers("/**").hasRole("EMPLOYEE")
-					.antMatchers("/leaders/**").hasRole("MANAGER")
-					.antMatchers("/systems/**").hasRole("ADMIN")
-					.antMatchers("/static/favicon/apple-touch-icon.png").permitAll()
-					.antMatchers("/static/favicon/favicon-32x32.png").permitAll()
-					.antMatchers("/static/favicon/favicon-16x16.png").permitAll()
-					.antMatchers("/static/favicon/site.webmanifest").permitAll())
+//					.antMatchers("/leaders/**").hasRole("MANAGER")
+//					.antMatchers("/systems/**").hasRole("ADMIN")
+					)
 			
 			.formLogin(configurer -> 
 				configurer

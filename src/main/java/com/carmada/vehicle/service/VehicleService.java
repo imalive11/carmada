@@ -13,4 +13,8 @@ public interface VehicleService {
 	public void save(Vehicle vehicle);
 	
 	public void delete(int id);
+
+	public List<Vehicle> findByPlate(String name);
+
+
 }

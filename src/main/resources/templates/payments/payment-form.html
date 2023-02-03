@@ -35,31 +35,10 @@
 			<p class="h4 mb-4">Add Payment</p>
 	
 	
-			<form action="#" th:action="@{/payments/savePayment}"
+			<form action="#" th:action="@{/payments/save}"
 				th:object="${payment}" method="POST">
 				
-				<div class="form-inline row">
-					<label for="driver" class="h5 mb-4 col-sm-2">Driver</label> 
-					<select name="driver" id="driver" class="form-control mb-4 col-sm-2"
-							th:field="*{driver}" >
-						<option value="" selected>Select Driver</option>
-						<option th:each="driver : ${drivers}" th:text="${driver.firstName}"
-								th:value="${driver.id}" />
-					</select> 
-					<ul>
-						<li th:each="err : ${#fields.errors('driver.id')}" th:text="${err}" class="alert alert-danger" />
-					</ul>
-				</div>
-				
-				<div class="form-inline row">
-					<label for="driver" class="h5 mb-4 col-sm-2">Boundary</label> 
-					<input type="number" step="100.00" th:field="*{amountBoundary}"
-						class="form-control mb-4 col-sm-2" placeholder="1500">
-					<ul>
-						<li th:each="err : ${#fields.errors('amountBoundary')}" th:text="${err}" class="alert alert-danger" />
-					</ul>
-				</div>
-				
+				<input type="hidden" th:field="*{id}" />
 				
 				<div class="form-inline row">
 				<label for="vehicles" class="h5 mb-4 col-sm-2">Vehicle</label>
@@ -71,8 +50,52 @@
 							th:text="${vehicle.plateNumber}" th:value="${vehicle.id}" />
 					</select>
 					<ul>
-						<li th:each="err : ${#fields.errors('vehicle.id')}" th:text="${err}" class="alert alert-danger" />
+						<li th:each="err : ${#fields.errors('vehicle')}" th:text="${err}" class="alert alert-danger" />
 					</ul>
+				</div>
+				
+				<div class="form-inline row">
+					<label for="driver" class="h5 mb-4 col-sm-2">Driver</label> 
+					<select name="driver" id="driver" class="form-control mb-4 col-sm-2"
+							th:field="*{driver}" >
+						<option value="" selected>Select Driver</option>
+						<option th:each="driver : ${drivers}" th:text="${driver.firstName} + ' ' + ${driver.lastName}"
+								th:value="${driver.id}" />
+					</select> 
+					<ul>
+						<li th:each="err : ${#fields.errors('driver')}" th:text="${err}" class="alert alert-danger" />
+					</ul>
+				</div>
+				
+								
+				<div class="form-inline row">
+					<label for="driver" class="h5 mb-4 col-sm-2">Boundary</label> 
+					<input type="number" step="100.00" th:field="*{amountBoundary}"
+						class="form-control mb-4 col-sm-2" placeholder="1500">
+					<ul>
+						<li th:each="err : ${#fields.errors('amountBoundary')}" th:text="${err}" class="alert alert-danger" />
+					</ul>
+				</div>
+				
+				<div class="form-inline row">
+					<label for="short" class="h5 mb-4 col-sm-2">Short</label> 
+					<input type="number" step="100.00" th:field="*{amountShort}"
+						class="form-control mb-4 col-sm-2" placeholder="1500">
+
+				</div>
+				
+				<div class="form-inline row">
+					<label for="fund" class="h5 mb-4 col-sm-2">Fund</label> 
+					<input type="number" step="100.00" th:field="*{amountFund}"
+						class="form-control mb-4 col-sm-2" placeholder="1500">
+
+				</div>
+				
+				<div class="form-inline row">
+					<label for="loan" class="h5 mb-4 col-sm-2">Loan Payment</label> 
+					<input type="number" step="100.00" th:field="*{amountLoanPayment}"
+						class="form-control mb-4 col-sm-2" placeholder="1500">
+
 				</div>
 				
 				<div class="form-inline row">			

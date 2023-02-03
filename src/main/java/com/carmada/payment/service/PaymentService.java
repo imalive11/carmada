@@ -9,8 +9,9 @@ public interface PaymentService {
 
 	public List<Payment> findAll();
 	
-	
 	public List<Payment> findByCurrentDate() throws ParseException;
+	
+	public List<Payment> findByDriver(String driverName);
 	
 	public Payment findById(int id);
 	
