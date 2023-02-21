@@ -57,7 +57,7 @@ public class DriverController {
 		}
 		
 		model.addAttribute("drivers", drivers);
-		return "drivers/list-drivers";
+		return "drivers/driver-list";
 	}
 	
 	@GetMapping("/search")
@@ -67,12 +67,12 @@ public class DriverController {
 		
 		if (drivers.isEmpty() == true) {
 			model.addAttribute("errorMessage", "Driver not found!");
-			return "drivers/list-drivers";
+			return "drivers/driver-list";
 		}
 		
 		model.addAttribute("drivers", drivers);
 		
-		return "drivers/list-drivers";
+		return "drivers/driver-list";
 	}
 	
 	@GetMapping("/add")
