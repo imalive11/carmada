@@ -69,6 +69,7 @@ public class PaymentServiceImpl implements PaymentService {
 		this.paymentRepository.deleteById(id);
 
 	}
+	
 	@Override
 	public List<Payment> findByDriver(String driverName) {
 		List<Payment> result = 

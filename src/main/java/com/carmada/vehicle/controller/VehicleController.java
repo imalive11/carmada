@@ -91,6 +91,15 @@ public class VehicleController {
 		return "vehicles/vehicle-form";			
 	}
 
+
+	@GetMapping("/delete")
+	public String delete(@RequestParam("vehicleId") int id) {
+		
+		vehicleService.delete(id);
+		
+		return "redirect:/vehicles/";
+		
+	}
 	
 
 }

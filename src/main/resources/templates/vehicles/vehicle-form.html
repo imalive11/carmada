@@ -33,7 +33,7 @@
 		<p class="h4 mb-4">Add Vehicle</p>
 		
 		
-		<form action="#" th:action="@{/vehicles/saveVehicle}"
+		<form action="#" th:action="@{/vehicles/save}"
 						 th:object="${vehicle}" method="POST">
 			
 			<input type="hidden" th:field="*{id}" />

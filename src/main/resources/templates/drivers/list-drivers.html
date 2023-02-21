@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html lang="en" 
-		xmlns:th="http://www.thymeleaf.org"
-		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		xmlns:th="https://www.thymeleaf.org"
+		xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+		xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
       		layout:decorate="login/layout">
 
 <head>
@@ -85,14 +85,13 @@
 									<!-- Add "delete" button/link -->					
 									<a th:href="@{/drivers/delete(driverId=${tempDriver.id})}"
 									   class="btn btn-danger btn-sm"
-									   onclick="if (!(confirm('Are you sure you want to delete this Driver?'))) return false"  style="display:inline">
+									   onclick="if (!(confirm('Are you sure you want to delete this Driver?'))) return false" >
 										Delete
 									</a>
 							</td>
 					</tr>
 				</tbody>		
 			</table>
-        <div class="line"></div>
      </div>
     <script>
     $(document).ready(function () {

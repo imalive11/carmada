@@ -103,14 +103,25 @@ public class PaymentController {
 	}
 	
 	@GetMapping("/update")
-	public String showFormForUpdate(@RequestParam("paymentId") int id,
-									Model theModel) {
+	public String updatePayment(@RequestParam("paymentId") int id,
+									Model model) {
+		
+		listDriverAndVehicleForDropdown(model);
 		
 		Payment payment = paymentService.findById(id);
 		
-		theModel.addAttribute("payment", payment);
+		model.addAttribute("payment", payment);
 		
 		return "payments/payment-form";			
+	}
+	
+	@GetMapping("/delete")
+	public String delete(@RequestParam("paymentId") int id) {
+		
+		paymentService.delete(id);
+		
+		return "redirect:/payments/";
+		
 	}
 	
 	private void listDriverAndVehicleForDropdown(Model model) {
