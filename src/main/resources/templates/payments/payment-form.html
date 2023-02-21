@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+				xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="login/layout">
 
 <head>
@@ -70,7 +70,7 @@
 								
 				<div class="form-inline row">
 					<label for="driver" class="h5 mb-4 col-sm-2">Boundary</label> 
-					<input type="number" step="100.00" th:field="*{amountBoundary}"
+					<input type="number" th:field="*{amountBoundary}"
 						class="form-control mb-4 col-sm-2" placeholder="1500">
 					<ul>
 						<li th:each="err : ${#fields.errors('amountBoundary')}" th:text="${err}" class="alert alert-danger" />
@@ -79,23 +79,34 @@
 				
 				<div class="form-inline row">
 					<label for="short" class="h5 mb-4 col-sm-2">Short</label> 
-					<input type="number" step="100.00" th:field="*{amountShort}"
+					<input type="number" th:field="*{amountShort}"
 						class="form-control mb-4 col-sm-2" placeholder="1500">
 
 				</div>
 				
 				<div class="form-inline row">
 					<label for="fund" class="h5 mb-4 col-sm-2">Fund</label> 
-					<input type="number" step="100.00" th:field="*{amountFund}"
+					<input type="number"  th:field="*{amountFund}"
 						class="form-control mb-4 col-sm-2" placeholder="1500">
 
 				</div>
 				
 				<div class="form-inline row">
 					<label for="loan" class="h5 mb-4 col-sm-2">Loan Payment</label> 
-					<input type="number" step="100.00" th:field="*{amountLoanPayment}"
+					<input type="number" th:field="*{amountLoanPayment}"
 						class="form-control mb-4 col-sm-2" placeholder="1500">
 
+				</div>
+				
+				<div class="form-inline row">
+						<label for="remarks" class="h5 mb-4 col-sm-2">Remarks</label>		
+						<input type="text" th:field="*{remarks}" id="remarks" name="remarks"
+						class="form-control mb-4 col-sm-2" placeholder="Remarks">
+						
+						<ul>
+							<li th:each="err : ${#fields.errors('remarks')}" 
+								th:text="${err}" class="alert alert-danger" />
+						</ul>
 				</div>
 				
 				<div class="form-inline row">			

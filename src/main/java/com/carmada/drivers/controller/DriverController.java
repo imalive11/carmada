@@ -110,7 +110,7 @@ public class DriverController {
 	}
 	
 	@GetMapping("/update")
-	public String showFormForUpdate(@RequestParam("driverId") int theId,
+	public String update(@RequestParam("driverId") int theId,
 									Model model) {
 		
 		Driver driver = driverService.findById(theId);

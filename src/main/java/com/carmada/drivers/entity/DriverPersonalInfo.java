@@ -39,7 +39,6 @@ public class DriverPersonalInfo {
 	@Column(name="license_expiration_date")
 	private String licenseExpirationDate;
 	
-	@NotEmpty(message = "Missing Facebook Account")
 	@Column(name="fb_email_address")
 	private String fbEmailAddress;
 	

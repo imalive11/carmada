@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -30,47 +29,22 @@ public class Payment {
 	@Column(name="id")
 	private int id;
 	
-	
 	@Column(name="amount_boundary")
-	@Min(value=1, message = "Missing Boundary")
+	@Min(value=0, message = "Missing Boundary")
 	private double amountBoundary;
 	
 	@Column(name="amount_short")
-	@Min(value=0, message = "Missing Boundary")
 	private double amountShort;
 	
 	@Column(name="amount_fund")
-	@Min(value=0, message = "Missing Boundary")
 	private double amountFund;
 	
 	@Column(name="amount_loanpayment")
-	@Min(value=0, message = "Missing Boundary")
 	private double amountLoanPayment;
+
+	@Column(name="remarks")
+	private String remarks;
 	
-	public double getAmountShort() {
-		return amountShort;
-	}
-
-	public void setAmountShort(double amountShort) {
-		this.amountShort = amountShort;
-	}
-
-	public double getAmountFund() {
-		return amountFund;
-	}
-
-	public void setAmountFund(double amountFund) {
-		this.amountFund = amountFund;
-	}
-
-	public double getAmountLoanPayment() {
-		return amountLoanPayment;
-	}
-
-	public void setAmountLoanPayment(double amountLoanPayment) {
-		this.amountLoanPayment = amountLoanPayment;
-	}
-
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="payment_date")
 	@NotNull(message = "Missing Payment Date")
@@ -99,15 +73,46 @@ public class Payment {
 	@Column(name="driver_name")
 	private String driverName;
 
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public double getAmountShort() {
+		return amountShort;
+	}
+
+	public void setAmountShort(double amountShort) {
+		this.amountShort = amountShort;
+	}
+
+	public double getAmountFund() {
+		return amountFund;
+	}
+
+	public void setAmountFund(double amountFund) {
+		this.amountFund = amountFund;
+	}
+
+	public double getAmountLoanPayment() {
+		return amountLoanPayment;
+	}
+
+	public void setAmountLoanPayment(double amountLoanPayment) {
+		this.amountLoanPayment = amountLoanPayment;
+	}
+
 	public String getDriverName() {
 		return driverName;
 	}
 	
 	public void set() {
 
-		if (this.driverName == null) {
-			this.setDriverName(this.driver.getId() +": " + this.driver.getFirstName() + " " + this.driver.getLastName());
-		}
+		this.setDriverName(this.driver.getId() +": " + this.driver.getFirstName() + " " + this.driver.getLastName());
+
 	}
 
 	public void setDriverName(String driverName) {
