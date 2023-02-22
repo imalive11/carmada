@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,11 +44,11 @@ public class PaymentController {
 		databinder.registerCustomEditor(String.class, stringTrimmerEditor);
 	}
 	
-	@ExceptionHandler(Exception.class)
-    public String handleError(Model model, Exception e) {
-        model.addAttribute("errorMessage", e.getMessage());
-        return "error";
-    }
+//	@ExceptionHandler(Exception.class)
+//    public String handleError(Model model, Exception e) {
+//        model.addAttribute("errorMessage", e.getMessage());
+//        return "error";
+//    }
 	
 	@GetMapping
 	public String listAll(Model model){

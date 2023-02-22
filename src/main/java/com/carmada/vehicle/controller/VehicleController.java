@@ -41,7 +41,7 @@ public class VehicleController {
 		
 		model.addAttribute("vehicles", vehicles);
 		
-		return "vehicles/list-vehicles";
+		return "vehicles/vehicle-list";
 	}
 	
 	@GetMapping("/search")
@@ -51,12 +51,12 @@ public class VehicleController {
 		
 		if (vehicles.isEmpty() == true) {
 			model.addAttribute("errorMessage", "Driver not found!");
-			return "vehicles/list-vehicles";
+			return "vehicles/vehicle-list";
 		}
 
 		model.addAttribute("vehicles", vehicles);
 		
-		return "vehicles/list-vehicles";
+		return "vehicles/vehicle-list";
 	}
 	
 	@GetMapping("/add")

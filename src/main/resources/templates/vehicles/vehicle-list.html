@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Vehicles - New Vehicle</title>
+  <title>Vehicles</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -41,7 +41,6 @@
 </head>
 
 <body>
-
   <div layout:fragment="content">
     <div class="pagetitle">
       <h1>Vehicles</h1>
@@ -49,61 +48,77 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/home">Home</a></li>
           <li class="breadcrumb-item"><a href="/vehicles">Vehicles</a></li>
-          <li class="breadcrumb-item active">New Vehicle</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
+
     <section class="section">
       <div class="row">
-
-        <div class="col-lg-6">
+        <div class="col-lg-12">
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">New Vehicle</h5>
+              <h5 class="card-title">List of Vehicles</h5>
 
-              <!-- Vertical Form -->
-              <form class="row g-3 needs-validation" action="#" th:action="@{/vehicles/save}" th:object="${vehicle}"
-                method="POST" novalidate>
-                <div class="col-12">
-                  <label for="plateNumber" class="form-label">Plate Number</label>
-                  <div class="input-group has-validation">
-                    <input type="text" class="form-control" id="plateNumber" th:field="*{plateNumber}" required>
-                    <div class="invalid-feedback">
-                      Missing Plate Number!
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <label for="yearModel" class="form-label">Year Model</label>
-                  <div class="input-group has-validation">
-                    <input type="number" class="form-control" id="yearModel" placeholder="2022" th:field="*{yearModel}" required>
-                    <div class="invalid-feedback">
-                      Missing Year Model!
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <label for="brand" class="form-label">Brand</label>
-                  <div class="input-group has-validation">
-                    <input type="text" class="form-control" id="brand" placeholder="Toyota Vios" th:field="*{brand}" required>
-                    <div class="invalid-feedback">
-                      Missing Brand Model!
-                    </div>
-                  </div>
-                </div>
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                  <button type="reset" class="btn btn-secondary">Reset</button>
-                </div>
-              </form><!-- Vertical Form -->
+              <!-- Table with hoverable rows -->
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Vehicle ID</th>
+                    <th>Plate Number</th>
+                    <th>Year Model</th>
+                    <th>Brand</th>
+                    <th>Action</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="tempVehicle : ${vehicles}">
+
+                    <td th:text="${tempVehicle.id}" />
+                    <td th:text="${tempVehicle.plateNumber}" />
+                    <td th:text="${tempVehicle.yearModel}" />
+                    <td th:text="${tempVehicle.brand}" />
+                    <td>
+                      <a th:href="@{/vehicles/update(vehicleId=${tempVehicle.id})}" class="btn btn-info btn-sm inline">
+                        Update
+                      </a>
+                      <a th:href="@{/vehicles/delete(vehicleId=${tempVehicle.id})}" class="btn btn-danger btn-sm inline"
+                        onclick="if (!(confirm('Are you sure you want to delete this Driver?'))) return false">
+                        Delete
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- End Table with hoverable rows -->
 
             </div>
           </div>
+
         </div>
       </div>
     </section>
+
   </div>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

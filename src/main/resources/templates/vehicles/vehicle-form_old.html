@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="login/layout">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+	<link th:rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}" />
+	<link th:rel="stylesheet" th:href="@{/css/bootstrap-datepicker.standalone.css}" />
+	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}" />
+	<link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.11.2/css/all.css} " />
+	<link th:rel="stylesheet" th:href="@{/css/bootstrap-sidebar.css}" />
+	
+	<!-- JS for Calendar -->
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/bootstrap-datepicker.js}"></script>
+	
+	<title>Vehicles</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+
+		<h3 style="margin-top: 1em;">Vehicles</h3>
+		<hr>
+		
+		<p class="h4 mb-4">Add Vehicle</p>
+		
+		
+		<form action="#" th:action="@{/vehicles/save}"
+						 th:object="${vehicle}" method="POST">
+			
+			<input type="hidden" th:field="*{id}" />
+			
+			<div class="form-inline row">
+					<label for="plateNumber" class="h5 mb-4 col-sm-2">Plate Number</label>		
+					<input type="text" th:field="*{plateNumber}" id="plateNumber" name="plateNumber"
+					class="form-control mb-4 col-sm-2" placeholder="Plate Number">
+					
+					<ul>
+						<li th:each="err : ${#fields.errors('plateNumber')}" 
+							th:text="${err}" class="alert alert-danger" />
+					</ul>
+			</div>
+			
+			<div class="form-inline  row">
+					<label for="yearModel" class="h5 mb-4 col-sm-2">Year Model</label>		
+					<input type="number" th:field="*{yearModel}" id="yearModel" name="yearModel"
+					class="form-control mb-4 col-sm-2" placeholder="Year Model">
+					
+					<ul>
+						<li th:each="err : ${#fields.errors('yearModel')}" 
+							th:text="${err}" class="alert alert-danger" />
+					</ul>
+			</div>
+			
+			<div class="form-inline row">
+					<label for="Brand" class="h5 mb-4 col-sm-2">Brand</label>		
+					<input type="text" th:field="*{brand}" id="brand" name="brand"
+					class="form-control mb-4 col-sm-2" placeholder="Brand">
+					<ul>
+						<li th:each="err : ${#fields.errors('brand')}" 
+							th:text="${err}" class="alert alert-danger" />
+					</ul>
+			</div>
+			
+			<button type="submit" class="btn btn-info col-2">Save</button>
+		
+		</form>
+
+	</div>
+	
+</body>
+</html>
+
+
+
