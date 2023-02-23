@@ -56,7 +56,7 @@ public class PaymentController {
 		
 		model.addAttribute("payments", payments);
 		
-		return "payments/list-payments";
+		return "payments/payment-list";
 	}
 	
 	@GetMapping("/search")
@@ -66,12 +66,12 @@ public class PaymentController {
 		
 		if (payments.isEmpty() == true) {
 			model.addAttribute("errorMessage", "Driver not found!");
-			return "payments/list-payments";
+			return "payments/payment-list";
 		}
 
 		model.addAttribute("payments", payments);
 		
-		return "payments/list-payments";
+		return "payments/payment-list";
 	}
 	
 	@GetMapping("/add")

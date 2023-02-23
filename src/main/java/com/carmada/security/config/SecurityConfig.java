@@ -34,11 +34,10 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		
 		return http
 			.authorizeRequests(configurer -> 
 				configurer
-					.antMatchers("/**").hasRole("EMPLOYEE")
+					.antMatchers("/*").hasRole("EMPLOYEE")
 //					.antMatchers("/leaders/**").hasRole("MANAGER")
 //					.antMatchers("/systems/**").hasRole("ADMIN")
 					)
