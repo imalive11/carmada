@@ -78,6 +78,14 @@ public class PaymentServiceImpl implements PaymentService {
 		
 		return result;
 	}
+	@Override
+	public List<Payment> searchByRemarksLike(String remarks) {
+		List<Payment> result = 
+				this.paymentRepository
+					.findByRemarksContains(remarks);
+		
+		return result;
+	}
 
 
 }

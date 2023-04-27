@@ -23,6 +23,7 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.carmada.payment.entity.Payment;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="driver")
@@ -54,6 +55,7 @@ public class Driver {
 	@JoinColumn(name="driver_info_id")
 	private DriverPersonalInfo driverPersonalInfo;
 
+	@JsonIgnoreProperties("driver")
 	@OneToMany(mappedBy="driver", 
 			fetch= FetchType.LAZY,
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE,

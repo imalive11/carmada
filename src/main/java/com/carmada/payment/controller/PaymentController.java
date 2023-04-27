@@ -51,12 +51,25 @@ public class PaymentController {
 //    }
 	
 	@GetMapping
-	public String listAll(Model model){
+	public String listAll( Model model){
+		
 		List<Payment> payments = paymentService.findAll();
 		
 		model.addAttribute("payments", payments);
 		
 		return "payments/payment-list";
+	}
+	
+	@GetMapping("/late")
+	public String listLatePayment( Model model){
+		
+		String remarks = "late";
+		
+		List<Payment> latePayments = paymentService.searchByRemarksLike(remarks);
+		
+		model.addAttribute("latePayments", latePayments);
+		
+		return "payments/late-payment-list";
 	}
 	
 	@GetMapping("/search")
@@ -83,6 +96,7 @@ public class PaymentController {
 		
 		model.addAttribute("payment", payment);
 		
+		
 		return "payments/payment-form";
 	}
 	
@@ -95,7 +109,7 @@ public class PaymentController {
 			
 			return "payments/payment-form";
 		}
-		payment.set();
+		payment.setFullName();
 		paymentService.save(payment);
 		
 		return "redirect:/payments/";
@@ -122,6 +136,7 @@ public class PaymentController {
 		return "redirect:/payments/";
 		
 	}
+	
 	
 	private void listDriverAndVehicleForDropdown(Model model) {
 

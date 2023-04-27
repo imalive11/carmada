@@ -2,10 +2,8 @@ package com.carmada.payment.entity;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +17,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.carmada.drivers.entity.Driver;
 import com.carmada.vehicle.entity.Vehicle;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="payment", schema="carmada-database")
@@ -41,7 +41,16 @@ public class Payment {
 	
 	@Column(name="amount_loanpayment")
 	private double amountLoanPayment;
+	
+	@Column(name="amount_contribution")
+	private double amountContribution;
+	
+	@Column(name="amount_rate_boundary")
+	private Integer amountRateBoundary;
 
+	@Column(name="rate_boundary")
+	private String rateBoundary;
+	
 	@Column(name="remarks")
 	private String remarks;
 	
@@ -54,24 +63,68 @@ public class Payment {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="travel_date")
     private Date travelDate;
-	
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.DETACH, CascadeType.REFRESH},
-			fetch= FetchType.LAZY)
+	@JsonIgnoreProperties("driver")
+	@ManyToOne
 	@JoinColumn(name="driver_id")
 	@NotNull(message="Missing Driver")
-	private Driver driver;
+	private Driver driver;@JsonIgnore
 
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-			CascadeType.DETACH, CascadeType.REFRESH},
-			fetch= FetchType.LAZY)
-	@JoinColumn(name="vehicle_unit_id")
+	@JsonIgnoreProperties("vehicle")
+	@ManyToOne
+	@JoinColumn(name="vehicle_id")
 	@NotNull(message="Missing Vehicle")
-	private Vehicle vehicle;
+	private Vehicle vehicle;@JsonIgnore
 	
+	public Integer getAmountRateBoundary() {
+		return amountRateBoundary;
+	}
+
+	public void setAmountRateBoundary(Integer amountRateBoundary) {
+		this.amountRateBoundary = amountRateBoundary;
+	}
+
+	public String getRateBoundary() {
+		return rateBoundary;
+	}
+
+	public void setRateBoundary(String rateBoundary) {
+		this.rateBoundary = rateBoundary;
+	}
+
+	public double getAmountContribution() {
+		return amountContribution;
+	}
+
+	public void setAmountContribution(double amountContribution) {
+		this.amountContribution = amountContribution;
+	}
+
 	@Column(name="driver_name")
 	private String driverName;
+	
+	@Column(name="payment_type")
+	private String paymentType;
+	
+	@Column(name="payment_description")
+	private String paymentDescription;
+	
+	
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
+	}
+
+	public String getPaymentDescription() {
+		return paymentDescription;
+	}
+
+	public void setPaymentDescription(String paymentDescription) {
+		this.paymentDescription = paymentDescription;
+	}
 
 	public String getRemarks() {
 		return remarks;
@@ -109,10 +162,8 @@ public class Payment {
 		return driverName;
 	}
 	
-	public void set() {
-
-		this.setDriverName(this.driver.getId() +": " + this.driver.getFirstName() + " " + this.driver.getLastName());
-
+	public void setFullName() {
+		this.setDriverName(this.driver.getId() +" : " + this.driver.getFirstName() + " " + this.driver.getLastName());
 	}
 
 	public void setDriverName(String driverName) {
@@ -122,6 +173,7 @@ public class Payment {
 	public Payment(double amountBoundary) {
 		this.amountBoundary = amountBoundary;
 	}
+	
 
 	public Payment() {
 	}

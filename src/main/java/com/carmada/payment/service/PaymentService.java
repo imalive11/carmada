@@ -13,6 +13,8 @@ public interface PaymentService {
 	
 	public List<Payment> findByDriver(String driverName);
 	
+	public List<Payment> searchByRemarksLike(String remarks);
+	
 	public Payment findById(int id);
 	
 	public void save(Payment payment);

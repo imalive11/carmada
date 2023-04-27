@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Carmada - Payments</title>
+  <title>Carmada - Late Payments</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -48,6 +48,7 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/home">Home</a></li>
           <li class="breadcrumb-item"><a href="/payments">Payments</a></li>
+          <li class="breadcrumb-item"><a href="/payments/late">Late Payments</a></li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -84,6 +85,7 @@
                 <table class="table table-hover table-sm">
                   <thead>
                     <tr>
+                      <th>Late Remarks</th>
                       <th>Transaction ID</th>
                       <th>Driver Name</th>
                       <th>Plate Number</th>
@@ -95,8 +97,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr th:each="tempPayment : ${payments}">
+                    <tr th:each="tempPayment : ${latePayments}">
 
+                      <td th:text="${tempPayment.remarks}" />
                       <td th:text="${tempPayment.id}" />
                       <td th:text="${tempPayment.driverName}" />
                       <td th:text="${tempPayment.vehicle.plateNumber}" />

@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -35,11 +37,12 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
+			.csrf()
+	        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+	        .and()
 			.authorizeRequests(configurer -> 
 				configurer
 					.antMatchers("/*").hasRole("EMPLOYEE")
-//					.antMatchers("/leaders/**").hasRole("MANAGER")
-//					.antMatchers("/systems/**").hasRole("ADMIN")
 					)
 			
 			.formLogin(configurer -> 
@@ -58,5 +61,6 @@ public class SecurityConfig {
 			
 			.build();
 	}
+	
 		
 }

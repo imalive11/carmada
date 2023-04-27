@@ -65,7 +65,8 @@
               <!-- Vertical Form -->
               <form class="row g-3 needs-validation" action="#" th:action="@{/vehicles/save}" th:object="${vehicle}"
                 method="POST" novalidate>
-                <div class="col-12">
+                <input type="hidden" th:field="*{id}" />
+                <div class="col-md-6">
                   <label for="plateNumber" class="form-label">Plate Number</label>
                   <div class="input-group has-validation">
                     <input type="text" class="form-control" id="plateNumber" th:field="*{plateNumber}" required>
@@ -74,13 +75,51 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12">
+                <div class="col-md-6">
+                  <label for="boundaryRate" class="form-label">Boundary Rate</label>
+                  <div class="input-group has-validation">
+                    <input type="number" class="form-control" id="boundaryRate" placeholder="1200" th:field="*{boundaryRate}" required>
+                    <div class="invalid-feedback">
+                      Missing Boundary Rate
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="col-sm-3 col-form-label">Assigned Driver 1</label>
+                  <div class="col-sm-12">
+                    <select name="drivers" id="assignedDriver1" class="form-select" aria-label="Default select example"
+                      th:field="*{assignedDriver1}">
+                      <option value="" selected>Select Driver</option>
+                      <option th:each="driver : ${drivers}" th:text="${driver.firstName} + ' ' + ${driver.lastName}"
+                        th:value="${driver.id}"></option>
+                    </select>
+                  </div>
+                </div>
+                 <div class="col-md-6">
+                  <label class="col-sm-3 col-form-label">Assigned Driver 2</label>
+                  <div class="col-sm-12">
+                    <select name="drivers" id="assignedDriver2" class="form-select" aria-label="Default select example"
+                      th:field="*{assignedDriver2}">
+                      <option value="" selected>Select Driver</option>
+                      <option th:each="driver : ${drivers}" th:text="${driver.firstName} + ' ' + ${driver.lastName}"
+                        th:value="${driver.id}"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
                   <label for="yearModel" class="form-label">Year Model</label>
                   <div class="input-group has-validation">
                     <input type="number" class="form-control" id="yearModel" placeholder="2022" th:field="*{yearModel}" required>
                     <div class="invalid-feedback">
                       Missing Year Model!
                     </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="expirationYear" class="form-label">Franchise Expiration Year</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="expirationYear" placeholder="2022" th:field="*{expirationYear}">
+
                   </div>
                 </div>
                 <div class="col-12">
@@ -103,7 +142,7 @@
         </div>
       </div>
     </section>
-  </div>
+  
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -116,7 +155,8 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
+  
+  </div>
 </body>
 
 </html>

@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-md-5">
                   <button class="btn btn-success mb-3 mr-sm-5" type="submit">Search</button>
-                  <a th:href="@{/payments/add}" class="btn btn-primary mb-3">
+                  <a th:href="@{/vehicles/add}" class="btn btn-primary mb-3">
                     New Vehicle
                   </a>
                 </div>
@@ -82,6 +82,9 @@
                   <tr>
                     <th>Vehicle ID</th>
                     <th>Plate Number</th>
+                    <th>Boundary Rate</th>
+                    <th>Assigned Driver 1</th>
+                    <th>Assigned Driver 2</th>
                     <th>Year Model</th>
                     <th>Brand</th>
                     <th>Action</th>
@@ -93,6 +96,9 @@
 
                     <td th:text="${tempVehicle.id}" />
                     <td th:text="${tempVehicle.plateNumber}" />
+                    <td th:text="${tempVehicle.boundaryRate}" />
+                    <td th:text="${tempVehicle.assignedDriver1 != null} ? ${tempVehicle?.assignedDriver1?.firstName} + ' ' + ${tempVehicle?.assignedDriver1?.lastName} : 'No Assigned Driver'" />
+                    <td th:text="${tempVehicle.assignedDriver2 != null} ? ${tempVehicle?.assignedDriver2?.firstName} + ' ' + ${tempVehicle?.assignedDriver2?.lastName} : 'No Assigned Driver'" />
                     <td th:text="${tempVehicle.yearModel}" />
                     <td th:text="${tempVehicle.brand}" />
                     <td>
