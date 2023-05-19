@@ -197,26 +197,39 @@
                         Contribution
                       </label>
                     </div>
+                    <div class="form-check col-md-3">
+                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsCarwash" onchange="otherPaymentsHandler()">
+                      <label class="form-check-label" for="otherPaymentsCarwash">
+                        Carwash
+                      </label>
+                    </div>
                   </div>
                 <div class="col-md-6">
-                  <label for="fund" class="col-sm-6 form-label">Fund</label>
+                  <label for="boundaryFund" class="col-sm-6 form-label">Fund</label>
                   <div class="col-sm-12">
                     <input type="number" class="form-control" th:field="*{amountFund}" id="boundaryFund"
-                    	step="50"	>
+                    	step="10"	>
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="loanPayment" class="col-sm-6 form-label">Loan Payment</label>
+                  <label for="boundaryLoan" class="col-sm-6 form-label">Loan Payment</label>
                   <div class="col-sm-12">
                     <input type="number" class="form-control" th:field="*{amountLoanPayment}" id="boundaryLoan" 
-                      step="50">
+                      step="10">
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <label for="loanPayment" class="col-sm-6 form-label">Contribution</label>
+                  <label for="contribution" class="col-sm-6 form-label">Contribution</label>
                   <div class="col-sm-12">
                     <input type="number" class="form-control" th:field="*{amountContribution}" id="contribution" 
-                      step="40" min="0">
+                      step="10" min="0">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="carwash" class="col-sm-6 form-label">Carwash</label>
+                  <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{amountCarwash}" id="carwash" 
+                      step="5" min="0">
                   </div>
                 </div>
 

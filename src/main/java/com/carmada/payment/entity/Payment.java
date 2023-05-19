@@ -45,6 +45,9 @@ public class Payment {
 	@Column(name="amount_contribution")
 	private double amountContribution;
 	
+	@Column(name="amount_carwash")
+	private double amountCarwash;
+	
 	@Column(name="amount_rate_boundary")
 	private Integer amountRateBoundary;
 
@@ -112,6 +115,33 @@ public class Payment {
 	
 	public String getPaymentType() {
 		return paymentType;
+	}
+
+	public Payment(int id, @Min(value = 0, message = "Missing Boundary") double amountBoundary, double amountShort,
+			double amountFund, double amountLoanPayment, double amountContribution, double amountCarwash,
+			Integer amountRateBoundary, String rateBoundary, String remarks,
+			@NotNull(message = "Missing Payment Date") Date paymentDate,
+			@NotNull(message = "Missing Travel Date") Date travelDate,
+			@NotNull(message = "Missing Driver") Driver driver, @NotNull(message = "Missing Vehicle") Vehicle vehicle,
+			String driverName, String paymentType, String paymentDescription) {
+		super();
+		this.id = id;
+		this.amountBoundary = amountBoundary;
+		this.amountShort = amountShort;
+		this.amountFund = amountFund;
+		this.amountLoanPayment = amountLoanPayment;
+		this.amountContribution = amountContribution;
+		this.amountCarwash = amountCarwash;
+		this.amountRateBoundary = amountRateBoundary;
+		this.rateBoundary = rateBoundary;
+		this.remarks = remarks;
+		this.paymentDate = paymentDate;
+		this.travelDate = travelDate;
+		this.driver = driver;
+		this.vehicle = vehicle;
+		this.driverName = driverName;
+		this.paymentType = paymentType;
+		this.paymentDescription = paymentDescription;
 	}
 
 	public void setPaymentType(String paymentType) {
@@ -224,6 +254,14 @@ public class Payment {
 
 	public void setDriver(Driver driver) {
 		this.driver = driver;
+	}
+
+	public double getAmountCarwash() {
+		return amountCarwash;
+	}
+
+	public void setAmountCarwash(double amountCarwash) {
+		this.amountCarwash = amountCarwash;
 	}
 	
 	

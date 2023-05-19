@@ -181,6 +181,7 @@ const otherPaymentsHandler = () => {
   let selectElementFund = document.querySelector('#otherPaymentsFund');
   let selectElementLoan = document.querySelector('#otherPaymentsLoan');
   let selectElementContribution = document.querySelector('#otherPaymentsContribution');
+  let selectElementCarwash = document.querySelector('#otherPaymentsCarwash');
 
   if (selectElementFund.checked === true) {
     document.getElementById("boundaryFund").value = 50;
@@ -206,7 +207,16 @@ const otherPaymentsHandler = () => {
   } else if (selectElementContribution.checked === false) {
     document.getElementById("contribution").value = 0;
     document.getElementById("contribution").readOnly = true;
-  }
+  } 
+
+  if (selectElementCarwash.checked === true) {
+    document.getElementById("carwash").value = 65;
+    document.getElementById("carwash").readOnly = false;
+
+  } else if (selectElementCarwash.checked === false) {
+    document.getElementById("carwash").value = 0;
+    document.getElementById("carwash").readOnly = true;
+  } 
 
 };
 
@@ -215,14 +225,17 @@ const clearOtherPaymentsCheckboxHandler = () => {
   document.querySelector('#otherPaymentsFund').checked = false;
   document.querySelector('#otherPaymentsLoan').checked = false;
   document.querySelector('#otherPaymentsContribution').checked = false;
+  document.querySelector('#otherPaymentsCarwash').checked = false;
 
   document.getElementById("contribution").value = 0;  
   document.getElementById("boundaryLoan").value = 0;
   document.getElementById("boundaryFund").value = 0;
+  document.getElementById("carwash").value = 0;
 
   document.getElementById("contribution").readOnly = true;
   document.getElementById("boundaryLoan").readOnly = true;
   document.getElementById("boundaryFund").readOnly = true;
+  document.getElementById("carwash").readOnly = true;
 
 }
 

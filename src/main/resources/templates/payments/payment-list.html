@@ -104,11 +104,11 @@
                             <thead>
                               <tr>
                                 <th></th>
-                                <th colspan="9" class="fs-3">Lady Ella Transport</th>
+                                <th colspan="10" class="fs-3">Lady Ella Transport</th>
                               </tr>
                               <tr>
                                 <th></th>
-                                <th colspan="7">Driver's Daily Report</th>
+                                <th colspan="8">Driver's Daily Report</th>
                                 <th>Date</th>
                                 <th id="reportDate" th:text="${page != null and page.content.size() > 0 and page.content[0] != null} ? ${#strings.toString(#dates.format(page.content[0].travelDate, 'EEEE, dd MMMM yyyy'))} : ''"></th>
                               </tr>
@@ -122,6 +122,7 @@
                                 <th>Fund</th>
                                 <th>Contribution</th>
                                 <th>Loan</th>
+                                <th>Carwash</th>
                                 <th>Remarks</th>
                               </tr>
                             </thead>
@@ -136,6 +137,7 @@
                                 <td class="amountFund" th:text="${tempPayment.amountFund > 0} ? ${#numbers.formatDecimal(tempPayment.amountFund, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountFund}" />
                                 <td class="amountContribution" th:text="${tempPayment.amountContribution > 0} ? ${#numbers.formatDecimal(tempPayment.amountContribution, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountContribution}" />
                                 <td class="amountLoanPayment" th:text="${tempPayment.amountLoanPayment > 0} ? ${#numbers.formatDecimal(tempPayment.amountLoanPayment, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountLoanPayment}" />
+                                <td class="amountCarwash" th:text="${tempPayment.amountCarwash > 0} ? ${#numbers.formatDecimal(tempPayment.amountCarwash, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountCarwash}" />
                                 <td th:text="${tempPayment.remarks}" />
                               </tr>
                               <tr>
@@ -146,6 +148,7 @@
                                 <td id="totalAmountFund"></td>
                                 <td id="totalAmountContribution"></td>
                                 <td id="totalAmountLoanPayment"></td>
+                                <td id="totalAmountCarwash"></td>
                               </tr>
                             </tbody>
                           </table>
@@ -158,6 +161,7 @@
                     </div>
                   </div><!-- End Full Screen Modal-->
                 </div>
+
                 <!-- <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-center">
                     <li class="page-item" th:class="${page.number == 0} ? disabled">
@@ -266,15 +270,13 @@
           saveAs(new Blob([wbout], {type:'application/octet-stream'}), file_name);
         }
 
-        
-        
-
         // Sum up the values in the second column
         var totalAmountReceived = 0;
         var totalAmountBoundary = 0;
         var totalAmountShort = 0;
         var totalAmountFund = 0;
         var totalAmountContribution = 0;
+        var totalAmountCarwash = 0;
         var totalAmountLoanPayment = 0;
 
         $("td.amountReceived").each(function(){
@@ -308,6 +310,12 @@
           totalAmountLoanPayment += amount;
         })
 
+        $("td.amountCarwash").each(function(){
+          // Remove Comma before parsing
+          var amount = parseInt($(this).text().replace(/,/g, '', 10));
+          totalAmountCarwash += amount;
+        })
+
         $("#totalAmountReceived").text(totalAmountReceived.toLocaleString("en-US", 
             { minimumFractionDigits: 2,
               maximumFractionDigits: 2 
@@ -339,6 +347,12 @@
         ));
 
         $("#totalAmountLoanPayment").text(totalAmountLoanPayment.toLocaleString("en-US", 
+            { minimumFractionDigits: 2,
+              maximumFractionDigits: 2 
+            }
+        ));
+
+        $("#totalAmountCarwash").text(totalAmountCarwash.toLocaleString("en-US", 
             { minimumFractionDigits: 2,
               maximumFractionDigits: 2 
             }
