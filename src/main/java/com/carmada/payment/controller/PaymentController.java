@@ -1,11 +1,18 @@
 package com.carmada.payment.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,12 +58,55 @@ public class PaymentController {
 //    }
 	
 	@GetMapping
-	public String listAll( Model model){
+	public String listAll(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(defaultValue = "56") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false, value = "inputDate") String date,
+            Model model){
 		
-		List<Payment> payments = paymentService.findAll();
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
+		Page<Payment> page;
+        page = paymentService.findLatestDayPayment(pageable);
+        model.addAttribute("page", page);
 		
-		model.addAttribute("payments", payments);
+		return "payments/payment-list";
+	}
+	
+	@GetMapping("/search")
+	public String searchPayment( @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(defaultValue = "56") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false, value = "inputDate") String date,
+            Model model){
 		
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
+
+        Page<Payment> page;
+        if (name != null && !name.isEmpty()) {
+            page = paymentService.findByDriver(pageable, name);
+            if (page.hasContent() == false) {
+    			model.addAttribute("errorMessage", "Driver not found!");
+    		}
+        } else if (date != null ) {
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedDate = null;
+            
+            try {
+            	parsedDate = formatter.parse(date);
+	        } catch (ParseException e) {
+	                e.printStackTrace();
+	        }
+            
+            page = paymentService.findAllByDate(pageable, parsedDate, parsedDate);
+            
+        } else {
+        	
+            page = paymentService.findLatestDayPayment(pageable);
+        }
+		
+        model.addAttribute("page", page);
 		return "payments/payment-list";
 	}
 	
@@ -72,21 +122,7 @@ public class PaymentController {
 		return "payments/late-payment-list";
 	}
 	
-	@GetMapping("/search")
-	public String findByDriver(@RequestParam("name") String name, Model model){
 
-		List<Payment> payments = paymentService.findByDriver(name);
-		
-		if (payments.isEmpty() == true) {
-			model.addAttribute("errorMessage", "Driver not found!");
-			return "payments/payment-list";
-		}
-
-		model.addAttribute("payments", payments);
-		
-		return "payments/payment-list";
-	}
-	
 	@GetMapping("/add")
 	public String addPayment(Model model) {
 		

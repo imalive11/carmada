@@ -3,34 +3,34 @@
   layout:decorate="login/layout">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
   <title>Carmada - Payments</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
 
   <!-- Favicons -->
-  <link href="/img/favicon.png" rel="icon">
-  <link href="/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="/img/favicon.png" rel="icon" />
+  <link href="/img/apple-touch-icon.png" rel="apple-touch-icon" />
 
   <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" />
   <link
     href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
+    rel="stylesheet" />
 
   <!-- Vendor CSS Files -->
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="/vendor/quill/quill.snow.css" rel="stylesheet" />
+  <link href="/vendor/quill/quill.bubble.css" rel="stylesheet" />
+  <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="/vendor/simple-datatables/style.css" rel="stylesheet" />
 
   <!-- Template Main CSS File -->
-  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet" />
 
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.5.0
@@ -50,39 +50,139 @@
           <li class="breadcrumb-item"><a href="/payments">Payments</a></li>
         </ol>
       </nav>
-    </div><!-- End Page Title -->
+    </div>
+    <!-- End Page Title -->
 
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
-
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">List of Payments</h5>
-              
 
-              <form th:action="@{/payments/search}" class="form-inline needs-validation row g-3" novalidate>
-
-                <div class="col-md-3">
-                  <div class="has-validation">
-                    <input type="text" class="form-control has-validation mb-2" name="name" required>
+              <form th:action="@{/payments/search}" class="form-inline row g-3" method="get">
+                <div class="row mb-3">
+                  <label for="inputDate" class="col-sm-2 col-form-label">Select Payment Date</label>
+                  <div class="col-sm-2">
+                    <input type="date" class="form-control" name="inputDate" th:value="${inputDate}" id="inputDate" />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="name" class="col-sm-2 col-form-label">Find Driver</label>
+                  <div class="col-sm-2">
+                    <input type="text" class="form-control" name="name" th:value="${name}" placeholder="Search Driver" id="name"/>
                     <div class="invalid-feedback">
                       Please type the name of the driver you are searching!
                     </div>
                   </div>
                 </div>
 
-                <div class="col-md-5">
-                  <button class="btn btn-success mb-3 mr-sm-5" type="submit">Search</button>
-                  <a th:href="@{/payments/add}" class="btn btn-primary mb-3">
+                <div class="col-md-3">
+                  <button class="btn btn-success mb-3 mr-sm-5" type="submit">
+                    Search
+                  </button>
+                  <a th:href="@{/payments/add}" class="btn btn-primary mb-3 ">
                     New Payment
                   </a>
+                  
                 </div>
+                <!-- Full Screen Modal -->
+                <div class="col-md-9">
+                  <button type="button" class="btn btn-success mb-3 mr-sm-5 float-end" data-bs-toggle="modal" data-bs-target="#fullscreenModal">
+                    Create Report
+                  </button>
 
+                  <div class="modal fade" id="fullscreenModal" tabindex="-1">
+                    <div class="modal-dialog modal-fullscreen">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Daily Report</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <table class="table table-hover table-sm" id="report-for-export">
+                            <thead>
+                              <tr>
+                                <th></th>
+                                <th colspan="9" class="fs-3">Lady Ella Transport</th>
+                              </tr>
+                              <tr>
+                                <th></th>
+                                <th colspan="7">Driver's Daily Report</th>
+                                <th>Date</th>
+                                <th id="reportDate" th:text="${page != null and page.content.size() > 0 and page.content[0] != null} ? ${#strings.toString(#dates.format(page.content[0].travelDate, 'EEEE, dd MMMM yyyy'))} : ''"></th>
+                              </tr>
+                              <tr>
+                                <th></th>
+                                <th>Plate Number</th>
+                                <th>Driver Name</th>
+                                <th>Received</th>
+                                <th>Boundary</th>
+                                <th>Short</th>
+                                <th>Fund</th>
+                                <th>Contribution</th>
+                                <th>Loan</th>
+                                <th>Remarks</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr th:each="tempPayment, iterStat : ${page.content}">
+                                <td th:text="${iterStat.count}" />
+                                <td th:text="${tempPayment.vehicle.plateNumber}" />
+                                <td th:text="${tempPayment.driverName}" />
+                                <td class="amountReceived" th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal((tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution), 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}" />
+                                <td class="amountBoundary" th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal(tempPayment.amountBoundary, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}" />
+                                <td class="amountShort" th:text="${tempPayment.amountShort > 0} ? ${#numbers.formatDecimal(tempPayment.amountShort, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountShort}" />
+                                <td class="amountFund" th:text="${tempPayment.amountFund > 0} ? ${#numbers.formatDecimal(tempPayment.amountFund, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountFund}" />
+                                <td class="amountContribution" th:text="${tempPayment.amountContribution > 0} ? ${#numbers.formatDecimal(tempPayment.amountContribution, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountContribution}" />
+                                <td class="amountLoanPayment" th:text="${tempPayment.amountLoanPayment > 0} ? ${#numbers.formatDecimal(tempPayment.amountLoanPayment, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountLoanPayment}" />
+                                <td th:text="${tempPayment.remarks}" />
+                              </tr>
+                              <tr>
+                                <td colspan="3">Grand Total</td>
+                                <td id="totalAmountReceived"></td>
+                                <td id="totalAmountBoundary"></td>
+                                <td id="totalAmountShort"></td>
+                                <td id="totalAmountFund"></td>
+                                <td id="totalAmountContribution"></td>
+                                <td id="totalAmountLoanPayment"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" onclick="exportTableToExcel()">Export</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div><!-- End Full Screen Modal-->
+                </div>
+                <!-- <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item" th:class="${page.number == 0} ? disabled">
+                      <a class="page-link" th:href="@{/payments/search(inputDate=${inputDate}, name=${name}, pageNo=${page.number})}"
+                        aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(1, 10)}"
+                      th:class="${page.number == (i-1)} ? active">
+                      <a class="page-link" th:href="@{/payments/search(inputDate=${inputDate}, name=${name}, pageNo=${i})}" th:text="${i}"></a>
+                    </li>
+                    <li class="page-item" th:class="${page.number == (page.totalPages - 1)} ? disabled">
+                      <a class="page-link" th:href="@{/payments/search(inputDate=${inputDate}, name=${name}, pageNo=${page.number + 1})}"
+                        aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav> -->
 
                 <!-- Table with hoverable rows -->
                 <table class="table table-hover table-sm">
                   <thead>
+                    
                     <tr>
                       <th>Transaction ID</th>
                       <th>Driver Name</th>
@@ -95,14 +195,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr th:each="tempPayment : ${payments}">
-
+                    <tr th:each="tempPayment : ${page.content}">
                       <td th:text="${tempPayment.id}" />
                       <td th:text="${tempPayment.driverName}" />
                       <td th:text="${tempPayment.vehicle.plateNumber}" />
                       <td th:text="${tempPayment.amountBoundary}" />
                       <td th:text="${tempPayment.paymentType}" />
-                      <td th:text="${#dates.format(tempPayment.travelDate, 'dd/MM/yyyy')}"/>
+                      <td th:text="${#dates.format(tempPayment.travelDate, 'dd/MM/yyyy')}" />
                       <td th:text="${#dates.format(tempPayment.paymentDate, 'dd/MM/yyyy')}" />
                       <td>
                         <a th:href="@{/payments/update(paymentId=${tempPayment.id})}" class="btn btn-info mr-sm-3">
@@ -120,17 +219,143 @@
                   class="alert alert-danger mb-3 mr-sm-5 text-center"></div>
               </form>
               <!-- End Table with hoverable rows -->
-
             </div>
           </div>
-
         </div>
       </div>
-    </section>
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+      <script>
+        function exportTableToExcel() {
+          // Get the HTML table
+          var report = document.querySelector('#report-for-export');
 
+          // Parse the table data into a SheetJS worksheet object
+          var ws = XLSX.utils.table_to_sheet(report, {raw: true});
+          
+          var range = XLSX.utils.decode_range(ws['!ref']);
+          for (var R = range.s.r; R <= range.e.r; ++R) {
+            for (var C = range.s.c; C <= range.e.c; ++C) {
+              var cell_address = { c: C, r: R };
+              if (!ws[cell_address]) {
+                continue;
+              }
+            }
+          }
+
+          // Create a new Date object with the date string
+          const dateString = $("#reportDate").text();;
+          const date = new Date(dateString);
+
+          // Get the month, day, and year from the date object
+          const month = date.toLocaleString("default", { month: "short" });
+          const day = date.getDate().toString().padStart(2, "0");
+          const year = date.getFullYear().toString().substr(-2);
+
+          // Format the date string as "mmm-dd-yy"
+          const formattedDate = `${month}-${day}-${year}`;
+
+          var file_name = 'Daily Report - ' + formattedDate + '.xlsx';
+          
+          // Create a SheetJS workbook object and add the worksheet to it
+          var wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+          
+          // Save the workbook as an Excel file
+          var wbout = XLSX.write(wb, {bookType:'xlsx', type:'array'});
+          saveAs(new Blob([wbout], {type:'application/octet-stream'}), file_name);
+        }
+
+        
+        
+
+        // Sum up the values in the second column
+        var totalAmountReceived = 0;
+        var totalAmountBoundary = 0;
+        var totalAmountShort = 0;
+        var totalAmountFund = 0;
+        var totalAmountContribution = 0;
+        var totalAmountLoanPayment = 0;
+
+        $("td.amountReceived").each(function(){
+          // Remove Comma before parsing
+          var amount = parseInt($(this).text().replace(/,/g, '', 10));
+          totalAmountReceived += amount;
+        })
+        $("td.amountBoundary").each(function(){
+          // Remove Comma before parsing
+          var amount = parseInt($(this).text().replace(/,/g, '', 10));
+          totalAmountBoundary += amount;
+        })
+        $("td.amountShort").each(function(){
+          // Remove Comma before parsing
+          var amount = parseInt($(this).text().replace(/,/g, '', 10));
+          totalAmountShort += amount;
+        })
+        $("td.amountFund").each(function(){
+          // Remove Comma before parsing
+          var amount = parseInt($(this).text().replace(/,/g, '', 10));
+          totalAmountFund += amount;
+        })
+        $("td.amountContribution").each(function(){
+          // Remove Comma before parsing
+          var amount = parseInt($(this).text().replace(/,/g, '', 10));
+          totalAmountContribution += amount;
+        })
+        $("td.amountLoanPayment").each(function(){
+          // Remove Comma before parsing
+          var amount = parseInt($(this).text().replace(/,/g, '', 10));
+          totalAmountLoanPayment += amount;
+        })
+
+        $("#totalAmountReceived").text(totalAmountReceived.toLocaleString("en-US", 
+            { minimumFractionDigits: 2,
+              maximumFractionDigits: 2 
+            }
+        ));
+
+        $("#totalAmountBoundary").text(totalAmountBoundary.toLocaleString("en-US", 
+            { minimumFractionDigits: 2,
+              maximumFractionDigits: 2 
+            }
+        ));
+
+        $("#totalAmountShort").text(totalAmountShort.toLocaleString("en-US", 
+            { minimumFractionDigits: 2,
+              maximumFractionDigits: 2 
+            }
+        ));
+
+        $("#totalAmountFund").text(totalAmountFund.toLocaleString("en-US", 
+            { minimumFractionDigits: 2,
+              maximumFractionDigits: 2 
+            }
+        ));
+
+        $("#totalAmountContribution").text(totalAmountContribution.toLocaleString("en-US", 
+            { minimumFractionDigits: 2,
+              maximumFractionDigits: 2 
+            }
+        ));
+
+        $("#totalAmountLoanPayment").text(totalAmountLoanPayment.toLocaleString("en-US", 
+            { minimumFractionDigits: 2,
+              maximumFractionDigits: 2 
+            }
+        ));
+        
+        
+      </script>
+      <!-- Page Specific JS Files -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    </section>
   </div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
+  
+  
 
   <!-- Vendor JS Files -->
   <script src="/vendor/apexcharts/apexcharts.min.js"></script>
@@ -144,7 +369,6 @@
 
   <!-- Template Main JS File -->
   <script src="/js/main.js"></script>
-
 </body>
 
 </html>
