@@ -43,6 +43,9 @@ public class SecurityConfig {
 			.authorizeRequests(configurer -> 
 				configurer
 					.antMatchers("/*").hasRole("EMPLOYEE")
+					.antMatchers("/drivers/*").hasRole("EMPLOYEE")
+					.antMatchers("/payments/*").hasRole("EMPLOYEE")
+					.antMatchers("/vehicles/*").hasRole("EMPLOYEE")
 					)
 			
 			.formLogin(configurer -> 

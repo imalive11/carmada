@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="https://www.thymeleaf.org"
+  xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="login/layout"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Driver Profile</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="/img/favicon.png" rel="icon" />
+    <link href="/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="/vendor/quill/quill.snow.css" rel="stylesheet" />
+    <link href="/vendor/quill/quill.bubble.css" rel="stylesheet" />
+    <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="/vendor/simple-datatables/style.css" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="/css/style.css" rel="stylesheet" />
+
+    <!-- =======================================================
+  * Template Name: NiceAdmin - v2.5.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  </head>
+
+  <body>
+    <div layout:fragment="content">
+      <div class="pagetitle">
+        <h1>Profile</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            <li class="breadcrumb-item"><a href="/drivers">Drivers</a></li>
+            <li class="breadcrumb-item active">Profile</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+
+      <section class="section profile">
+        <div class="row">
+          <div class="col-xl-2">
+            <div class="card">
+              <div
+                class="card-body profile-card pt-4 d-flex flex-column align-items-center"
+              >
+                <form
+                  class="row g-3"
+                  action="#"
+                  th:action="@{/drivers/profile}"
+                  th:object="${driver}"
+                  method="GET"
+                >
+                  <h2
+                    id="driverName"
+                    th:text="${#strings.concat(driver.firstName, ' ', driver.lastName)}"
+                  ></h2>
+                  <h3>Driver</h3>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-10">
+            <div class="card">
+              <div class="card-body pt-3">
+                <!-- Bordered Tabs -->
+                <ul class="nav nav-tabs nav-tabs-bordered">
+                  <li class="nav-item">
+                    <button
+                      class="nav-link active"
+                      data-bs-toggle="tab"
+                      data-bs-target="#profile-overview"
+                    >
+                      Overview
+                    </button>
+                  </li>
+
+                  <li class="nav-item">
+                    <button
+                      class="nav-link"
+                      data-bs-toggle="tab"
+                      data-bs-target="#profile-performance"
+                    >
+                      Performance
+                    </button>
+                  </li>
+
+                  <li class="nav-item">
+                    <button
+                      class="nav-link"
+                      data-bs-toggle="tab"
+                      data-bs-target="#profile-edit"
+                    >
+                      Edit Profile
+                    </button>
+                  </li>
+                </ul>
+                <div class="tab-content pt-2">
+                  <div
+                    class="tab-pane fade show active profile-overview"
+                    id="profile-overview"
+                  >
+                    <!-- <h5 class="card-title">About</h5>
+                  <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p> -->
+
+                    <h5 class="card-title">Profile Details</h5>
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Full Name</div>
+                      <div
+                        class="col-lg-9 col-md-8"
+                        th:text="${#strings.concat(driver.firstName, ' ', driver.lastName)}"
+                      ></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Employment Date</div>
+                      <div
+                        class="col-lg-9 col-md-8"
+                        th:text="${#dates.format(driver.employmentDate, 'dd/MM/yyyy')}"
+                      ></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Mobile Number</div>
+                      <div
+                        class="col-lg-9 col-md-8"
+                        th:text="${driver.driverPersonalInfo.mobileNumber}"
+                      ></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Address</div>
+                      <div
+                        class="col-lg-9 col-md-8"
+                        th:text="${driver.driverPersonalInfo.address}"
+                      ></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Birthdate</div>
+                      <div
+                        class="col-lg-9 col-md-8"
+                        th:text="${driver.driverPersonalInfo.birthDate}"
+                      ></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">License ID</div>
+                      <div
+                        class="col-lg-9 col-md-8"
+                        th:text="${driver.driverPersonalInfo.licenseId}"
+                      ></div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-3 col-md-4 label">Expiration Date</div>
+                      <div
+                        class="col-lg-9 col-md-8"
+                        th:text="${driver.driverPersonalInfo.licenseExpirationDate}"
+                      ></div>
+                    </div>
+                  </div>
+                  <div
+                    class="tab-pane fade profile-overview"
+                    id="profile-performance"
+                  >
+                    <form
+                      class=""
+                      action="#"
+                      th:action="@{/drivers/profile}"
+                      th:object="${driver}"
+                      method="GET"
+                      id="performance-form"
+                    >
+                      <h5 class="card-title mb-0">Date Range</h5>
+                      <input type="hidden" th:value="${driver.id}" id="driverId" name="driverId"/>
+                      <input type="hidden" name="startDate" id="startDateInput"/>
+                      <input type="hidden" name="endDate" id="endDateInput"/>
+                      <fieldset class="col-md-8 mt-0" id="dateRange" onChange="dateRangeHandler()">
+                        <div class="row">
+                          <legend class="col-form-label col-sm-10 pt-1 label">
+                            Select Range
+                          </legend>
+                          <div class="form-check col-md-3 ">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="dateRange"
+                              id="all-year"
+                              value="allyear"
+                              checked
+                            />
+                            <label class="form-check-label" for="all-year">
+                              All Year
+                            </label>
+                          </div>
+                          <div class="form-check col-md-3">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="dateRange"
+                              id="first-half"
+                              value="firsthalf"
+                            />
+                            <label class="form-check-label" for="first-half">
+                              First Half
+                            </label>
+                          </div>
+                          <div class="form-check col-md-3">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="dateRange"
+                              id="second-half"
+                              value="secondhalf"
+                            />
+                            <label class="col-lg-9 col-md-8" for="second-half">
+                              Second Half
+                            </label>
+                          </div>
+                          <div class="form-check col-md-3">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="dateRange"
+                              id="custom"
+                              value="custom"
+                            />
+                            <label class="form-check-label" for="Custom">
+                              Custom
+                            </label>
+                          </div>
+                        </div>
+                      </fieldset>
+                      <div class="row">
+                        <label class="col-lg-3 col-md-8 pt-1 label"
+                          >Select Year</label
+                        >
+                        <div class="col-lg-3 col-md-4">
+                          <select
+                            id="selected-year"
+                            class="form-select form-select-sm"
+                            aria-label=".form-select-sm example"
+                            onchange="dateRangeHandler()"
+                          >
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023" selected>2023</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <label class="col-lg-3 col-md-8 pt-1 label"
+                          >From:</label
+                        >
+                        <div class="col-lg-3 col-md-4">
+                          <select id="from-select"
+                            class="form-select form-select-sm"
+                            aria-label=".form-select-sm example"
+                            onchange="dateRangeHandler()"
+                          >
+                            <option value="01-01">January</option>
+                            <option value="02-01">February</option>
+                            <option value="03-01">March</option>
+                            <option value="04-01">April</option>
+                            <option value="05-01">May</option>
+                            <option value="06-01">June</option>
+                            <option value="07-01">July</option>
+                            <option value="08-01">August</option>
+                            <option value="09-01">September</option>
+                            <option value="10-01">October</option>
+                            <option value="11-01">November</option>
+                            <option value="12-01">Decemeber</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <label class="col-lg-3 col-md-8 pt-1 label">To:</label>
+                        <div class="col-lg-3 col-md-4">
+                          <select id="to-select"
+                            class="form-select form-select-sm"
+                            aria-label=".form-select-sm example"
+                            onchange="dateRangeHandler()"
+                          >
+                          <option value="01-31">January</option>
+                          <option value="02-29">February</option>
+                          <option value="03-31">March</option>
+                          <option value="04-30">April</option>
+                          <option value="05-31">May</option>
+                          <option value="06-30">June</option>
+                          <option value="07-31">July</option>
+                          <option value="08-31">August</option>
+                          <option value="09-30">September</option>
+                          <option value="10-31">October</option>
+                          <option value="11-30">November</option>
+                          <option value="12-31">Decemeber</option>
+                          </select>
+                        </div>
+                      </div>
+                      <button class="btn btn-info mb-3 mr-sm-5" type="submit" th:href="@{/drivers/profile(driverId=${driver.id})}">Submit</button>
+
+                      <h5 class="card-title">Performance</h5>
+                      <div class="row">
+                        <div class="col-lg-3 col-md-4 label">Attendance</div>
+                        <div
+                          class="col-lg-9 col-md-8"
+                          id="performance-total-attendance"
+                        ></div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-3 col-md-4 label">
+                          Total Boundary
+                        </div>
+                        <div
+                          class="col-lg-9 col-md-8"
+                          id="performance-total-boundary"
+                        ></div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-3 col-md-4 label">Total Short</div>
+                        <div
+                          class="col-lg-9 col-md-8"
+                          id="performance-total-short"
+                        ></div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-3 col-md-4 label">
+                          Total Contribution
+                        </div>
+                        <div
+                          class="col-lg-9 col-md-8"
+                          id="performance-total-contribution"
+                        ></div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-3 col-md-4 label">Total Fund</div>
+                        <div
+                          class="col-lg-9 col-md-8"
+                          id="performance-total-fund"
+                        ></div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-3 col-md-4 label">Total Loans</div>
+                        <div
+                          class="col-lg-9 col-md-8"
+                          id="performance-total-loans"
+                        ></div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-lg-3 col-md-4 label">Total Damages</div>
+                        <div
+                          class="col-lg-9 col-md-8"
+                          id="performance-total-damages"
+                        ></div>
+                      </div>
+
+                      <!-- Full Screen Modal -->
+                      <div class="col-md-9">
+                        <button
+                          type="button"
+                          class="btn btn-success mb-3 mr-sm-5"
+                          data-bs-toggle="modal"
+                          data-bs-target="#fullscreenModal"
+                        >
+                          See Payment History
+                        </button>
+
+                        <div
+                          class="modal fade"
+                          id="fullscreenModal"
+                          tabindex="-1"
+                        >
+                          <div class="modal-dialog modal-fullscreen">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title">Payment History</h5>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <div class="modal-body">
+                                <table
+                                  class="table table-hover table-sm"
+                                  id="report-for-export"
+                                >
+                                  <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th
+                                        colspan="7"
+                                        class="fs-3"
+                                        th:text="${#strings.concat(driver.firstName, ' ', driver.lastName)}"
+                                      ></th>
+                                      <th
+                                        colspan="1"
+                                        class="fs-3"
+                                        th:text="${#strings.toString(#dates.format(page.content[0].travelDate, 'MMM yyyy'))}"
+                                      ></th>
+                                      <th
+                                        colspan="1"
+                                        class="fs-3"
+                                      > to </th>
+                                      <th
+                                        colspan="1"
+                                        class="fs-3"
+                                        th:text="${#strings.toString(#dates.format(page.content[__${page.content.size() - 1}__].travelDate, 'MMM yyyy'))}"
+                                      ></th>
+                                    </tr>
+                                    <tr>
+                                      <th></th>
+                                      <th>Travel Date</th>
+                                      <th>Payment Date</th>
+                                      <th>Plate Number</th>
+                                      <th>Received</th>
+                                      <th>Boundary</th>
+                                      <th>Short</th>
+                                      <th>Fund</th>
+                                      <th>Contribution</th>
+                                      <th>Loan</th>
+                                      <th>Remarks</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr
+                                      th:each="tempPayment, iterStat : ${page.content}"
+                                    >
+                                      <td th:text="${iterStat.count}" />
+                                      <td 
+                                        th:text="${#dates.format(tempPayment.travelDate, 'dd/MM/yyyy')}" 
+                                      />
+                                      <td 
+                                        th:text="${#dates.format(tempPayment.paymentDate, 'dd/MM/yyyy')}" 
+                                      />
+                                      <td
+                                        th:text="${tempPayment.vehicle.plateNumber}"
+                                      />
+                                      <td
+                                        class="amountReceived"
+                                        th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal((tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution  + tempPayment.amountCarwash), 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}"
+                                      />
+                                      <td
+                                        class="amountBoundary"
+                                        th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal(tempPayment.amountBoundary, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}"
+                                      />
+                                      <td
+                                        class="amountShort"
+                                        th:text="${tempPayment.amountShort > 0} ? ${#numbers.formatDecimal(tempPayment.amountShort, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountShort}"
+                                      />
+                                      <td
+                                        class="amountFund"
+                                        th:text="${tempPayment.amountFund > 0} ? ${#numbers.formatDecimal(tempPayment.amountFund, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountFund}"
+                                      />
+                                      <td
+                                        class="amountContribution"
+                                        th:text="${tempPayment.amountContribution > 0} ? ${#numbers.formatDecimal(tempPayment.amountContribution, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountContribution}"
+                                      />
+                                      <td
+                                        class="amountLoanPayment"
+                                        th:text="${tempPayment.amountLoanPayment > 0} ? ${#numbers.formatDecimal(tempPayment.amountLoanPayment, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountLoanPayment}"
+                                      />
+                                      <td 
+                                        th:text="${tempPayment.remarks}" 
+                                      />
+                                      <td style="display: none;"
+                                        class="attendanceCount hidden" 
+                                        th:text="${tempPayment.paymentType}" 
+                                      />
+                                    </tr>
+                                    <tr>
+                                      <td colspan="3">Grand Total</td>
+                                      <td id="totalAmountReceived"></td>
+                                      <td id="totalAmountBoundary"></td>
+                                      <td id="totalAmountShort"></td>
+                                      <td id="totalAmountFund"></td>
+                                      <td id="totalAmountContribution"></td>
+                                      <td id="totalAmountLoanPayment"></td>
+                                      
+                                    </tr>
+                                    <tr>
+                                      <td colspan="3">Attendance</td>
+                                      <td id="totalAttendanceCount"></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div class="modal-footer">
+                                <button
+                                  type="button"
+                                  class="btn btn-secondary"
+                                  data-bs-dismiss="modal"
+                                >
+                                  Close
+                                </button>
+                                <button
+                                  type="button"
+                                  class="btn btn-primary"
+                                  th:attr="onclick='exportTableToExcel(\'driver\', \''  + ${#strings.toString(#dates.format(page.content[0].travelDate, 'MMM'))} + '\', \'' + ${#strings.toString(#dates.format(page.content[__${page.content.size() - 1}__].travelDate, 'MMM'))} + '\', \'' + ${#strings.concat(driver.firstName, ' ', driver.lastName)} + '\')'"
+                                >
+                                  Export
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- End Full Screen Modal-->
+                      </div>
+                    </form>
+                  </div>
+
+                  <div
+                    class="tab-pane fade profile-edit pt-3"
+                    id="profile-edit"
+                  >
+                    <!-- Profile Edit Form -->
+                    <form>
+                      <div class="row mb-3">
+                        <label
+                          for="profileImage"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Profile Image</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <img src="assets/img/profile-img.jpg" alt="Profile" />
+                          <div class="pt-2">
+                            <a
+                              href="#"
+                              class="btn btn-primary btn-sm"
+                              title="Upload new profile image"
+                              ><i class="bi bi-upload"></i
+                            ></a>
+                            <a
+                              href="#"
+                              class="btn btn-danger btn-sm"
+                              title="Remove my profile image"
+                              ><i class="bi bi-trash"></i
+                            ></a>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="fullName"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Full Name</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="fullName"
+                            type="text"
+                            class="form-control"
+                            id="fullName"
+                            value="Kevin Anderson"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="about"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >About</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <textarea
+                            name="about"
+                            class="form-control"
+                            id="about"
+                            style="height: 100px"
+                          >
+Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea
+                          >
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="company"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Company</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="company"
+                            type="text"
+                            class="form-control"
+                            id="company"
+                            value="Lueilwitz, Wisoky and Leuschke"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="Job"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Job</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="job"
+                            type="text"
+                            class="form-control"
+                            id="Job"
+                            value="Web Designer"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="Country"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Country</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="country"
+                            type="text"
+                            class="form-control"
+                            id="Country"
+                            value="USA"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="Address"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Address</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="address"
+                            type="text"
+                            class="form-control"
+                            id="Address"
+                            value="A108 Adam Street, New York, NY 535022"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="Phone"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Phone</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="phone"
+                            type="text"
+                            class="form-control"
+                            id="Phone"
+                            value=""
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="Email"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Email</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="email"
+                            type="email"
+                            class="form-control"
+                            id="Email"
+                            value="k.anderson@example.com"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="Twitter"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Twitter Profile</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="twitter"
+                            type="text"
+                            class="form-control"
+                            id="Twitter"
+                            value="https://twitter.com/#"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="Facebook"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Facebook Profile</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="facebook"
+                            type="text"
+                            class="form-control"
+                            id="Facebook"
+                            value="https://facebook.com/#"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="Instagram"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Instagram Profile</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="instagram"
+                            type="text"
+                            class="form-control"
+                            id="Instagram"
+                            value="https://instagram.com/#"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="Linkedin"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Linkedin Profile</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="linkedin"
+                            type="text"
+                            class="form-control"
+                            id="Linkedin"
+                            value="https://linkedin.com/#"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-primary">
+                          Save Changes
+                        </button>
+                      </div>
+                    </form>
+                    <!-- End Profile Edit Form -->
+                  </div>
+
+                  <div class="tab-pane fade pt-3" id="profile-change-password">
+                    <!-- Change Password Form -->
+                    <form>
+                      <div class="row mb-3">
+                        <label
+                          for="currentPassword"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Current Password</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="password"
+                            type="password"
+                            class="form-control"
+                            id="currentPassword"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="newPassword"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >New Password</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="newpassword"
+                            type="password"
+                            class="form-control"
+                            id="newPassword"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label
+                          for="renewPassword"
+                          class="col-md-4 col-lg-3 col-form-label"
+                          >Re-enter New Password</label
+                        >
+                        <div class="col-md-8 col-lg-9">
+                          <input
+                            name="renewpassword"
+                            type="password"
+                            class="form-control"
+                            id="renewPassword"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-primary">
+                          Change Password
+                        </button>
+                      </div>
+                    </form>
+                    <!-- End Change Password Form -->
+                  </div>
+                </div>
+                <!-- End Bordered Tabs -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Page Specific JS Files -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+        <script src="/js/payment-summary.js"></script>
+        <script>
+          $(document).ready(function () { 
+            dateRangeHandler()
+          });
+          const getParameterByName = (name) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+          }
+
+          // Example usage:
+          const parameterValue = getParameterByName('dateRange');
+
+          const dateRangeHandler = () => {
+            var selectedRange = $("input[name='dateRange']:checked").val();
+            var selectedYear = $("#selected-year").val();
+            var selectedStartMonth = $("#from-select").val();
+            var selectedEndMonth = $("#to-select").val();
+            
+            if (selectedRange === "allyear" || selectedRange === "firsthalf" || selectedRange === "secondhalf"){
+              $("#from-select").prop("disabled", true);
+              $("#to-select").prop("disabled", true);
+              var startDate;
+              var endDate;
+
+              if (selectedRange === "allyear") {
+                startDate = `${selectedYear}-01-01`
+                endDate = `${selectedYear}-12-31`
+              } else if (selectedRange === "firsthalf") {
+                startDate = `${selectedYear}-01-01`
+                endDate = `${selectedYear}-06-30`
+              } else if (selectedRange === "secondhalf") {
+                startDate = `${selectedYear}-07-01`
+                endDate = `${selectedYear}-12-31`
+              }
+            } else if(selectedRange === "custom"){
+              $("#from-select").prop("disabled", false);
+              $("#to-select").prop("disabled", false);
+              var startDate = `${selectedYear}-${selectedStartMonth}`
+              var endDate = `${selectedYear}-${selectedEndMonth}`
+            }
+            $("#startDateInput").val(startDate);
+            $("#endDateInput").val(endDate);
+
+          }
+        </script>
+      </section>
+    </div>
+    <!-- Vendor JS Files -->
+    <script src="/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/chart.js/chart.umd.js"></script>
+    <script src="/vendor/echarts/echarts.min.js"></script>
+    <script src="/vendor/quill/quill.min.js"></script>
+    <script src="/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="/vendor/tinymce/tinymce.min.js"></script>
+    <script src="/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="/js/main.js"></script>
+  </body>
+</html>

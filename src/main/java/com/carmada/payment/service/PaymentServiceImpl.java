@@ -81,6 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
 		
 		return result;
 	}
+	
 	@Override
 	public List<Payment> searchByRemarksLike(String remarks) {
 		List<Payment> result = 
@@ -121,6 +122,18 @@ public class PaymentServiceImpl implements PaymentService {
 		Date yesterday = cal.getTime();
 
 		return paymentRepository.findByTravelDateAfter(pageable,yesterday);
+	}
+	@Override
+	public Page<Payment> findByDriverId(Pageable pageable, int id) {
+		
+		
+		return paymentRepository.findByDriverId(pageable, id);
+	}
+	
+	@Override
+	public Page<Payment> findAllByIdAndTravelDateBetween(int id, Date startDate, Date endDate, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return paymentRepository.findAllByDriverIdAndTravelDateBetween(pageable, id, startDate, endDate);
 	}
 
 

@@ -25,6 +25,8 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 	
 	public Page<Payment> findByTravelDateAfter(Pageable pageable, Date dateToday);
 	
+	public Page<Payment> findAllByDriverIdAndTravelDateBetween(Pageable pageable, int id, Date startDate, Date endDate);
+	
 	public List<Payment> findByRemarksContains(String remarks);
 	
 	@Query("SELECT p FROM Payment p WHERE p.remarks LIKE :remarks")
@@ -34,4 +36,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 	List<Payment> searchByPaymentDateLike(@Param("paymentDate") Date paymentDate);
 	
 	public Page<Payment> findByDriverFirstNameIgnoreCaseContainsOrDriverLastNameIgnoreCaseContains(Pageable pageable, String firstName, String lastName);
+
+	public Page<Payment> findByDriverId(Pageable pageable, int id);
 }

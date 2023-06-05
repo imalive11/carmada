@@ -73,10 +73,10 @@
                 </div>
                 
                 <div class="col-md-5">
-				<button class="btn btn-success mb-3 mr-sm-5" type="submit">Search</button>
-				<a th:href="@{/drivers/add}"
+              <button class="btn btn-success mb-3 mr-sm-5" type="submit">Search</button>
+              <a th:href="@{/drivers/add}"
 					class="btn btn-primary mb-3">
-					Add Driver
+					New Driver
 				</a>
 				</div>
 				
@@ -103,6 +103,10 @@
 	                    <td th:text="${tempDriver.driverPersonalInfo.mobileNumber}" />
 	                    <td th:text="${#dates.format(tempDriver.employmentDate, 'dd/MM/yyyy')}" />
 	                      <td>
+                            <a th:href="@{/drivers/profile(driverId=${tempDriver.id})}"
+	                             class="btn btn-success btn-sm" >
+	                            Profile
+	                          </a>
 	                          <a th:href="@{/drivers/update(driverId=${tempDriver.id})}"
 	                             class="btn btn-info btn-sm" >
 	                            Update

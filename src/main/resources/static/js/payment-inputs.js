@@ -1,5 +1,3 @@
-document.querySelector("#travelDate").valueAsDate = new Date();
-document.querySelector("#paymentDate").valueAsDate = new Date();
 
 //Set Variables
 let selectedOptionPaymentType = document.querySelector('input[name="paymentType"]:checked').value;
@@ -313,6 +311,8 @@ const validatePaymentDescriptionHandler = () => {
 }
 
 $(document).ready(function () { 
+  document.querySelector("#travelDate").valueAsDate = new Date();
+  document.querySelector("#paymentDate").valueAsDate = new Date();
   const searchParams = new URLSearchParams(window.location.search);
   const paramValue = searchParams.get("paymentId");
   if (paramValue === null) {

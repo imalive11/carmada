@@ -17,6 +17,10 @@ public interface PaymentService {
 	
 	public Page<Payment> findByDriver(Pageable pageable, String driverName);
 	
+	public Page<Payment> findByDriverId(Pageable pageable, int id);
+	
+	public Page<Payment> findAllByIdAndTravelDateBetween(int id, Date startDate, Date endDate, Pageable pageable);
+	
 	public Page<Payment> findAllByDate(Pageable pageable, Date startDate, Date endDate);
 	
 	public Page<Payment> findFirst56(Pageable pageable);
