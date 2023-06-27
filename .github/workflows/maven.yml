@@ -9,8 +9,6 @@
 name: Java CI with Maven
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -22,17 +20,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
   
-      - name: Write to File
+      - name: Successful Checkout
         run: |
           echo "Successful Checkout" >> file.txt
+          
+      - name: Check Java Installation
+        run: java -version
+        
+      - name: Successful Java Version
+        run: |
+          echo "Successful Java Version" >> file.txt
 
-#       - name: Set up JDK
-#         uses: actions/setup-java@v2
-#         with:
-#           java-version: '11'
-
-#       - name: Build with Maven
-#         run: mvn clean package
+      - name: Build with Maven
+        run: mvn clean package
 
 #       - name: Deploy to Runner
 #         run: |
