@@ -19,13 +19,12 @@ jobs:
     runs-on: self-hosted
 
     steps:
-#       - name: Checkout Repository
-#         uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
   
       - name: Write to File
         run: |
-          echo "This is some text" >> file.txt
-          echo "Additional text" >> file.txt
+          echo "Successful Checkout" >> file.txt
 
 #       - name: Set up JDK
 #         uses: actions/setup-java@v2
