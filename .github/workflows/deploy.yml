@@ -38,11 +38,12 @@ jobs:
           cd target
           mkdir deployment
           cp *.jar deployment
+          cp Dockerfile deployment
         
       - name: Upload Artifact for Deployment
         uses: actions/upload-artifact@v2
         with: 
-          name: jar-file-for-deployment
+          name: files-for-deployment
           path: target/deployment
           
   deploy:
@@ -53,20 +54,21 @@ jobs:
         - name: Download Artifacts
           uses: actions/download-artifact@v2
           with:
-            name: jar-file-for-deployment  # Specify the name of the artifact to download
+            name: files-for-deployment  # Specify the name of the artifact to download
             path: .   # Specify the local directory where the artifact will be stored
             
-        - name: Copy JAR file for upload
+        - name: Copy Files for Deployment
           run: |
             cd /home/ec2-user/actions-runner/deployment/carmada/carmada
             cp *.jar /home/ec2-user
+            cp Dockerfile /home/ec2-user
             echo "Successful Download of Jar File" >> log.txt
         
         - name: Stop Docker Container, Build Docker Image, Start Docker Container
           run: |
             docker container stop carmada-docker
             cd /home/ec2-user
-            docker build -t carmada-docker
+            docker build -t carmada-docker .
             docker run --name carmada-docker --restart=always -d -p 8080:8080 carmada-docker
             echo "Successful Deployment of Docker Container" >> log.txt
             
