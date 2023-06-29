@@ -33,11 +33,17 @@ jobs:
       - name: Build with Maven
         run: mvn clean compile package -Dmaven.test.skip=true
         
+      - name: Copy JAR file for upload
+        run: |
+          cd target
+          mkdir deployment
+          cp CARMADA-0.0.2-SNAPSHOT.jar deployment
+        
       - name: Upload Artifact for Deployment
         uses: actions/upload-artifact@v2
         with: 
           name: jar-file-for-deployment
-          path: target
+          path: deployment
 
 #       - name: Deploy to Runner
 #         run: |
