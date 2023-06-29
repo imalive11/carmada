@@ -29,15 +29,19 @@ jobs:
       - name: Successful Java Version
         run: |
           echo "Successful Java Version" >> file.txt
+          
+      - name: Check PWD
+        run: |
+          pwd
 
-      - name: Build with Maven
-        run: mvn clean compile package -Dmaven.test.skip=true
+#       - name: Build with Maven
+#         run: mvn clean compile package -Dmaven.test.skip=true
         
-      - name: Upload Artifact for Deployment
-        uses: actions/upload-artifact@v2
-        with: 
-          name: jar-file-for-deployment
-          path: .
+#       - name: Upload Artifact for Deployment
+#         uses: actions/upload-artifact@v2
+#         with: 
+#           name: jar-file-for-deployment
+#           path: .
 
 #       - name: Deploy to Runner
 #         run: |
