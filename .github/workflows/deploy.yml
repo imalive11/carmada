@@ -67,6 +67,7 @@ jobs:
         - name: Stop Docker Container, Build Docker Image, Start Docker Container
           run: |
             docker container stop carmada-docker
+            docker container rm carmada-docker
             cd /home/ec2-user
             docker build -t carmada-docker .
             docker run --name carmada-docker --restart=always -d -p 8080:8080 carmada-docker
