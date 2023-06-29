@@ -38,7 +38,7 @@ jobs:
           cd target
           mkdir deployment
           cp *.jar deployment
-          cp Dockerfile deployment
+          cp ../Dockerfile deployment
         
       - name: Upload Artifact for Deployment
         uses: actions/upload-artifact@v2
