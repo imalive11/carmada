@@ -65,6 +65,7 @@ jobs:
             echo "Successful Download of Jar File" >> log.txt
         
         - name: Stop Docker Container, Build Docker Image, Start Docker Container
+          shell: bash {0}
           run: |
             docker container stop carmada-docker
             docker container rm carmada-docker
