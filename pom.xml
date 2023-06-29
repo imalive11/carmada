@@ -11,9 +11,9 @@
 	<packaging>jar</packaging>
 	<groupId>com.springboot</groupId>
 	<artifactId>CARMADA</artifactId>
-	<version>1.1.0-Release</version>
+	<version>1.1.2-Release</version>
 	<name>CARMADA</name>
-	<description>Carmada MVP 1.0.6</description>
+	<description>Carmada MVP</description>
 	<properties>
 		<java.version>1.8</java.version>
 		<bootstrap.version>4.0.0-2</bootstrap.version>
