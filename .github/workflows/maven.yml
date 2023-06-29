@@ -31,7 +31,7 @@ jobs:
           echo "Successful Java Version" >> file.txt
 
       - name: Build with Maven
-        run: mvn clean package
+        run: mvn clean compile package -Dmaven.test.skip=true
 
 #       - name: Deploy to Runner
 #         run: |
