@@ -37,7 +37,7 @@ jobs:
         run: |
           cd target
           mkdir deployment
-          cp CARMADA-0.0.2-SNAPSHOT.jar deployment
+          cp *.jar deployment
         
       - name: Upload Artifact for Deployment
         uses: actions/upload-artifact@v2
@@ -55,6 +55,13 @@ jobs:
           with:
             name: jar-file-for-deployment  # Specify the name of the artifact to download
             path: .   # Specify the local directory where the artifact will be stored
+            
+        - name: Copy JAR file for upload
+          run: |
+            cd /home/ec2-user/actions-runner/deployment/carmada/carmada
+            cp *.jar ~
+            echo "Successful Download of Jar File" >> log.txt
+            
         
 #       - name: Deploy to Runner
 #         run: |
