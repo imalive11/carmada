@@ -59,7 +59,7 @@ jobs:
         - name: Copy JAR file for upload
           run: |
             cd /home/ec2-user/actions-runner/deployment/carmada/carmada
-            cp *.jar ~
+            cp *.jar /home/ec2-user
             echo "Successful Download of Jar File" >> log.txt
             
         
