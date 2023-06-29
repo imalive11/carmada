@@ -35,6 +35,9 @@ jobs:
         
       - name: Upload Artifact for Deployment
         uses: actions/upload-artifact@v2
+        with: 
+          name: assets-for-download
+          path: downloads
 
 #       - name: Deploy to Runner
 #         run: |
