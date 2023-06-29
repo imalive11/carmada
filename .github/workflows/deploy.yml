@@ -61,6 +61,14 @@ jobs:
             cd /home/ec2-user/actions-runner/deployment/carmada/carmada
             cp *.jar /home/ec2-user
             echo "Successful Download of Jar File" >> log.txt
+        
+        - name: Stop Docker Container, Build Docker Image, Start Docker Container
+          run: |
+            docker container stop carmada-docker
+            cd /home/ec2-user
+            docker build -t carmada-docker
+            docker run --name carmada-docker --restart=always -d -p 8080:8080 carmada-docker
+            echo "Successful Deployment of Docker Container" >> log.txt
             
         
 #       - name: Deploy to Runner
