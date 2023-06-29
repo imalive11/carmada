@@ -22,7 +22,7 @@ public class DriverServiceImpl implements DriverService {
 	@Override
 	@Transactional
 	public List<Driver> findAll() {
-		return driverRepository.findAllByOrderByLastNameAsc();
+		return driverRepository.findAllByOrderByIdAsc();
 	}
 
 	@Override

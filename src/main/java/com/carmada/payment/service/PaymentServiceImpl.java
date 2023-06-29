@@ -4,11 +4,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,19 +29,19 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 	@Override
 	@Transactional
-	public List<Payment> findAll() {
-		return paymentRepository.findAllByOrderByIdDesc();
+	public Page<Payment> findAll(Pageable pageable) {
+		return paymentRepository.findAllByOrderByIdDesc(pageable);
 	}
 	
 	@Override
 	@Transactional
-	public List<Payment> findByCurrentDate() throws ParseException {
+	public Page<Payment> findByCurrentDate(Pageable pageable) throws ParseException {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
 		LocalDateTime now = LocalDateTime.now().minusDays(1);  
 		System.out.println();  
 		
 		Date dateToday = new SimpleDateFormat("yyyy-MM-dd").parse(dtf.format(now));
-		return paymentRepository.findByTravelDateAfter(dateToday);
+		return paymentRepository.findByTravelDateAfter(pageable, dateToday);
 	}
 
 	@Override
@@ -71,12 +74,66 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 	
 	@Override
-	public List<Payment> findByDriver(String driverName) {
-		List<Payment> result = 
+	public Page<Payment> findByDriver(Pageable pageable, String driverName) {
+		Page<Payment> result = 
 				this.paymentRepository
-					.findByDriverFirstNameIgnoreCaseContainsOrDriverLastNameIgnoreCaseContains(driverName, driverName);
+					.findByDriverFirstNameIgnoreCaseContainsOrDriverLastNameIgnoreCaseContains(pageable, driverName, driverName);
 		
 		return result;
+	}
+	
+	@Override
+	public List<Payment> searchByRemarksLike(String remarks) {
+		List<Payment> result = 
+				this.paymentRepository
+					.findByRemarksContains(remarks);
+		
+		return result;
+	}
+	
+	@Override
+	@Transactional
+	public Payment findLatestPayment() {
+		return paymentRepository.findFirstByOrderByTravelDateDesc();
+	}
+	
+	@Override
+	public Page<Payment> findAllByDate(Pageable pageable, Date startDate, Date endDate) {
+
+		return paymentRepository.findAllByTravelDateBetweenOrderByIdDesc(pageable, startDate, endDate);
+	}
+	
+	@Override
+	public Page<Payment> findFirst56(Pageable pageable) {
+		return paymentRepository.findFirst56ByOrderByIdDesc(pageable);
+	}
+	
+	@Override
+	@Transactional
+	public Page<Payment> findLatestDayPayment(Pageable pageable) {
+		Date latestPaymentDate = findLatestPayment().getTravelDate();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(latestPaymentDate);
+
+		// Subtract one day from the Calendar object
+		cal.add(Calendar.DAY_OF_MONTH, -1);
+
+		// Get the new date from the Calendar object
+		Date yesterday = cal.getTime();
+
+		return paymentRepository.findByTravelDateAfter(pageable,yesterday);
+	}
+	@Override
+	public Page<Payment> findByDriverId(Pageable pageable, int id) {
+		
+		
+		return paymentRepository.findByDriverId(pageable, id);
+	}
+	
+	@Override
+	public Page<Payment> findAllByIdAndTravelDateBetween(int id, Date startDate, Date endDate, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return paymentRepository.findAllByDriverIdAndTravelDateBetween(pageable, id, startDate, endDate);
 	}
 
 

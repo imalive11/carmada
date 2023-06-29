@@ -10,12 +10,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.carmada.drivers.entity.Driver;
 import com.carmada.payment.entity.Payment;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="vehicle")
@@ -38,11 +43,30 @@ public class Vehicle {
 	@Column(name="brand")
 	private String brand;
 	
+	@JsonIgnoreProperties("vehicle")
 	@OneToMany(mappedBy="vehicle", fetch= FetchType.LAZY,
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE,
 					CascadeType.DETACH, CascadeType.REFRESH})
 	private List<Payment> payments;
 
+	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+			CascadeType.DETACH, CascadeType.REFRESH})
+	@JoinColumn(name="assigned_driver1")
+	@JsonIgnore
+	private Driver assignedDriver1;
+	
+	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+			CascadeType.DETACH, CascadeType.REFRESH})
+	@JoinColumn(name="assigned_driver2")
+	@JsonIgnore
+	private Driver assignedDriver2;
+
+	@Column(name="boundary_rate")
+	private Integer boundaryRate;
+	
+	@Column(name="expiration_year")
+	private Integer expirationYear;
+	
 	public void add(Payment tempPayment) {
 
 		if (this.payments == null) {
@@ -52,6 +76,38 @@ public class Vehicle {
 		this.payments.add(tempPayment);
 
 		tempPayment.setVehicle(this);
+	}
+
+	public Driver getAssignedDriver1() {
+		return assignedDriver1;
+	}
+
+	public void setAssignedDriver1(Driver assignedDriver1) {
+		this.assignedDriver1 = assignedDriver1;
+	}
+
+	public Driver getAssignedDriver2() {
+		return assignedDriver2;
+	}
+
+	public void setAssignedDriver2(Driver assignedDriver2) {
+		this.assignedDriver2 = assignedDriver2;
+	}
+
+	public Integer getBoundaryRate() {
+		return boundaryRate;
+	}
+
+	public void setBoundaryRate(Integer boundaryRate) {
+		this.boundaryRate = boundaryRate;
+	}
+
+	public Integer getExpirationYear() {
+		return expirationYear;
+	}
+
+	public void setExpirationYear(Integer expirationYear) {
+		this.expirationYear = expirationYear;
 	}
 
 	public int getId() {
