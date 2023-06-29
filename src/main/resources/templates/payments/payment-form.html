@@ -1,161 +1,326 @@
-<!DOCTYPE HTML>
-<html lang="en" xmlns:th="https://www.thymeleaf.org"
-				xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="login/layout">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="login/layout">
 
 <head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
-	<!-- Bootstrap CSS -->
-	<link th:rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}" />
-	<link th:rel="stylesheet" th:href="@{/css/bootstrap-datepicker.standalone.css}" />
-	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}" />
-	<link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.11.2/css/all.css} " />
-	<link th:rel="stylesheet" th:href="@{/css/bootstrap-sidebar.css}" />
-	
-	<!-- JS for Calendar -->
-	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-	<script th:src="@{/js/bootstrap-datepicker.js}"></script>
-	
-	
-<title>Add Payment</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Payments - New Payment</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="/img/favicon.png" rel="icon">
+  <link href="/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.5.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
 
 <body>
-	<div layout:fragment="content">
-	
-			<h2 style="margin-top: 1em;">Payments</h2>
-			<hr>
-	
-			<p class="h4 mb-4">Add Payment</p>
-	
-	
-			<form action="#" th:action="@{/payments/save}"
-				th:object="${payment}" method="POST">
-				
-				<input type="hidden" th:field="*{id}" />
-				
-				<div class="form-inline row">
-				<label for="vehicles" class="h5 mb-4 col-sm-2">Vehicle</label>
-					<select
-						name="vehicles" id="vehicles" class="form-control mb-4 col-sm-2"
-						th:field="*{vehicle}">
-						<option value="" selected>Select Vehicle</option>
-						<option th:each="vehicle : ${vehicles}"
-							th:text="${vehicle.plateNumber}" th:value="${vehicle.id}" />
-					</select>
-					<ul>
-						<li th:each="err : ${#fields.errors('vehicle')}" th:text="${err}" class="alert alert-danger" />
-					</ul>
-				</div>
-				
-				<div class="form-inline row">
-					<label for="driver" class="h5 mb-4 col-sm-2">Driver</label> 
-					<select name="driver" id="driver" class="form-control mb-4 col-sm-2"
-							th:field="*{driver}" >
-						<option value="" selected>Select Driver</option>
-						<option th:each="driver : ${drivers}" th:text="${driver.firstName} + ' ' + ${driver.lastName}"
-								th:value="${driver.id}" />
-					</select> 
-					<ul>
-						<li th:each="err : ${#fields.errors('driver')}" th:text="${err}" class="alert alert-danger" />
-					</ul>
-				</div>
-				
-								
-				<div class="form-inline row">
-					<label for="driver" class="h5 mb-4 col-sm-2">Boundary</label> 
-					<input type="number" th:field="*{amountBoundary}"
-						class="form-control mb-4 col-sm-2" placeholder="1500">
-					<ul>
-						<li th:each="err : ${#fields.errors('amountBoundary')}" th:text="${err}" class="alert alert-danger" />
-					</ul>
-				</div>
-				
-				<div class="form-inline row">
-					<label for="short" class="h5 mb-4 col-sm-2">Short</label> 
-					<input type="number" th:field="*{amountShort}"
-						class="form-control mb-4 col-sm-2" placeholder="1500">
 
+  <div layout:fragment="content">
+    <div class="pagetitle">
+      <h1>Payments</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/home">Home</a></li>
+          <li class="breadcrumb-item"><a href="/payments">Payments</a></li>
+          <li class="breadcrumb-item active">New Payment</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">New Payment</h5>
+              <!-- Multi Columns Form -->
+              <form class="row g-3 needs-validation" action="#" th:action="@{/payments/save}" th:object="${payment}"
+                method="POST" onsubmit="return validatePaymentDescriptionHandler()" novalidate>
+                <input type="hidden" th:field="*{id}" />
+                <div class="col-md-6">
+				  <label class="col-sm-3 col-form-label">Vehicle</label>
+				  <div class="col-sm-12">
+				    <select name="vehicle" id="vehicle" class="form-select" aria-label="Default select example"
+				      th:field="*{vehicle}" onchange="getBoundaryRateHandler()" required>
+				      <option value="" selected>Select Vehicle</option>
+				      <option th:each="vehicle : ${vehicles}" th:text="${vehicle.plateNumber}" th:value="${vehicle.id}" th:data-value="${vehicle.boundaryRate}">
+				      </option>
+				    </select>
+				    <div class="invalid-feedback">
+				      Please provide a Vehicle.
+				    </div>
+				  </div>
 				</div>
-				
-				<div class="form-inline row">
-					<label for="fund" class="h5 mb-4 col-sm-2">Fund</label> 
-					<input type="number"  th:field="*{amountFund}"
-						class="form-control mb-4 col-sm-2" placeholder="1500">
+                <div class="col-md-6">
+                  <label class="col-sm-3 col-form-label">Driver</label>
+                  <div class="col-sm-12">
+                    <select name="drivers" id="drivers" class="form-select" aria-label="Default select example"
+                      th:field="*{driver}" required>
+                      <option value="" selected>Select Driver</option>
+                      <option th:each="driver : ${drivers}" th:text="${driver.firstName} + ' ' + ${driver.lastName}"
+                        th:value="${driver.id}"></option>
+                    </select>
+                    <div class="invalid-feedback">
+                    	Please provide a Driver.
+                  	</div>
+                  </div>
+                </div>
+                <fieldset class="col-md-6" id="paymentType" th:field="*{paymentType}" onChange="setPaymentTypeHandler()">
+                  <legend class="col-form-label col-sm-10 pt-0">Payment Type</legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeFull"
+                        value="fullBoundary" checked>
+                      <label class="form-check-label" for="paymentTypeFull" >
+                        Full Boundary
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeDaily"
+                        value="daily">
+                      <label class="form-check-label" for="paymentTypeDaily">
+                        Daily
+                      </label>
+                    </div>
+                    <div class="form-check ">
+                      <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeShort"
+                        value="short">
+                      <label class="form-check-label" for="paymentTypeShort">
+                        Short
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="paymentType" id="paymentTypePartial"
+                        value="partialBoundary">
+                      <label class="form-check-label" for="paymentTypePartial">
+                        Partial Boundary
+                      </label>
+                    </div>
+                    <div class="form-check ">
+                      <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeNoBoundary"
+                        value="noBoundary">
+                      <label class="form-check-label" for="paymentTypeNoBoundary">
+                        No Boundary
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+                <fieldset class="col-md-6" id="boundaryRate" onChange="adjustBoundaryRate()">
+                  <legend class="col-form-label col-sm-10 pt-0">Boundary Rate</legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="boundaryRate"
+                        id="boundaryRateRegular" value="regular" checked>
+                      <label class="form-check-label" for="boundaryRateRegular">
+                        Regular
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="boundaryRate"
+                        id="boundaryRateWeekend" value="weekend">
+                      <label class="form-check-label" for="boundaryRateWeekend">
+                        Weekend
+                      </label>
+                    </div>
+                    <div class="form-check ">
+                      <input class="form-check-input" type="radio" name="boundaryRate"
+                        id="boundaryRateHoliday" value="holiday">
+                      <label class="form-check-label" for="boundaryRateHoliday">
+                        Holiday
+                      </label>
+                    </div>
+                    <div class="form-check ">
+                      <input class="form-check-input" type="radio" name="boundaryRate"
+                        id="coding" value="coding">
+                      <label class="form-check-label" for="coding">
+                        Coding
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+                <div class="col-md-6">
+                  <label for="boundary" class="col-sm-6 form-label">Boundary</label>
+                  <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{amountBoundary}" id="boundary">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="short" class="col-sm-6 form-label">Short</label>
+                  <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{amountShort}" 
+                    	id="boundaryShort" onBlur="shortBoundaryHandler()">
+                  </div>
+                </div>
+                <label class="col-form-label col-sm-12 pt-0">Other Payments</label>
+                  <div class="row ms-0 mb-2">
+                    <div class="form-check col-md-3">
+                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsFund" onchange="otherPaymentsHandler()">
+                      <label class="form-check-label" for="otherPaymentsFund">
+                        Fund
+                      </label>
+                    </div>
+                    <div class="form-check col-md-4">
+                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsLoan" onchange="otherPaymentsHandler()">
+                      <label class="form-check-label" for="otherPaymentsLoan">
+                        Loan Payment
+                      </label>
+                    </div>
+                    <div class="form-check col-md-3">
+                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsContribution" onchange="otherPaymentsHandler()">
+                      <label class="form-check-label" for="otherPaymentsContribution">
+                        Contribution
+                      </label>
+                    </div>
+                    <div class="form-check col-md-3">
+                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsCarwash" onchange="otherPaymentsHandler()">
+                      <label class="form-check-label" for="otherPaymentsCarwash">
+                        Carwash
+                      </label>
+                    </div>
+                  </div>
+                <div class="col-md-6">
+                  <label for="boundaryFund" class="col-sm-6 form-label">Fund</label>
+                  <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{amountFund}" id="boundaryFund"
+                    	step="10"	>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="boundaryLoan" class="col-sm-6 form-label">Loan Payment</label>
+                  <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{amountLoanPayment}" id="boundaryLoan" 
+                      step="10">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="contribution" class="col-sm-6 form-label">Contribution</label>
+                  <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{amountContribution}" id="contribution" 
+                      step="10" min="0">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="carwash" class="col-sm-6 form-label">Carwash</label>
+                  <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{amountCarwash}" id="carwash" 
+                      step="5" min="0">
+                  </div>
+                </div>
 
-				</div>
-				
-				<div class="form-inline row">
-					<label for="loan" class="h5 mb-4 col-sm-2">Loan Payment</label> 
-					<input type="number" th:field="*{amountLoanPayment}"
-						class="form-control mb-4 col-sm-2" placeholder="1500">
+                <div class="col-sm-12">
+                  <label class="col-form-label col-sm-12 pt-0">Payment Description</label>
+                  <div class="invalid-feedback" id="errorDiv" style="display: none;">
+                    	Please provide a Description.
+                  </div>
+                  <div class="row ms-0 mb-2">
+                    <div class="form-check col-md-1">
+                      <input name="typeDescription" class="form-check-input" type="checkbox" id="daily" onchange="appendPaymentDescriptionHandler()" value="daily">
+                      <label class="form-check-label" for="daily">
+                        Daily
+                      </label>
+                    </div>
+                    <div class="form-check col-md-2">
+                      <input name="typeDescription" class="form-check-input" type="checkbox" id="extraDriver" onchange="appendPaymentDescriptionHandler()" value="extra driver">
+                      <label class="form-check-label" for="extraDriver">
+                        Extra
+                      </label>
+                    </div>
+                    <div class="form-check col-md-2">
+                      <input name="typeDescription" class="form-check-input" type="checkbox" id="noDriver" onchange="appendPaymentDescriptionHandler()" value="no driver">
+                      <label class="form-check-label" for="noDriver">
+                        No Driver
+                      </label>
+                    </div>
+                    <div class="form-check col-md-2">
+                      <input name="typeDescription" class="form-check-input" type="checkbox" id="absent" onchange="appendPaymentDescriptionHandler()" value="absent">
+                      <label class="form-check-label" for="absent">
+                        Absent
+                      </label>
+                    </div>
+                    <div class="form-check col-md-3">
+                      <input name="typeDescription" class="form-check-input" type="checkbox" id="mainAndRepair" onchange="appendPaymentDescriptionHandler()" value="maintenance">
+                      <label class="form-check-label" for="mainAndRepair">
+                        Maintenance and Repair
+                      </label>
+                    </div>
+                    <div class="form-check col-md-2">
+                      <input name="typeDescription" class="form-check-input" type="checkbox" id="accident" onchange="appendPaymentDescriptionHandler()" value="accident">
+                      <label class="form-check-label" for="accident">
+                        Accident
+                      </label>
+                    </div>
+                    <input type="hidden" class="form-control"
+                    	placeholder="Complete Boundary, Trouble, No Driver etc." th:field="*{paymentDescription}" id="paymentDescription">
+                  </div>
+                  <label for="remarks" class="form-label col-sm-6">Remarks</label>
+                  <input type="text" class="form-control" id="remarks" placeholder="" th:field="*{remarks}">
+                </div>
+                <div class="col-md-6">
+                  <label for="travelDate" class="col-sm-6 form-label">Travel Date</label>
+                  <div class="col-sm-12">
+                    <input type="date" class="form-control" id="travelDate" th:field="*{travelDate}" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="paymentDate" class="col-sm-6 form-label">Payment Date</label>
+                  <div class="col-sm-12">
+                    <input type="date" class="form-control" id="paymentDate" th:field="*{paymentDate}" required>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                  <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+              </form><!-- End Multi Columns Form -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-				</div>
-				
-				<div class="form-inline row">
-						<label for="remarks" class="h5 mb-4 col-sm-2">Remarks</label>		
-						<input type="text" th:field="*{remarks}" id="remarks" name="remarks"
-						class="form-control mb-4 col-sm-2" placeholder="Remarks">
-						
-						<ul>
-							<li th:each="err : ${#fields.errors('remarks')}" 
-								th:text="${err}" class="alert alert-danger" />
-						</ul>
-				</div>
-				
-				<div class="form-inline row">			
-					<label for="travelDate" class="h5 mb-4 col-sm-2">Travel Date</label>
-					<div class="input-group date mb-4 col-sm-2">
-						<input type="text" class="form-control" id="travelDate" name="travelDate"
-							autocomplete="off" th:field="*{travelDate}" />
-						<div class="input-group-append">
-							<span class="input-group-text">
-							<i class="far fa-calendar-alt"></i></span>
-						</div>
-					</div>
-					<ul>
-							<li th:each="err : ${#fields.errors('travelDate')}" th:text="${err}" class="alert alert-danger" />
-						</ul>	
-				</div>
-				
-				<div class="form-inline row">
-					<label for="paymentDate" class="h5 mb-4 col-sm-2">Payment Date</label>
-					<div class="input-group date mb-4 col-sm-2">
-						
-						<input type="text" class="form-control" id="paymentDate" name="paymentDate"
-							autocomplete="off" th:field="*{paymentDate}" />
-						<div class="input-group-append">
-							<span class="input-group-text">
-							<i class="far fa-calendar-alt"></i></span>
-						</div>
-						
-					</div>
-					<ul>
-							<li th:each="err : ${#fields.errors('paymentDate')}" th:text="${err}" class="alert alert-danger" />
-						</ul>
-				</div>
-	
-				<button type="submit" class="btn btn-info col-sm-2">Save</button>
-	
-	
-			</form>
+    <!-- Vendor JS Files -->
+    <script src="/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/chart.js/chart.umd.js"></script>
+    <script src="/vendor/echarts/echarts.min.js"></script>
+    <script src="/vendor/quill/quill.min.js"></script>
+    <script src="/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="/vendor/tinymce/tinymce.min.js"></script>
+    <script src="/vendor/php-email-form/validate.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-		<script>
-			$('.input-group.date').datepicker({
-				autoclose : true,
-				todayHighlight : true,
-				format : 'yyyy-mm-dd',
-			}).datepicker("setDate", 'now');
-		</script>
-	</div>
+    <!-- Template Main JS File -->
+    <script src="/js/main.js"></script>
+    <script src="/js/payment-inputs.js"></script>
+
+
+  </div>
 </body>
+
 </html>
-
-
-

@@ -1,11 +1,18 @@
 package com.carmada.drivers.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,17 +27,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.carmada.drivers.entity.Driver;
 import com.carmada.drivers.entity.DriverPersonalInfo;
 import com.carmada.drivers.service.DriverService;
+import com.carmada.payment.entity.Payment;
+import com.carmada.payment.service.PaymentService;
 
 @Controller
 @RequestMapping("drivers")
 public class DriverController {
 	
+	@Autowired
 	private DriverService driverService;
 	
 	@Autowired
-	public DriverController(DriverService driverService) {
-		this.driverService = driverService;
-	}
+	private PaymentService paymentService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder databinder) {
@@ -113,12 +121,55 @@ public class DriverController {
 	public String update(@RequestParam("driverId") int theId,
 									Model model) {
 		
+		
 		Driver driver = driverService.findById(theId);
 		
 		model.addAttribute("driver", driver);
 		
-		// send over to our form
 		return "drivers/driver-form";			
+	}
+	
+	@GetMapping("/profile")
+	public String viewProfile(@RequestParam("driverId") int driverId,
+			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(defaultValue = "100") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false, value = "startDate") String startDate,
+            @RequestParam(required = false, value = "endDate") String endDate,
+									Model model) {
+		
+		Driver driver = driverService.findById(driverId);
+		
+		model.addAttribute("driver", driver);
+		
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
+		Page<Payment> page;
+		
+		if (startDate != null && endDate != null) {
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedStartDate = null;
+            Date parsedEndDate = null;
+            
+            try {
+            	parsedStartDate = formatter.parse(startDate);
+            	
+            	parsedEndDate = formatter.parse(endDate);
+	        } catch (ParseException e) {
+	                e.printStackTrace();
+	        }
+            
+            page = paymentService.findAllByIdAndTravelDateBetween(driverId, parsedStartDate, parsedEndDate, pageable);
+            
+        } else {
+        	
+        	page = paymentService.findByDriverId(pageable, driverId);
+        }
+		
+        
+        model.addAttribute("page", page);
+		
+		// send over to our form
+		return "drivers/driver-profile";			
 	}
 	
 

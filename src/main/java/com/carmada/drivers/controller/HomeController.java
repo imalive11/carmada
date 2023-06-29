@@ -1,7 +1,6 @@
 package com.carmada.drivers.controller;
 
 import java.text.ParseException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.carmada.payment.entity.Payment;
 import com.carmada.payment.service.PaymentService;
 
 @Controller
@@ -30,16 +28,16 @@ public class HomeController {
 	@GetMapping
 	public String listAll(Model model) throws ParseException{
 		
-		List<Payment> currentDatePayments = paymentService.findByCurrentDate();
-		
-		double totalRevenue = 0;
-		
-		for (Payment payment: currentDatePayments) {
-			totalRevenue += payment.getAmountBoundary();
-		}
-		model.addAttribute("totalRevenue", totalRevenue);
-		
-		model.addAttribute("currentDatePayments", currentDatePayments);
+//		List<Payment> currentDatePayments = paymentService.findByCurrentDate();
+//		
+//		double totalRevenue = 0;
+//		
+//		for (Payment payment: currentDatePayments) {
+//			totalRevenue += payment.getAmountBoundary();
+//		}
+//		model.addAttribute("totalRevenue", totalRevenue);
+//		
+//		model.addAttribute("currentDatePayments", currentDatePayments);
 		
 		return "login/home-page";
 	}

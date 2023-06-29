@@ -1,83 +1,162 @@
-<!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="login/layout">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="login/layout">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <!-- Bootstrap CSS -->
-	<link th:rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}" />
-	<link th:rel="stylesheet" th:href="@{/css/bootstrap-datepicker.standalone.css}" />
-	<link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}" />
-	<link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.11.2/css/all.css} " />
-	<link th:rel="stylesheet" th:href="@{/css/bootstrap-sidebar.css}" />
-	
-	<!-- JS for Calendar -->
-	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-	<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
-	<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-	<script th:src="@{/js/bootstrap-datepicker.js}"></script>
-	
-	<title>Vehicles</title>
+  <title>Vehicles - New Vehicle</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.5.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
 
 <body>
-	<div layout:fragment="content">
 
-		<h3 style="margin-top: 1em;">Vehicles</h3>
-		<hr>
-		
-		<p class="h4 mb-4">Add Vehicle</p>
-		
-		
-		<form action="#" th:action="@{/vehicles/save}"
-						 th:object="${vehicle}" method="POST">
-			
-			<input type="hidden" th:field="*{id}" />
-			
-			<div class="form-inline row">
-					<label for="plateNumber" class="h5 mb-4 col-sm-2">Plate Number</label>		
-					<input type="text" th:field="*{plateNumber}" id="plateNumber" name="plateNumber"
-					class="form-control mb-4 col-sm-2" placeholder="Plate Number">
-					
-					<ul>
-						<li th:each="err : ${#fields.errors('plateNumber')}" 
-							th:text="${err}" class="alert alert-danger" />
-					</ul>
-			</div>
-			
-			<div class="form-inline  row">
-					<label for="yearModel" class="h5 mb-4 col-sm-2">Year Model</label>		
-					<input type="number" th:field="*{yearModel}" id="yearModel" name="yearModel"
-					class="form-control mb-4 col-sm-2" placeholder="Year Model">
-					
-					<ul>
-						<li th:each="err : ${#fields.errors('yearModel')}" 
-							th:text="${err}" class="alert alert-danger" />
-					</ul>
-			</div>
-			
-			<div class="form-inline row">
-					<label for="Brand" class="h5 mb-4 col-sm-2">Brand</label>		
-					<input type="text" th:field="*{brand}" id="brand" name="brand"
-					class="form-control mb-4 col-sm-2" placeholder="Brand">
-					<ul>
-						<li th:each="err : ${#fields.errors('brand')}" 
-							th:text="${err}" class="alert alert-danger" />
-					</ul>
-			</div>
-			
-			<button type="submit" class="btn btn-info col-2">Save</button>
-		
-		</form>
+  <div layout:fragment="content">
+    <div class="pagetitle">
+      <h1>Vehicles</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/home">Home</a></li>
+          <li class="breadcrumb-item"><a href="/vehicles">Vehicles</a></li>
+          <li class="breadcrumb-item active">New Vehicle</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
 
-	</div>
-	
+        <div class="col-lg-6">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">New Vehicle</h5>
+
+              <!-- Vertical Form -->
+              <form class="row g-3 needs-validation" action="#" th:action="@{/vehicles/save}" th:object="${vehicle}"
+                method="POST" novalidate>
+                <input type="hidden" th:field="*{id}" />
+                <div class="col-md-6">
+                  <label for="plateNumber" class="form-label">Plate Number</label>
+                  <div class="input-group has-validation">
+                    <input type="text" class="form-control" id="plateNumber" th:field="*{plateNumber}" required>
+                    <div class="invalid-feedback">
+                      Missing Plate Number!
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="boundaryRate" class="form-label">Boundary Rate</label>
+                  <div class="input-group has-validation">
+                    <input type="number" class="form-control" id="boundaryRate" placeholder="1200" th:field="*{boundaryRate}" required>
+                    <div class="invalid-feedback">
+                      Missing Boundary Rate
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="col-sm-3 col-form-label">Assigned Driver 1</label>
+                  <div class="col-sm-12">
+                    <select name="drivers" id="assignedDriver1" class="form-select" aria-label="Default select example"
+                      th:field="*{assignedDriver1}">
+                      <option value="" selected>Select Driver</option>
+                      <option th:each="driver : ${drivers}" th:text="${driver.firstName} + ' ' + ${driver.lastName}"
+                        th:value="${driver.id}"></option>
+                    </select>
+                  </div>
+                </div>
+                 <div class="col-md-6">
+                  <label class="col-sm-3 col-form-label">Assigned Driver 2</label>
+                  <div class="col-sm-12">
+                    <select name="drivers" id="assignedDriver2" class="form-select" aria-label="Default select example"
+                      th:field="*{assignedDriver2}">
+                      <option value="" selected>Select Driver</option>
+                      <option th:each="driver : ${drivers}" th:text="${driver.firstName} + ' ' + ${driver.lastName}"
+                        th:value="${driver.id}"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="yearModel" class="form-label">Year Model</label>
+                  <div class="input-group has-validation">
+                    <input type="number" class="form-control" id="yearModel" placeholder="2022" th:field="*{yearModel}" required>
+                    <div class="invalid-feedback">
+                      Missing Year Model!
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="expirationYear" class="form-label">Franchise Expiration Year</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="expirationYear" placeholder="2022" th:field="*{expirationYear}">
+
+                  </div>
+                </div>
+                <div class="col-12">
+                  <label for="brand" class="form-label">Brand</label>
+                  <div class="input-group has-validation">
+                    <input type="text" class="form-control" id="brand" placeholder="Toyota Vios" th:field="*{brand}" required>
+                    <div class="invalid-feedback">
+                      Missing Brand Model!
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+              </form><!-- Vertical Form -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+  
+  </div>
 </body>
+
 </html>
-
-
-

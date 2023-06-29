@@ -1,16 +1,22 @@
 package com.carmada.payment.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,36 +51,78 @@ public class PaymentController {
 		databinder.registerCustomEditor(String.class, stringTrimmerEditor);
 	}
 	
-	@ExceptionHandler(Exception.class)
-    public String handleError(Model model, Exception e) {
-        model.addAttribute("errorMessage", e.getMessage());
-        return "error";
-    }
+//	@ExceptionHandler(Exception.class)
+//    public String handleError(Model model, Exception e) {
+//        model.addAttribute("errorMessage", e.getMessage());
+//        return "error";
+//    }
 	
 	@GetMapping
-	public String listAll(Model model){
-		List<Payment> payments = paymentService.findAll();
+	public String listAll(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(defaultValue = "56") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false, value = "inputDate") String date,
+            Model model){
 		
-		model.addAttribute("payments", payments);
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
+		Page<Payment> page;
+        page = paymentService.findLatestDayPayment(pageable);
+        model.addAttribute("page", page);
 		
-		return "payments/list-payments";
+		return "payments/payment-list";
 	}
 	
 	@GetMapping("/search")
-	public String findByDriver(@RequestParam("name") String name, Model model){
-
-		List<Payment> payments = paymentService.findByDriver(name);
+	public String searchPayment( @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(defaultValue = "56") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false, value = "inputDate") String date,
+            Model model){
 		
-		if (payments.isEmpty() == true) {
-			model.addAttribute("errorMessage", "Driver not found!");
-			return "payments/list-payments";
-		}
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
 
-		model.addAttribute("payments", payments);
+        Page<Payment> page;
+        if (name != null && !name.isEmpty()) {
+            page = paymentService.findByDriver(pageable, name);
+            if (page.hasContent() == false) {
+    			model.addAttribute("errorMessage", "Driver not found!");
+    		}
+        } else if (date != null ) {
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedDate = null;
+            
+            try {
+            	parsedDate = formatter.parse(date);
+	        } catch (ParseException e) {
+	                e.printStackTrace();
+	        }
+            
+            page = paymentService.findAllByDate(pageable, parsedDate, parsedDate);
+            
+        } else {
+        	
+            page = paymentService.findLatestDayPayment(pageable);
+        }
 		
-		return "payments/list-payments";
+        model.addAttribute("page", page);
+		return "payments/payment-list";
 	}
 	
+	@GetMapping("/late")
+	public String listLatePayment( Model model){
+		
+		String remarks = "late";
+		
+		List<Payment> latePayments = paymentService.searchByRemarksLike(remarks);
+		
+		model.addAttribute("latePayments", latePayments);
+		
+		return "payments/late-payment-list";
+	}
+	
+
 	@GetMapping("/add")
 	public String addPayment(Model model) {
 		
@@ -83,6 +131,7 @@ public class PaymentController {
 		Payment payment = new Payment();
 		
 		model.addAttribute("payment", payment);
+		
 		
 		return "payments/payment-form";
 	}
@@ -96,7 +145,7 @@ public class PaymentController {
 			
 			return "payments/payment-form";
 		}
-		payment.set();
+		payment.setFullName();
 		paymentService.save(payment);
 		
 		return "redirect:/payments/";
@@ -123,6 +172,7 @@ public class PaymentController {
 		return "redirect:/payments/";
 		
 	}
+	
 	
 	private void listDriverAndVehicleForDropdown(Model model) {
 
