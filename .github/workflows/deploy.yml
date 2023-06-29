@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
           name: jar-file-for-deployment
-          path: deployment
+          path: target/deployment
 
 #       - name: Deploy to Runner
 #         run: |
