@@ -58,14 +58,14 @@ public class IncidentController {
 	}
 	
 	@GetMapping("/search")
-	public String searchPayment(
+	public String searchIncident(
             @RequestParam(required = false) String name,
             @RequestParam(required = false, value = "inputDate") String date,
             Model model){
 		
-		List<Incident> incidents;
+		List<Incident> incidents = null;
 		
-		if (!name.isBlank() && !name.isEmpty() && date != null) {
+		if (name != null && !name.isEmpty() && date != null) {
 			
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date parsedDate = null;
@@ -78,11 +78,11 @@ public class IncidentController {
         	
         	incidents = incidentService.findByDriverAndIncidentDate(name, parsedDate);
         	
-        } else if (!name.isBlank() && !name.isEmpty()) {
+        } else if (name != null && !name.isEmpty()) {
         	
         	incidents = incidentService.findByDriver(name);
         	
-        } else if (date.isBlank()) {
+        } else if (date != null) {
         	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date parsedDate = null;
             
@@ -97,10 +97,13 @@ public class IncidentController {
         } else {
         	
         	incidents = incidentService.findAll();
+        	
         }
 		
-        model.addAttribute("incidents", incidents);
-        
+		if (incidents != null) {
+			 model.addAttribute("incidents", incidents);
+		}
+       
 		return "incidents/incident-list";
 	}
 	
