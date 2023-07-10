@@ -11,7 +11,7 @@ import com.carmada.incident.entity.Incident;
 @Repository
 public interface IncidentRepository extends JpaRepository<Incident, Integer> {
 	
-	public List<Incident> findAllByOrderByIdAsc();
+	public List<Incident> findAllByOrderById();
 	
 	public List<Incident> findByDriverFirstNameIgnoreCaseContainsOrDriverLastNameIgnoreCaseContainsAndIncidentDate(String firstName, String lastName, Date incidentDate);
 	
