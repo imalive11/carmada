@@ -204,3 +204,61 @@ $("#performance-total-loans").text(totalAmountLoanPayment.toLocaleString("en-US"
 ));
 
 $("#performance-total-attendance").text(totalAttendanceCount);
+
+
+var sumByIncidentType = {
+  CASH_ADVANCE: 0,
+  VIOLATION: 0,
+  DAMAGE: 0,
+  CHARGE_BOUNDARY: 0
+};
+
+var totalIncidentAmount = 0;
+
+// Iterate over each row in the table body
+$("#incident-table tbody tr").each(function() {
+  var incidentType = $(this).find(".incidentType").text().trim();
+  var incidentAmount = parseFloat($(this).find(".incidentAmount").text().replace(/,/g, ""));
+  sumByIncidentType[incidentType] += incidentAmount;
+});
+
+$("td.incidentAmount").each(function () {
+  // Remove Comma before parsing
+  var amount = parseInt($(this).text().replace(/,/g, '', 10));
+  totalIncidentAmount += amount;
+})
+
+$("#totalIncidentAmount").text(totalIncidentAmount.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));
+
+$("#incidents-charge-boundary").text(sumByIncidentType.CHARGE_BOUNDARY.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));
+
+$("#incidents-cash-advance").text(sumByIncidentType.CASH_ADVANCE.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));
+
+$("#incidents-violation").text(sumByIncidentType.VIOLATION.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));
+
+$("#incidents-damages").text(sumByIncidentType.DAMAGE.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));

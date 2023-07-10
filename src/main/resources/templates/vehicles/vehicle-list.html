@@ -87,6 +87,7 @@
                     <th>Assigned Driver 2</th>
                     <th>Year Model</th>
                     <th>Brand</th>
+                    <th>Franchise</th>
                     <th>Action</th>
 
                   </tr>
@@ -101,7 +102,12 @@
                     <td th:text="${tempVehicle.assignedDriver2 != null} ? ${tempVehicle?.assignedDriver2?.firstName} + ' ' + ${tempVehicle?.assignedDriver2?.lastName} : 'No Assigned Driver'" />
                     <td th:text="${tempVehicle.yearModel}" />
                     <td th:text="${tempVehicle.brand}" />
+                    <td th:text="${tempVehicle.franchise}" />
                     <td>
+                      <a th:href="@{/vehicles/profile(vehicleId=${tempVehicle.id})}"
+	                             class="btn btn-success btn-sm" >
+	                            Profile
+	                          </a>
                       <a th:href="@{/vehicles/update(vehicleId=${tempVehicle.id})}" class="btn btn-info btn-sm inline">
                         Update
                       </a>

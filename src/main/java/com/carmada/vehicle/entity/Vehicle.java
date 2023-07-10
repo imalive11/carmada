@@ -18,6 +18,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.carmada.drivers.entity.Driver;
+import com.carmada.incident.entity.Incident;
 import com.carmada.payment.entity.Payment;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -43,11 +44,21 @@ public class Vehicle {
 	@Column(name="brand")
 	private String brand;
 	
+	@NotEmpty(message = "Missing Franchise")
+	@Column(name="franchise")
+	private String franchise;
+	
 	@JsonIgnoreProperties("vehicle")
 	@OneToMany(mappedBy="vehicle", fetch= FetchType.LAZY,
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE,
 					CascadeType.DETACH, CascadeType.REFRESH})
 	private List<Payment> payments;
+	
+	@JsonIgnoreProperties("vehicle")
+	@OneToMany(mappedBy="vehicle", fetch= FetchType.LAZY,
+			cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+					CascadeType.DETACH, CascadeType.REFRESH})
+	private List<Incident> incidents;
 
 	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.DETACH, CascadeType.REFRESH})
@@ -76,6 +87,14 @@ public class Vehicle {
 		this.payments.add(tempPayment);
 
 		tempPayment.setVehicle(this);
+	}
+
+	public String getFranchise() {
+		return franchise;
+	}
+
+	public void setFranchise(String franchise) {
+		this.franchise = franchise;
 	}
 
 	public Driver getAssignedDriver1() {
@@ -154,13 +173,24 @@ public class Vehicle {
 	public Vehicle() {
 	}
 
-	public Vehicle(String plateNumber, Integer yearModel, String brand) {
+	public Vehicle(int id, @NotEmpty(message = "Missing Plate Number") String plateNumber,
+			@NotNull(message = "Missing Year Model") Integer yearModel,
+			@NotEmpty(message = "Missing Brand") String brand,
+			@NotEmpty(message = "Missing Franchise") String franchise, List<Payment> payments, Driver assignedDriver1,
+			Driver assignedDriver2, Integer boundaryRate, Integer expirationYear) {
+		super();
+		this.id = id;
 		this.plateNumber = plateNumber;
 		this.yearModel = yearModel;
 		this.brand = brand;
+		this.franchise = franchise;
+		this.payments = payments;
+		this.assignedDriver1 = assignedDriver1;
+		this.assignedDriver2 = assignedDriver2;
+		this.boundaryRate = boundaryRate;
+		this.expirationYear = expirationYear;
 	}
 
-	
 
 
 
