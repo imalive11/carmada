@@ -125,8 +125,6 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 	@Override
 	public Page<Payment> findByDriverId(Pageable pageable, int id) {
-		
-		
 		return paymentRepository.findByDriverId(pageable, id);
 	}
 	
@@ -134,6 +132,23 @@ public class PaymentServiceImpl implements PaymentService {
 	public Page<Payment> findAllByIdAndTravelDateBetween(int id, Date startDate, Date endDate, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return paymentRepository.findAllByDriverIdAndTravelDateBetween(pageable, id, startDate, endDate);
+	}
+	@Override
+	public Page<Payment> findByDriverAndTravelDate(Pageable pageable, String driverName, Date date) {
+		// TODO Auto-generated method stub
+		return this.paymentRepository
+				.findByDriverFirstNameIgnoreCaseContainsOrDriverLastNameIgnoreCaseContainsAndTravelDateBetween(pageable, driverName, driverName, date, date);
+	}
+	@Override
+	public Page<Payment> findAllByVehicleIdAndDate(Pageable pageable, int vehicleId, Date startDate, Date endDate) {
+		// TODO Auto-generated method stub
+		return this.paymentRepository
+				.findAllByVehicleIdAndTravelDateBetween(pageable, vehicleId, startDate, endDate);
+	}
+	
+	@Override
+	public Page<Payment> findByVehicleId(Pageable pageable, int id) {
+		return paymentRepository.findByVehicleId(pageable, id);
 	}
 
 

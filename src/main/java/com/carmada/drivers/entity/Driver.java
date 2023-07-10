@@ -22,6 +22,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.carmada.incident.entity.Incident;
 import com.carmada.payment.entity.Payment;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -61,6 +62,13 @@ public class Driver {
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE,
 					CascadeType.DETACH, CascadeType.REFRESH})
 	private List<Payment> payments;
+	
+	@JsonIgnoreProperties("driver")
+	@OneToMany(mappedBy="driver", 
+			fetch= FetchType.LAZY,
+			cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+					CascadeType.DETACH, CascadeType.REFRESH})
+	private List<Incident> incidents;
 	
 	public void add(Payment tempPayment) {
 

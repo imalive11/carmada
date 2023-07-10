@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.carmada.drivers.entity.Driver;
 import com.carmada.drivers.entity.DriverPersonalInfo;
 import com.carmada.drivers.service.DriverService;
+import com.carmada.incident.entity.Incident;
+import com.carmada.incident.service.IncidentService;
 import com.carmada.payment.entity.Payment;
 import com.carmada.payment.service.PaymentService;
 
@@ -39,6 +41,9 @@ public class DriverController {
 	
 	@Autowired
 	private PaymentService paymentService;
+	
+	@Autowired
+	private IncidentService incidentService;
 
 	@InitBinder
 	public void initBinder(WebDataBinder databinder) {
@@ -144,6 +149,7 @@ public class DriverController {
 		
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
 		Page<Payment> page;
+		List<Incident> incidents = null;
 		
 		if (startDate != null && endDate != null) {
         	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -159,14 +165,19 @@ public class DriverController {
 	        }
             
             page = paymentService.findAllByIdAndTravelDateBetween(driverId, parsedStartDate, parsedEndDate, pageable);
+            incidents = incidentService.findAllByDriverAndDate(driverId, parsedStartDate, parsedEndDate);
             
         } else {
         	
         	page = paymentService.findByDriverId(pageable, driverId);
+        	incidents = incidentService.findByDriverId(driverId);
+        	
         }
 		
         
         model.addAttribute("page", page);
+        
+        model.addAttribute("incidents", incidents);
 		
 		// send over to our form
 		return "drivers/driver-profile";			
