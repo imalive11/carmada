@@ -17,7 +17,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.carmada.drivers.entity.Driver;
 import com.carmada.vehicle.entity.Vehicle;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -71,13 +70,13 @@ public class Payment {
 	@ManyToOne
 	@JoinColumn(name="driver_id")
 	@NotNull(message="Missing Driver")
-	private Driver driver;@JsonIgnore
+	private Driver driver;
 
 	@JsonIgnoreProperties("vehicle")
 	@ManyToOne
 	@JoinColumn(name="vehicle_id")
 	@NotNull(message="Missing Vehicle")
-	private Vehicle vehicle;@JsonIgnore
+	private Vehicle vehicle;
 	
 	public Integer getAmountRateBoundary() {
 		return amountRateBoundary;

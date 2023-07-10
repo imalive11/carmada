@@ -25,17 +25,27 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 	
 	public Page<Payment> findByTravelDateAfter(Pageable pageable, Date dateToday);
 	
-	public Page<Payment> findAllByDriverIdAndTravelDateBetween(Pageable pageable, int id, Date startDate, Date endDate);
-	
 	public List<Payment> findByRemarksContains(String remarks);
 	
 	@Query("SELECT p FROM Payment p WHERE p.remarks LIKE :remarks")
-	List<Payment> searchByRemarksLike(@Param("remarks") String remarks);
+	public List<Payment> searchByRemarksLike(@Param("remarks") String remarks);
 	
 	@Query("SELECT p FROM Payment p WHERE p.paymentDate = :paymentDate")
-	List<Payment> searchByPaymentDateLike(@Param("paymentDate") Date paymentDate);
+	public List<Payment> searchByPaymentDateLike(@Param("paymentDate") Date paymentDate);
 	
 	public Page<Payment> findByDriverFirstNameIgnoreCaseContainsOrDriverLastNameIgnoreCaseContains(Pageable pageable, String firstName, String lastName);
 
-	public Page<Payment> findByDriverId(Pageable pageable, int id);
+	public Page<Payment> findByDriverFirstNameIgnoreCaseContainsOrDriverLastNameIgnoreCaseContainsAndTravelDateBetween(Pageable pageable, String firstName, String lastName, Date startDate, Date endDate);
+	
+	public Page<Payment> findAllByDriverIdAndTravelDateBetween(Pageable pageable, int id, Date startDate, Date endDate);
+	
+	public Page<Payment> findByDriverId(Pageable pageable, int driverId);
+	
+	public Page<Payment> findByVehicleId(Pageable pageable, int vehicleId);
+	
+	public Page<Payment> findByVehiclePlateNumberIgnoreCaseContains(Pageable pageable, String plateNumber);
+	
+	public Page<Payment> findByVehiclePlateNumberIgnoreCaseContainsAndTravelDateBetween(Pageable pageable, String plateNumber, Date startDate, Date endDate);
+	
+	public Page<Payment> findAllByVehicleIdAndTravelDateBetween(Pageable pageable, int vehicleId, Date startDate, Date endDate);
 }

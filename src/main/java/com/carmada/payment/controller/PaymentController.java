@@ -84,11 +84,31 @@ public class PaymentController {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
 
         Page<Payment> page;
-        if (name != null && !name.isEmpty()) {
-            page = paymentService.findByDriver(pageable, name);
+        
+        if (name != null && !name.isEmpty() && date != null ) {
+        	
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedDate = null;
+            
+            try {
+            	parsedDate = formatter.parse(date);
+	        } catch (ParseException e) {
+	                e.printStackTrace();
+	        }
+            page = paymentService.findByDriverAndTravelDate(pageable, name, parsedDate);
+            
             if (page.hasContent() == false) {
     			model.addAttribute("errorMessage", "Driver not found!");
     		}
+            
+        } else if (name != null && !name.isEmpty()) {
+        	
+            page = paymentService.findByDriver(pageable, name);
+            
+            if (page.hasContent() == false) {
+    			model.addAttribute("errorMessage", "Driver not found!");
+    		}
+            
         } else if (date != null ) {
         	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date parsedDate = null;

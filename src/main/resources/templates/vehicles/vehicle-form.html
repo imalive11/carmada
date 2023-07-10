@@ -122,10 +122,19 @@
 
                   </div>
                 </div>
-                <div class="col-12">
+                <div class="col-md-6">
                   <label for="brand" class="form-label">Brand</label>
                   <div class="input-group has-validation">
                     <input type="text" class="form-control" id="brand" placeholder="Toyota Vios" th:field="*{brand}" required>
+                    <div class="invalid-feedback">
+                      Missing Brand Model!
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="franchise" class="form-label">Franchise</label>
+                  <div class="input-group has-validation">
+                    <input type="text" class="form-control" id="franchise" placeholder="Lady Ella" th:field="*{franchise}" required>
                     <div class="invalid-feedback">
                       Missing Brand Model!
                     </div>

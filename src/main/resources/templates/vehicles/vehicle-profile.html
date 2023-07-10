@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>Driver Profile</title>
+    <title>Vehicle Profile</title>
     <meta content="" name="description" />
     <meta content="" name="keywords" />
 
@@ -51,7 +51,7 @@
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/home">Home</a></li>
-            <li class="breadcrumb-item"><a href="/drivers">Drivers</a></li>
+            <li class="breadcrumb-item"><a href="/vehicles">Vehicles</a></li>
             <li class="breadcrumb-item active">Profile</li>
           </ol>
         </nav>
@@ -68,15 +68,15 @@
                 <form
                   class="row g-3"
                   action="#"
-                  th:action="@{/drivers/profile}"
-                  th:object="${driver}"
+                  th:action="@{/vehicles/profile}"
+                  th:object="${vehicle}"
                   method="GET"
                 >
                   <h2
-                    id="driverName"
-                    th:text="${#strings.concat(driver.firstName, ' ', driver.lastName)}"
+                    id="vehicleName"
+                    th:text="${vehicle.plateNumber}"
                   ></h2>
-                  <h3>Driver</h3>
+                  <h3>Vehicle</h3>
                 </form>
               </div>
             </div>
@@ -102,7 +102,7 @@
                       data-bs-toggle="tab"
                       data-bs-target="#profile-overview"
                     >
-                      Driver Details
+                      Vehicle Details
                     </button>
                   </li>
                   <li class="nav-item">
@@ -123,12 +123,12 @@
                     <!-- <h5 class="card-title">About</h5>
                   <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p> -->
 
-                    <h5 class="card-title">Driver Details</h5>
-                    <div class="row">
+                    <h5 class="card-title">Vehicle Details</h5>
+                    <!-- <div class="row">
                       <div class="col-lg-3 col-md-4 label">Full Name</div>
                       <div
                         class="col-lg-9 col-md-8"
-                        th:text="${#strings.concat(driver.firstName, ' ', driver.lastName)}"
+                        th:text="${vehicle.plateNumber}"
                       ></div>
                     </div>
 
@@ -136,7 +136,7 @@
                       <div class="col-lg-3 col-md-4 label">Employment Date</div>
                       <div
                         class="col-lg-9 col-md-8"
-                        th:text="${#dates.format(driver.employmentDate, 'dd/MM/yyyy')}"
+                        th:text="${#dates.format(vehicle.employmentDate, 'dd/MM/yyyy')}"
                       ></div>
                     </div>
 
@@ -144,7 +144,7 @@
                       <div class="col-lg-3 col-md-4 label">Mobile Number</div>
                       <div
                         class="col-lg-9 col-md-8"
-                        th:text="${driver.driverPersonalInfo.mobileNumber}"
+                        th:text="${vehicle.vehiclePersonalInfo.mobileNumber}"
                       ></div>
                     </div>
 
@@ -152,7 +152,7 @@
                       <div class="col-lg-3 col-md-4 label">Address</div>
                       <div
                         class="col-lg-9 col-md-8"
-                        th:text="${driver.driverPersonalInfo.address}"
+                        th:text="${vehicle.vehiclePersonalInfo.address}"
                       ></div>
                     </div>
 
@@ -160,7 +160,7 @@
                       <div class="col-lg-3 col-md-4 label">Birthdate</div>
                       <div
                         class="col-lg-9 col-md-8"
-                        th:text="${driver.driverPersonalInfo.birthDate}"
+                        th:text="${vehicle.vehiclePersonalInfo.birthDate}"
                       ></div>
                     </div>
 
@@ -168,7 +168,7 @@
                       <div class="col-lg-3 col-md-4 label">License ID</div>
                       <div
                         class="col-lg-9 col-md-8"
-                        th:text="${driver.driverPersonalInfo.licenseId}"
+                        th:text="${vehicle.vehiclePersonalInfo.licenseId}"
                       ></div>
                     </div>
 
@@ -176,9 +176,9 @@
                       <div class="col-lg-3 col-md-4 label">Expiration Date</div>
                       <div
                         class="col-lg-9 col-md-8"
-                        th:text="${driver.driverPersonalInfo.licenseExpirationDate}"
+                        th:text="${vehicle.vehiclePersonalInfo.licenseExpirationDate}"
                       ></div>
-                    </div>
+                    </div> -->
                   </div>
                   <div
                     class="tab-pane fade profile-overview show active"
@@ -187,17 +187,17 @@
                     <form
                       class=""
                       action="#"
-                      th:action="@{/drivers/profile}"
-                      th:object="${driver}"
+                      th:action="@{/vehicles/profile}"
+                      th:object="${vehicle}"
                       method="GET"
                       id="performance-form"
                     >
                       <h5 class="card-title mb-0">Date Range</h5>
                       <input
                         type="hidden"
-                        th:value="${driver.id}"
-                        id="driverId"
-                        name="driverId"
+                        th:value="${vehicle.id}"
+                        id="vehicleId"
+                        name="vehicleId"
                       />
                       <input
                         type="hidden"
@@ -335,7 +335,7 @@
                       <button
                         class="btn btn-info mb-3 mr-sm-5"
                         type="submit"
-                        th:href="@{/drivers/profile(driverId=${driver.id})}"
+                        th:href="@{/vehicles/profile(vehicleId=${vehicle.id})}"
                       >
                         Submit
                       </button>
@@ -346,7 +346,7 @@
                               <h5 class="card-title">Performance</h5>
                               <div class="row">
                                 <div class="col-lg-3 col-md-4 label">
-                                  Attendance
+                                  Usage
                                 </div>
                                 <div
                                   class="col-lg-9 col-md-8"
@@ -367,31 +367,6 @@
                                 <div
                                   class="col-lg-9 col-md-8"
                                   id="performance-total-short"
-                                ></div>
-                              </div>
-                              <div class="row">
-                                <div class="col-lg-3 col-md-4 label">
-                                  Contribution
-                                </div>
-                                <div
-                                  class="col-lg-9 col-md-8"
-                                  id="performance-total-contribution"
-                                ></div>
-                              </div>
-                              <div class="row">
-                                <div class="col-lg-3 col-md-4 label">Fund</div>
-                                <div
-                                  class="col-lg-9 col-md-8"
-                                  id="performance-total-fund"
-                                ></div>
-                              </div>
-                              <div class="row">
-                                <div class="col-lg-3 col-md-4 label">
-                                  Loan Payments
-                                </div>
-                                <div
-                                  class="col-lg-9 col-md-8"
-                                  id="performance-total-loans"
                                 ></div>
                               </div>
                               <!-- Full Screen Modal -->
@@ -434,7 +409,7 @@
                                               <th
                                                 colspan="7"
                                                 class="fs-3"
-                                                th:text="${#strings.concat(driver.firstName, ' ', driver.lastName)}"
+                                                th:text="${vehicle.plateNumber}"
                                               ></th>
                                               <th
                                                 colspan="1"
@@ -525,7 +500,7 @@
                                               ></td>
                                             </tr>
                                             <tr>
-                                              <td colspan="3">Attendance</td>
+                                              <td colspan="3">Usage</td>
                                               <td
                                                 id="totalAttendanceCount"
                                               ></td>
@@ -544,7 +519,7 @@
                                         <button
                                           type="button"
                                           class="btn btn-primary"
-                                          th:attr="onclick='exportTableToExcel(\'driver\', \''  + ${#strings.toString(#dates.format(page.content[0].travelDate, 'MMM'))} + '\', \'' + ${#strings.toString(#dates.format(page.content[__${page.content.size() - 1}__].travelDate, 'MMM'))} + '\', \'' + ${#strings.concat(driver.firstName, ' ', driver.lastName)} + '\')'"
+                                          th:attr="onclick='exportTableToExcel(\'vehicle\', \''  + ${#strings.toString(#dates.format(page.content[0].travelDate, 'MMM'))} + '\', \'' + ${#strings.toString(#dates.format(page.content[__${page.content.size() - 1}__].travelDate, 'MMM'))} + '\', \'' + ${vehicle.plateNumber} + '\')'"
                                         >
                                           Export
                                         </button>
@@ -562,16 +537,6 @@
                             <h5 class="card-title">Incidents</h5>
                             <div class="row">
                               <div class="col-lg-4 col-md-6 label">
-                                Cash Advance
-                              </div>
-                              <div
-                                class="col-lg-6 col-md-6"
-                                id="incidents-cash-advance"
-                              ></div>
-                            </div>
-
-                            <div class="row">
-                              <div class="col-lg-4 col-md-6 label">
                                 Charge Boundary
                               </div>
                               <div
@@ -579,9 +544,10 @@
                                 id="incidents-charge-boundary"
                               ></div>
                             </div>
-
                             <div class="row">
-                              <div class="col-lg-4 col-md-4 label">Damages</div>
+                              <div class="col-lg-4 col-md-4 label">
+                                Damage
+                              </div>
                               <div
                                 class="col-lg-6 col-md-8"
                                 id="incidents-damages"
@@ -636,7 +602,7 @@
                                             <th
                                               colspan="3"
                                               class="fs-3"
-                                              th:text="${#strings.concat(driver.firstName, ' ', driver.lastName)}"
+                                              th:text="${vehicle.plateNumber}"
                                             ></th>
                                             <th
                                               colspan="1"
@@ -703,7 +669,7 @@
                                       <button
                                         type="button"
                                         class="btn btn-primary"
-                                        th:attr="onclick='exportTableToExcel(\'driver\', \''  + ${#strings.toString(#dates.format(page.content[0].travelDate, 'MMM'))} + '\', \'' + ${#strings.toString(#dates.format(page.content[__${page.content.size() - 1}__].travelDate, 'MMM'))} + '\', \'' + ${#strings.concat(driver.firstName, ' ', driver.lastName)} + '\')'"
+                                        th:attr="onclick='exportTableToExcel(\'vehicle\', \''  + ${#strings.toString(#dates.format(page.content[0].travelDate, 'MMM'))} + '\', \'' + ${#strings.toString(#dates.format(page.content[__${page.content.size() - 1}__].travelDate, 'MMM'))} + '\', \'' + ${vehicle.plateNumber} + '\')'"
                                       >
                                         Export
                                       </button>

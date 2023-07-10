@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="https://www.thymeleaf.org"
+  xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="login/layout"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Incidents - New Incident</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="/img/favicon.png" rel="icon" />
+    <link href="/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="/vendor/quill/quill.snow.css" rel="stylesheet" />
+    <link href="/vendor/quill/quill.bubble.css" rel="stylesheet" />
+    <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="/vendor/simple-datatables/style.css" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="/css/style.css" rel="stylesheet" />
+
+    <!-- =======================================================
+  * Template Name: NiceAdmin - v2.5.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  </head>
+
+  <body>
+    <div layout:fragment="content">
+      <div class="pagetitle">
+        <h1>Incidents</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            <li class="breadcrumb-item"><a href="/incidents">Incidents</a></li>
+            <li class="breadcrumb-item active">New Incident</li>
+          </ol>
+        </nav>
+      </div>
+      <!-- End Page Title -->
+      <section class="section">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">New Incident</h5>
+                <!-- Multi Columns Form -->
+                <form
+                  class="row g-3 needs-validation"
+                  action="#"
+                  th:action="@{/incidents/save}"
+                  th:object="${incident}"
+                  method="POST"
+                  novalidate
+                >
+                  <input type="hidden" th:field="*{id}" />
+                  <div class="col-md-6">
+                    <label class="col-sm-3 col-form-label">Vehicle</label>
+                    <div class="col-sm-12">
+                      <select
+                        name="vehicle"
+                        id="vehicle"
+                        class="form-select"
+                        aria-label="Default select example"
+                        th:field="*{vehicle}"
+                        required
+                      >
+                        <option value="" selected>Select Vehicle</option>
+                        <option
+                          th:each="vehicle : ${vehicles}"
+                          th:text="${vehicle.plateNumber}"
+                          th:value="${vehicle.id}"
+                          th:data-value="${vehicle.boundaryRate}"
+                        ></option>
+                      </select>
+                      <div class="invalid-feedback">
+                        Please provide a Vehicle.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="col-sm-3 col-form-label">Driver</label>
+                    <div class="col-sm-12">
+                      <select
+                        name="drivers"
+                        id="drivers"
+                        class="form-select"
+                        aria-label="Default select example"
+                        th:field="*{driver}"
+                        required
+                      >
+                        <option value="" selected>Select Driver</option>
+                        <option
+                          th:each="driver : ${drivers}"
+                          th:text="${driver.firstName} + ' ' + ${driver.lastName}"
+                          th:value="${driver.id}"
+                        ></option>
+                      </select>
+                      <div class="invalid-feedback">
+                        Please provide a Driver.
+                      </div>
+                    </div>
+                  </div>
+                  <fieldset
+                    class="col-md-12"
+                    id="incidentType"
+                    th:field="*{incidentType}"
+                  >
+                    <legend class="col-form-label col-sm-10 pt-0">
+                      Incident Type
+                    </legend>
+                    <div class="col-sm-10">
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="incidentType"
+                          id="damage"
+                          value="DAMAGE"
+                          checked
+                        />
+                        <label class="form-check-label" for="damage">
+                          Damage
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="incidentType"
+                          id="violation"
+                          value="VIOLATION"
+                        />
+                        <label class="form-check-label" for="violation">
+                          Violation
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="incidentType"
+                          id="charge_boundary"
+                          value="CHARGE_BOUNDARY"
+                        />
+                        <label class="form-check-label" for="charge_boundary">
+                          Charge Boundary
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="incidentType"
+                          id="cash_advance"
+                          value="CASH_ADVANCE"
+                        />
+                        <label
+                          class="form-check-label"
+                          for="cash_advance"
+                        >
+                        Cash Advance
+                        </label>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <div class="col-md-6">
+                    <label for="boundary" class="col-sm-6 form-label">Incident Amount</label>
+                    <div class="col-sm-12">
+                      <input type="number" class="form-control" th:field="*{incidentAmount}" id="incidentAmount" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="incidentDate" class="col-sm-6 form-label">Incident Date</label>
+                    <div class="col-sm-12">
+                      <input type="date" class="form-control" id="incidentDate" th:field="*{incidentDate}" required>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="incidentDate" class="col-sm-6 form-label">Job Order Number</label>
+                    <div class="col-sm-12">
+                      <input type="text" class="form-control" id="incidentDate" th:field="*{jobOrderNumber}" >
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="remarks" class="form-label col-sm-6">Remarks</label>
+                    <div class="col-sm-12">
+                      <input type="text" class="form-control" id="remarks" placeholder="" th:field="*{remarks}">
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                  </div>
+                </form>
+                <!-- End Multi Columns Form -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Vendor JS Files -->
+      <script src="/vendor/apexcharts/apexcharts.min.js"></script>
+      <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="/vendor/chart.js/chart.umd.js"></script>
+      <script src="/vendor/echarts/echarts.min.js"></script>
+      <script src="/vendor/quill/quill.min.js"></script>
+      <script src="/vendor/simple-datatables/simple-datatables.js"></script>
+      <script src="/vendor/tinymce/tinymce.min.js"></script>
+      <script src="/vendor/php-email-form/validate.js"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+      <!-- Template Main JS File -->
+      <script src="/js/main.js"></script>
+      <script src="/js/payment-inputs.js"></script>
+    </div>
+  </body>
+</html>

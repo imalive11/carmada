@@ -17,11 +17,15 @@ public interface PaymentService {
 	
 	public Page<Payment> findByDriver(Pageable pageable, String driverName);
 	
+	public Page<Payment> findByDriverAndTravelDate(Pageable pageable, String driverName, Date date);
+	
 	public Page<Payment> findByDriverId(Pageable pageable, int id);
 	
 	public Page<Payment> findAllByIdAndTravelDateBetween(int id, Date startDate, Date endDate, Pageable pageable);
 	
 	public Page<Payment> findAllByDate(Pageable pageable, Date startDate, Date endDate);
+	
+	public Page<Payment> findAllByVehicleIdAndDate(Pageable pageable, int vehicleId, Date startDate, Date endDate);
 	
 	public Page<Payment> findFirst56(Pageable pageable);
 	
@@ -36,4 +40,7 @@ public interface PaymentService {
 	public Payment findLatestPayment();
 
 	public Page<Payment> findLatestDayPayment(Pageable pageable);
+	
+	public Page<Payment> findByVehicleId(Pageable pageable, int id);
+	
 }
