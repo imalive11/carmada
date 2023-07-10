@@ -51,6 +51,12 @@ jobs:
       needs: [build]
 
       steps:
+        - name: Stop Docker Container
+          shell: bash {0}
+          run: |
+            docker container stop carmada-docker
+            docker container rm carmada-docker
+            
         - name: Download Artifacts
           uses: actions/download-artifact@v2
           with:
@@ -67,8 +73,6 @@ jobs:
         - name: Stop Docker Container, Build Docker Image, Start Docker Container
           shell: bash {0}
           run: |
-            docker container stop carmada-docker
-            docker container rm carmada-docker
             cd /home/ec2-user
             docker build -t carmada-docker .
             docker run --name carmada-docker --restart=always -d -p 8080:8080 carmada-docker
