@@ -20,7 +20,7 @@ public class IncidentServiceImpl implements IncidentService {
 	@Override
 	@Transactional
 	public List<Incident> findAll() {
-		return incidentRepository.findAllByOrderByIdAsc();
+		return incidentRepository.findAllByOrderById();
 	}
 
 	@Override
