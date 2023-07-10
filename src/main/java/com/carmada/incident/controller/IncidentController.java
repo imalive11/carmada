@@ -143,7 +143,7 @@ public class IncidentController {
 
 
 	@GetMapping("/delete")
-	public String delete(@RequestParam("vehicleId") int id) {
+	public String delete(@RequestParam("incidentId") int id) {
 		
 		incidentService.delete(id);
 		
