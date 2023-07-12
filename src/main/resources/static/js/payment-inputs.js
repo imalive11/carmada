@@ -1,318 +1,221 @@
+// Set Variables
+let selectedOptionPaymentType = null;
+let rate = null;
 
-//Set Variables
-let selectedOptionPaymentType = document.querySelector('input[name="paymentType"]:checked').value;
-selectElementVehicle = document.querySelector('#vehicle');
-rate = selectElementVehicle.options[selectElementVehicle.selectedIndex].getAttribute('data-value');
+const getElementById = (id) => document.getElementById(id);
+const getElementByQuery = (query) => document.querySelector(query);
+const getElementByQueryAll = (query) => document.querySelectorAll(query);
 
 const updateRate = () => {
-  selectElementVehicle = document.querySelector('#vehicle');
+  const selectElementVehicle = getElementByQuery('#vehicle');
   rate = selectElementVehicle.options[selectElementVehicle.selectedIndex].getAttribute('data-value');
-}
+};
+
+const setElementValue = (id, value) => {
+  getElementById(id).value = value;
+};
+
+const setElementReadOnly = (id, readOnly) => {
+  getElementById(id).readOnly = readOnly;
+};
+
+const setElementDisabled = (id, disabled) => {
+  getElementById(id).disabled = disabled;
+};
 
 const setPaymentTypeHandler = () => {
-
   updateRate();
-
   setPaymentType();
-
-  document.getElementById("boundary").value = getBoundaryRate();
-
-  clearPaymentDecriptionHandler();
+  setElementValue("boundary", getBoundaryRate());
+  clearPaymentDescriptionHandler();
 };
 
 const setPaymentType = () => {
+  const paymentTypeInput = document.querySelector('input[name="paymentType"]:checked');
+  selectedOptionPaymentType = paymentTypeInput ? paymentTypeInput.value : 'fullBoundary';
 
-  selectedOptionPaymentType = document.querySelector(
-    'input[name="paymentType"]:checked'
-  ).value;
+  const disableElements = ['otherPaymentsFund', 'otherPaymentsLoan', 'otherPaymentsContribution'];
+  const enableElements = ['extraDriver', 'noDriver', 'absent', 'mainAndRepair', 'accident'];
+  const paymentValues = ['boundaryShort', 'boundary', 'boundaryFund', 'boundaryLoan', 'contribution'];
+  const paymentStates = ['boundaryShort', 'boundary'];
+  const paymentCheckboxStates = ['otherPaymentsFund', 'otherPaymentsLoan', 'otherPaymentsContribution'];
+  const disableRadioButtons = ['extraDriver', 'daily'];
+  const enableRadioButtons = ['noDriver', 'absent', 'mainAndRepair', 'accident'];
 
-  if (selectedOptionPaymentType == "fullBoundary") {
-    //disable radio button
+  disableElements.forEach((element) => setElementDisabled(element, false));
+  enableElements.forEach((element) => setElementDisabled(element, true));
 
-    document.getElementById("otherPaymentsFund").disabled = false;
-    document.getElementById("otherPaymentsLoan").disabled = false;
-    document.getElementById("otherPaymentsContribution").disabled = false;
+  setElementReadOnly('boundaryShort', true);
+  setElementReadOnly('boundary', true);
+  setElementValue('boundaryShort', 0);
 
-    document.getElementById("daily").disabled = true;
-    document.getElementById("extraDriver").disabled = true;
-    document.getElementById("noDriver").disabled = true;
-    document.getElementById("absent").disabled = true;
-    document.getElementById("mainAndRepair").disabled = true;
-    document.getElementById("accident").disabled = true;
-
-    document.getElementById("boundaryShort").readOnly = true;
-    document.getElementById("boundary").readOnly = true;
-
-    document.getElementById("boundaryShort").value = 0;
-
-  } else if (selectedOptionPaymentType == "short") {
-    document.getElementById("boundaryShort").value = 0;
-
-    document.getElementById("otherPaymentsFund").disabled = true;
-    document.getElementById("otherPaymentsLoan").disabled = true;
-    document.getElementById("otherPaymentsContribution").disabled = true;
-    
-    document.getElementById("daily").disabled = false;
-    document.getElementById("extraDriver").disabled = true;
-    document.getElementById("noDriver").disabled = true;
-    document.getElementById("absent").disabled = true;
-    document.getElementById("mainAndRepair").disabled = true;
-    document.getElementById("accident").disabled = true;
-
-    document.getElementById("boundary").readOnly = true;
-    document.getElementById("boundaryShort").readOnly = false;
-
-  } else if (selectedOptionPaymentType == "daily") {
-
-    document.getElementById("otherPaymentsFund").disabled = false;
-    document.getElementById("otherPaymentsLoan").disabled = false;
-    document.getElementById("otherPaymentsContribution").disabled = false;
-
-    document.getElementById("extraDriver").disabled = true;
-    document.getElementById("noDriver").disabled = true;
-    document.getElementById("absent").disabled = true;
-    document.getElementById("mainAndRepair").disabled = true;
-    document.getElementById("accident").disabled = true;
-
-    document.getElementById("boundaryShort").readOnly = true;
-    document.getElementById("boundary").readOnly = true;
-
-    document.getElementById("boundaryShort").value = 0;
-    
-
-  } else if (selectedOptionPaymentType == "partialBoundary") {
-
-    document.getElementById("otherPaymentsFund").disabled = false;
-    document.getElementById("otherPaymentsLoan").disabled = false;
-    document.getElementById("otherPaymentsContribution").disabled = false;
-
-    document.getElementById("boundaryShort").readOnly = false;
-    document.getElementById("boundary").readOnly = false;
-
-    document.getElementById("daily").disabled = false;
-    document.getElementById("extraDriver").disabled = false;
-    document.getElementById("absent").disabled = false;
-    document.getElementById("mainAndRepair").disabled = false;
-    document.getElementById("accident").disabled = false;
-    document.getElementById("noDriver").disabled = false;
-
-    document.getElementById("boundaryShort").value = 0;
-  } else if (selectedOptionPaymentType == "noBoundary") {
-    //Payment Values
-    document.getElementById("boundaryShort").value = 0;
-    document.getElementById("boundary").value = 0;
-    document.getElementById("boundaryFund").value = 0;
-    document.getElementById("boundaryLoan").value = 0;
-    document.getElementById("contribution").value = 0;
-    //Payment State
-    document.getElementById("boundary").readOnly = true;
-    document.getElementById("boundaryShort").readOnly = true;
-    //Payment Checkbox State
-    document.getElementById("otherPaymentsFund").disabled = true;
-    document.getElementById("otherPaymentsLoan").disabled = true;
-    document.getElementById("otherPaymentsContribution").disabled = true;
-
-    //disable all the radio button
-    document.getElementById("extraDriver").disabled = true;
-    document.getElementById("daily").disabled = true;
-    document.getElementById("noDriver").disabled = false;
-    document.getElementById("absent").disabled = false;
-    document.getElementById("mainAndRepair").disabled = false;
-    document.getElementById("accident").disabled = false;
-  } 
-
-}
+  if (selectedOptionPaymentType === "fullBoundary") {
+    disableElements.forEach((element) => setElementDisabled(element, false));
+    enableElements.forEach((element) => setElementDisabled(element, false));
+    setElementReadOnly('boundaryShort', true);
+    setElementReadOnly('boundary', true);
+    setElementValue('boundaryShort', 0);
+  } else if (selectedOptionPaymentType === "short") {
+    disableElements.forEach((elementId) => {
+      const element = document.getElementById(elementId);
+      element.disabled = true;
+      element.checked = false;
+    });
+    paymentValues.forEach((element) => setElementValue(element, 0));
+    setElementValue('boundaryShort', 0);
+    setElementDisabled('otherPaymentsFund', true);
+    setElementDisabled('otherPaymentsLoan', true);
+    setElementDisabled('otherPaymentsContribution', true);
+    setElementDisabled('daily', false);
+    setElementDisabled('extraDriver', true);
+    setElementDisabled('noDriver', true);
+    setElementDisabled('absent', true);
+    setElementDisabled('mainAndRepair', true);
+    setElementDisabled('accident', true);
+    setElementReadOnly('boundary', true);
+    setElementReadOnly('boundaryShort', false);
+  } else if (selectedOptionPaymentType === "daily") {
+    disableElements.forEach((element) => setElementDisabled(element, false));
+    enableElements.forEach((element) => setElementDisabled(element, true));
+    setElementReadOnly('boundaryShort', true);
+    setElementReadOnly('boundary', true);
+    setElementValue('boundaryShort', 0);
+  } else if (selectedOptionPaymentType === "partialBoundary") {
+    disableElements.forEach((element) => setElementDisabled(element, false));
+    enableElements.forEach((element) => setElementDisabled(element, false));
+    setElementReadOnly('boundaryShort', false);
+    setElementReadOnly('boundary', false);
+    setElementValue('boundaryShort', 0);
+  } else if (selectedOptionPaymentType === "noBoundary") {
+    paymentValues.forEach((element) => setElementValue(element, 0));
+    paymentStates.forEach((element) => setElementReadOnly(element, true));
+    paymentCheckboxStates.forEach((element) => setElementDisabled(element, true));
+    disableRadioButtons.forEach((element) => setElementDisabled(element, true));
+    enableRadioButtons.forEach((element) => setElementDisabled(element, false));
+  }
+};
 
 const getBoundaryRate = () => {
-
-  if (rate == null || selectedOptionPaymentType == "noBoundary") {
+  if (rate === null || selectedOptionPaymentType === "noBoundary") {
     return 0;
   } else {
     return rate;
-  };
-
+  }
 };
 
 const getBoundaryRateHandler = () => {
-
   updateRate();
-  document.getElementById("boundary").value = getBoundaryRate();
+  setElementValue("boundary", getBoundaryRate());
 };
 
-
 const adjustBoundaryRateHandler = () => {
-
-  if (rate == null || selectedOption == "noBoundary") {
-    document.getElementById("boundary").value = 0;
+  if (rate === null || selectedOptionPaymentType === "noBoundary") {
+    setElementValue("boundary", 0);
   } else {
-    document.getElementById("boundary").value = rate;
-  };
-
-}
+    setElementValue("boundary", rate);
+  }
+};
 
 const adjustBoundaryRate = () => {
+  selectedOptionPaymentType = getElementByQuery('input[name="paymentType"]:checked').value;
+  setElementValue("boundary", rate);
+  const selectedRate = getElementByQuery('input[name="boundaryRate"]:checked').value;
 
-  selectedOptionPaymentType = document.querySelector(
-    'input[name="paymentType"]:checked'
-  ).value;
-
-  document.getElementById("boundary").value = rate;
-
-  let selectedRate = document.querySelector(
-    'input[name="boundaryRate"]:checked'
-  ).value;
-
-  if ((selectedRate === "weekend" || selectedRate === "holiday" ) && rate !== null) {
-    document.getElementById("boundary").value = rate - 100;
+  if ((selectedRate === "weekend" || selectedRate === "holiday") && rate !== null) {
+    setElementValue("boundary", rate - 100);
   } else if (selectedRate === "coding" && rate !== null) {
-    document.getElementById("boundary").value = rate - 200;
+    setElementValue("boundary", rate - 200);
   }
 
   if (rate === null || selectedOptionPaymentType === "noBoundary") {
-    document.getElementById("boundary").value = 0;
+    setElementValue("boundary", 0);
   }
-
 };
 
 const otherPaymentsHandler = () => {
+  const selectElementFund = getElementByQuery('#otherPaymentsFund');
+  const selectElementLoan = getElementByQuery('#otherPaymentsLoan');
+  const selectElementContribution = getElementByQuery('#otherPaymentsContribution');
+  const selectElementCarwash = getElementByQuery('#otherPaymentsCarwash');
 
-  let selectElementFund = document.querySelector('#otherPaymentsFund');
-  let selectElementLoan = document.querySelector('#otherPaymentsLoan');
-  let selectElementContribution = document.querySelector('#otherPaymentsContribution');
-  let selectElementCarwash = document.querySelector('#otherPaymentsCarwash');
+  setElementValue("boundaryFund", selectElementFund.checked ? 50 : 0);
+  setElementValue("boundaryLoan", selectElementLoan.checked ? 50 : 0);
+  setElementValue("contribution", selectElementContribution.checked ? 40 : 0);
+  setElementValue("carwash", selectElementCarwash.checked ? 65 : 0);
 
-  if (selectElementFund.checked === true) {
-    document.getElementById("boundaryFund").value = 50;
-    document.getElementById("boundaryFund").readOnly = false;
-    
-  } else if (selectElementFund.checked === false) {
-    document.getElementById("boundaryFund").value = 0;
-    document.getElementById("boundaryFund").readOnly = true;
-  }
-
-  if (selectElementLoan.checked === true) {
-    document.getElementById("boundaryLoan").value = 50;
-    document.getElementById("boundaryLoan").readOnly = false;
-  } else if (selectElementLoan.checked === false) {
-    document.getElementById("boundaryLoan").value = 0;
-    document.getElementById("boundaryLoan").readOnly = true;
-  }
-
-  if (selectElementContribution.checked === true) {
-    document.getElementById("contribution").value = 40;
-    document.getElementById("contribution").readOnly = false;
-
-  } else if (selectElementContribution.checked === false) {
-    document.getElementById("contribution").value = 0;
-    document.getElementById("contribution").readOnly = true;
-  } 
-
-  if (selectElementCarwash.checked === true) {
-    document.getElementById("carwash").value = 65;
-    document.getElementById("carwash").readOnly = false;
-
-  } else if (selectElementCarwash.checked === false) {
-    document.getElementById("carwash").value = 0;
-    document.getElementById("carwash").readOnly = true;
-  } 
-
+  setElementReadOnly('boundaryFund', !selectElementFund.checked);
+  setElementReadOnly('boundaryLoan', !selectElementLoan.checked);
+  setElementReadOnly('contribution', !selectElementContribution.checked);
+  setElementReadOnly('carwash', !selectElementCarwash.checked);
 };
 
 const clearOtherPaymentsCheckboxHandler = () => {
+  const checkboxes = ['otherPaymentsFund', 'otherPaymentsLoan', 'otherPaymentsContribution', 'otherPaymentsCarwash'];
+  const fields = ['contribution', 'boundaryLoan', 'boundaryFund', 'carwash'];
 
-  document.querySelector('#otherPaymentsFund').checked = false;
-  document.querySelector('#otherPaymentsLoan').checked = false;
-  document.querySelector('#otherPaymentsContribution').checked = false;
-  document.querySelector('#otherPaymentsCarwash').checked = false;
+  checkboxes.forEach((checkbox) => {
+    getElementById(checkbox).checked = false;
+  });
 
-  document.getElementById("contribution").value = 0;  
-  document.getElementById("boundaryLoan").value = 0;
-  document.getElementById("boundaryFund").value = 0;
-  document.getElementById("carwash").value = 0;
-
-  document.getElementById("contribution").readOnly = true;
-  document.getElementById("boundaryLoan").readOnly = true;
-  document.getElementById("boundaryFund").readOnly = true;
-  document.getElementById("carwash").readOnly = true;
-
-}
+  fields.forEach((field) => {
+    setElementValue(field, 0);
+    setElementReadOnly(field, true);
+  });
+};
 
 const appendPaymentDescriptionHandler = () => {
+  const checkboxes = ['extraDriver', 'noDriver', 'absent', 'mainAndRepair', 'accident', 'daily'];
+  const descriptionField = getElementById("paymentDescription");
+  descriptionField.value = "";
 
-  let selectElementExtraDriver = document.querySelector('#extraDriver');
-  let selectElementNoDriver = document.querySelector('#noDriver');
-  let selectElementAbsent = document.querySelector('#absent');
-  let selectElementMainAndRepair = document.querySelector('#mainAndRepair');
-  let selectElementAccident = document.querySelector('#accident');
-  let selectElementDaily = document.querySelector('#daily');
+  checkboxes.forEach((checkbox) => {
+    const element = getElementById(checkbox);
+    if (element.checked) {
+      descriptionField.value += " " + element.value;
+    }
+  });
+};
 
-  document.getElementById("paymentDescription").value = "";
+const clearPaymentDescriptionHandler = () => {
+  const checkboxes = ['extraDriver', 'noDriver', 'absent', 'mainAndRepair', 'accident', 'daily'];
+  const descriptionField = getElementById("paymentDescription");
 
-  if (selectElementExtraDriver.checked === true) {
-    document.getElementById("paymentDescription").value += " " +selectElementExtraDriver.value;
-  } 
+  checkboxes.forEach((checkbox) => {
+    getElementById(checkbox).checked = false;
+  });
 
-  if (selectElementNoDriver.checked === true) {
-    document.getElementById("paymentDescription").value += " " + selectElementNoDriver.value
-  } 
-
-  if (selectElementAbsent.checked === true) {
-    document.getElementById("paymentDescription").value += " " + selectElementAbsent.value
-  } 
-
-  if (selectElementMainAndRepair.checked === true) {
-    document.getElementById("paymentDescription").value += " " + selectElementMainAndRepair.value
-  } 
-
-  if (selectElementAccident.checked === true) {
-    document.getElementById("paymentDescription").value += " " + selectElementAccident.value
-  } 
-
-  if (selectElementDaily.checked === true) {
-    document.getElementById("paymentDescription").value += " " + selectElementDaily.value
-  } 
-
-}
-
-const clearPaymentDecriptionHandler = () => {
-
-  document.querySelector('#extraDriver').checked = false;
-  document.querySelector('#noDriver').checked = false;
-  document.querySelector('#absent').checked = false;
-  document.querySelector('#mainAndRepair').checked = false;
-  document.querySelector('#accident').checked = false;
-  document.querySelector('#daily').checked = false;
-
-  document.getElementById("paymentDescription").value = "";
-
-}
+  descriptionField.value = "";
+};
 
 const shortBoundaryHandler = () => {
-
-  if (selectedOptionPaymentType == "short" && document.getElementById("boundary").value != 0) {
-    console.log(document.getElementById("boundary").value);
-    document.getElementById("boundary").value = rate - document.getElementById("boundaryShort").value;
-  } 
-
-}
+  if (selectedOptionPaymentType === "short" && getElementById("boundary").value !== "0") {
+    const boundaryShort = parseFloat(getElementById("boundaryShort").value);
+    const boundary = parseFloat(rate);
+    if (!isNaN(boundaryShort) && !isNaN(boundary)) {
+      setElementValue("boundary", boundary - boundaryShort);
+    }
+  }
+};
 
 const validatePaymentDescriptionHandler = () => {
-  let myInputValue = document.getElementById("paymentDescription").value;
+  const myInputValue = getElementById("paymentDescription").value;
 
   setPaymentType();
   if (selectedOptionPaymentType === "fullBoundary" || selectedOptionPaymentType === "short") {
     return true;
   }
 
-  if ((selectedOptionPaymentType != "fullBoundary" || selectedOptionPaymentType != "short") && myInputValue == "" ) {
-    document.getElementById("errorDiv").style.display = "block";
+  if ((selectedOptionPaymentType !== "fullBoundary" || selectedOptionPaymentType !== "short") && myInputValue === "") {
+    getElementById("errorDiv").style.display = "block";
     return false;
   }
-}
 
-$(document).ready(function () { 
-  document.querySelector("#travelDate").valueAsDate = new Date();
-  document.querySelector("#paymentDate").valueAsDate = new Date();
+  return true;
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  getElementById("travelDate").valueAsDate = new Date();
+  getElementById("paymentDate").valueAsDate = new Date();
   const searchParams = new URLSearchParams(window.location.search);
   const paramValue = searchParams.get("paymentId");
   if (paramValue === null) {
@@ -320,7 +223,4 @@ $(document).ready(function () {
     getBoundaryRateHandler();
     clearOtherPaymentsCheckboxHandler();
   }
-  
 });
-
-
