@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,10 +82,10 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 	
 	@Override
-	public List<Payment> searchByRemarksLike(String remarks) {
-		List<Payment> result = 
+	public Page<Payment> searchByRemarksLike(Pageable pageable, String remarks) {
+		Page<Payment> result = 
 				this.paymentRepository
-					.findByRemarksContains(remarks);
+					.findByRemarksContains(pageable, remarks);
 		
 		return result;
 	}
@@ -104,14 +103,9 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 	
 	@Override
-	public Page<Payment> findFirst56(Pageable pageable) {
-		return paymentRepository.findFirst56ByOrderByIdDesc(pageable);
-	}
-	
-	@Override
 	@Transactional
 	public Page<Payment> findLatestDayPayment(Pageable pageable) {
-		Date latestPaymentDate = findLatestPayment().getTravelDate();
+		Date latestPaymentDate = this.findLatestTravelDate();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(latestPaymentDate);
 
@@ -149,6 +143,29 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public Page<Payment> findByVehicleId(Pageable pageable, int id) {
 		return paymentRepository.findByVehicleId(pageable, id);
+	}
+	
+	@Override
+	public Date findFirstTravelDate() {
+		// TODO Auto-generated method stub
+		return paymentRepository.findFirstTravelDate();
+	}
+	
+	@Override
+	public Date findLatestTravelDate() {
+		// TODO Auto-generated method stub
+		return paymentRepository.findLatestTravelDate();
+	}
+	
+	@Override
+	public Date getFirstDateForYear(int year) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Date getLatestDateForYear(int year) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

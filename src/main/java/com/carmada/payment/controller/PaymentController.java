@@ -59,11 +59,12 @@ public class PaymentController {
 	
 	@GetMapping
 	public String listAll(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-            @RequestParam(defaultValue = "56") int pageSize,
+            @RequestParam(defaultValue = "60") int pageSize,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(required = false) String name,
             @RequestParam(required = false, value = "inputDate") String date,
             Model model){
+		
 		
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
 		Page<Payment> page;
@@ -75,7 +76,7 @@ public class PaymentController {
 	
 	@GetMapping("/search")
 	public String searchPayment( @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-            @RequestParam(defaultValue = "56") int pageSize,
+            @RequestParam(defaultValue = "100") int pageSize,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(required = false) String name,
             @RequestParam(required = false, value = "inputDate") String date,
@@ -98,7 +99,7 @@ public class PaymentController {
             page = paymentService.findByDriverAndTravelDate(pageable, name, parsedDate);
             
             if (page.hasContent() == false) {
-    			model.addAttribute("errorMessage", "Driver not found!");
+    			model.addAttribute("errorMessage", "No Driver found!");
     		}
             
         } else if (name != null && !name.isEmpty()) {
@@ -106,7 +107,7 @@ public class PaymentController {
             page = paymentService.findByDriver(pageable, name);
             
             if (page.hasContent() == false) {
-    			model.addAttribute("errorMessage", "Driver not found!");
+    			model.addAttribute("errorMessage", "No Driver found!");
     		}
             
         } else if (date != null ) {
@@ -131,13 +132,18 @@ public class PaymentController {
 	}
 	
 	@GetMapping("/late")
-	public String listLatePayment( Model model){
+	public String listLatePayment( @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(defaultValue = "100") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            Model model){
 		
 		String remarks = "late";
 		
-		List<Payment> latePayments = paymentService.searchByRemarksLike(remarks);
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
 		
-		model.addAttribute("latePayments", latePayments);
+		Page<Payment> page = paymentService.searchByRemarksLike(pageable, remarks);
+		
+		model.addAttribute("page", page);
 		
 		return "payments/late-payment-list";
 	}

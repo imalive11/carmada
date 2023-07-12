@@ -146,6 +146,9 @@ public class VehicleController {
 		
 		model.addAttribute("vehicle", vehicle);
 		
+		Date firstDate = paymentService.findFirstTravelDate();
+		Date latestDate = paymentService.findLatestTravelDate();
+		
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
 		Page<Payment> page;
 		List<Incident> incidents = null;
@@ -173,6 +176,8 @@ public class VehicleController {
         	
         }
 		
+		model.addAttribute("firstDate", firstDate);
+        model.addAttribute("latestDate", latestDate);
         
         model.addAttribute("page", page);
         

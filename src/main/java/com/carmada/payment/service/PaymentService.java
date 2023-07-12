@@ -2,7 +2,6 @@ package com.carmada.payment.service;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,9 +26,7 @@ public interface PaymentService {
 	
 	public Page<Payment> findAllByVehicleIdAndDate(Pageable pageable, int vehicleId, Date startDate, Date endDate);
 	
-	public Page<Payment> findFirst56(Pageable pageable);
-	
-	public List<Payment> searchByRemarksLike(String remarks);
+	public Page<Payment> searchByRemarksLike(Pageable pageable, String remarks);
 	
 	public Payment findById(int id);
 	
@@ -42,5 +39,13 @@ public interface PaymentService {
 	public Page<Payment> findLatestDayPayment(Pageable pageable);
 	
 	public Page<Payment> findByVehicleId(Pageable pageable, int id);
+	
+	public Date findFirstTravelDate();
+
+    public Date findLatestTravelDate();
+    
+    public Date getFirstDateForYear(int year);
+
+    public Date getLatestDateForYear(int year);
 	
 }
