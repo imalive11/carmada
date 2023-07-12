@@ -85,28 +85,42 @@
                 <table class="table table-hover table-sm">
                   <thead>
                     <tr>
-                      <th>Late Remarks</th>
-                      <th>Transaction ID</th>
-                      <th>Driver Name</th>
+                      <th></th>
                       <th>Plate Number</th>
+                      <th>Driver Name</th>
+                      <th>Received</th>
                       <th>Boundary</th>
-                      <th>Type</th>
+                      <th>Short</th>
+                      <th>Fund</th>
+                      <th>Contribution</th>
+                      <th>Loan</th>
+                      <th>Carwash</th>
                       <th>Travel Date</th>
-                      <th>Payment Date</th>
-                      <th>Action</th>
+                      <th>Remarks</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr th:each="tempPayment : ${latePayments}">
-
-                      <td th:text="${tempPayment.remarks}" />
-                      <td th:text="${tempPayment.id}" />
-                      <td th:text="${tempPayment.driverName}" />
+                    <tr th:each="tempPayment, iterStat : ${page.content}">
+                      <td th:text="${iterStat.count}" />
                       <td th:text="${tempPayment.vehicle.plateNumber}" />
-                      <td th:text="${tempPayment.amountBoundary}" />
-                      <td th:text="${tempPayment.paymentType}" />
-                      <td th:text="${#dates.format(tempPayment.travelDate, 'dd/MM/yyyy')}"/>
-                      <td th:text="${#dates.format(tempPayment.paymentDate, 'dd/MM/yyyy')}" />
+                      <td th:text="${tempPayment.driverName}" />
+                      <td class="amountReceived"
+                        th:text="${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash) > 0} ? ${#numbers.formatDecimal((tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash), 0, 'COMMA', 2, 'POINT')} : ${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash)}" />
+                      <td class="amountBoundary"
+                        th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal(tempPayment.amountBoundary, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}" />
+                      <td class="amountShort"
+                        th:text="${tempPayment.amountShort > 0} ? ${#numbers.formatDecimal(tempPayment.amountShort, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountShort}" />
+                      <td class="amountFund"
+                        th:text="${tempPayment.amountFund > 0} ? ${#numbers.formatDecimal(tempPayment.amountFund, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountFund}" />
+                      <td class="amountContribution"
+                        th:text="${tempPayment.amountContribution > 0} ? ${#numbers.formatDecimal(tempPayment.amountContribution, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountContribution}" />
+                      <td class="amountLoanPayment"
+                        th:text="${tempPayment.amountLoanPayment > 0} ? ${#numbers.formatDecimal(tempPayment.amountLoanPayment, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountLoanPayment}" />
+                      <td class="amountCarwash"
+                        th:text="${tempPayment.amountCarwash > 0} ? ${#numbers.formatDecimal(tempPayment.amountCarwash, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountCarwash}" />
+                      <td th:text="${#dates.format(tempPayment.travelDate, 'MM/dd/yyyy')}" />
+                        <td th:text="${tempPayment.remarks}" />
                       <td>
                         <a th:href="@{/payments/update(paymentId=${tempPayment.id})}" class="btn btn-info mr-sm-3">
                           Update

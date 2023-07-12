@@ -70,7 +70,8 @@
                 <div class="row mb-3">
                   <label for="name" class="col-sm-2 col-form-label">Find Driver</label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" name="name" th:value="${name}" placeholder="Search Driver" id="name"/>
+                    <input type="text" class="form-control" name="name" th:value="${name}" placeholder="Search Driver"
+                      id="name" />
                     <div class="invalid-feedback">
                       Please type the name of the driver you are searching!
                     </div>
@@ -84,11 +85,12 @@
                   <a th:href="@{/payments/add}" class="btn btn-primary mb-3 ">
                     New Payment
                   </a>
-                  
+
                 </div>
                 <!-- Full Screen Modal -->
                 <div class="col-md-9">
-                  <button type="button" class="btn btn-success mb-3 mr-sm-5 float-end" data-bs-toggle="modal" data-bs-target="#fullscreenModal">
+                  <button type="button" class="btn btn-success mb-3 mr-sm-5 float-end" data-bs-toggle="modal"
+                    data-bs-target="#fullscreenModal">
                     Create Report
                   </button>
 
@@ -110,7 +112,9 @@
                                 <th></th>
                                 <th colspan="8">Driver's Daily Report</th>
                                 <th>Date</th>
-                                <th id="reportDate" th:text="${page != null and page.content.size() > 0 and page.content[0] != null} ? ${#strings.toString(#dates.format(page.content[0].travelDate, 'EEEE, dd MMMM yyyy'))} : ''"></th>
+                                <th id="reportDate"
+                                  th:text="${page != null and page.content.size() > 0 and page.content[0] != null} ? ${#strings.toString(#dates.format(page.content[0].travelDate, 'EEEE, dd MMMM yyyy'))} : ''">
+                                </th>
                               </tr>
                               <tr>
                                 <th></th>
@@ -131,13 +135,20 @@
                                 <td th:text="${iterStat.count}" />
                                 <td th:text="${tempPayment.vehicle.plateNumber}" />
                                 <td th:text="${tempPayment.driverName}" />
-                                <td class="amountReceived" th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal((tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution), 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}" />
-                                <td class="amountBoundary" th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal(tempPayment.amountBoundary, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}" />
-                                <td class="amountShort" th:text="${tempPayment.amountShort > 0} ? ${#numbers.formatDecimal(tempPayment.amountShort, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountShort}" />
-                                <td class="amountFund" th:text="${tempPayment.amountFund > 0} ? ${#numbers.formatDecimal(tempPayment.amountFund, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountFund}" />
-                                <td class="amountContribution" th:text="${tempPayment.amountContribution > 0} ? ${#numbers.formatDecimal(tempPayment.amountContribution, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountContribution}" />
-                                <td class="amountLoanPayment" th:text="${tempPayment.amountLoanPayment > 0} ? ${#numbers.formatDecimal(tempPayment.amountLoanPayment, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountLoanPayment}" />
-                                <td class="amountCarwash" th:text="${tempPayment.amountCarwash > 0} ? ${#numbers.formatDecimal(tempPayment.amountCarwash, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountCarwash}" />
+                                <td class="amountReceived"
+                                  th:text="${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash) > 0} ? ${#numbers.formatDecimal((tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash), 0, 'COMMA', 2, 'POINT')} : ${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash)}" />
+                                <td class="amountBoundary"
+                                  th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal(tempPayment.amountBoundary, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}" />
+                                <td class="amountShort"
+                                  th:text="${tempPayment.amountShort > 0} ? ${#numbers.formatDecimal(tempPayment.amountShort, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountShort}" />
+                                <td class="amountFund"
+                                  th:text="${tempPayment.amountFund > 0} ? ${#numbers.formatDecimal(tempPayment.amountFund, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountFund}" />
+                                <td class="amountContribution"
+                                  th:text="${tempPayment.amountContribution > 0} ? ${#numbers.formatDecimal(tempPayment.amountContribution, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountContribution}" />
+                                <td class="amountLoanPayment"
+                                  th:text="${tempPayment.amountLoanPayment > 0} ? ${#numbers.formatDecimal(tempPayment.amountLoanPayment, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountLoanPayment}" />
+                                <td class="amountCarwash"
+                                  th:text="${tempPayment.amountCarwash > 0} ? ${#numbers.formatDecimal(tempPayment.amountCarwash, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountCarwash}" />
                                 <td th:text="${tempPayment.remarks}" />
                               </tr>
                               <tr>
@@ -155,7 +166,8 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary" onclick="exportTableToExcel('daily')">Export</button>
+                          <button type="button" class="btn btn-primary"
+                            onclick="exportTableToExcel('daily')">Export</button>
                         </div>
                       </div>
                     </div>
@@ -186,27 +198,44 @@
                 <!-- Table with hoverable rows -->
                 <table class="table table-hover table-sm">
                   <thead>
-                    
+
                     <tr>
-                      <th>Transaction ID</th>
-                      <th>Driver Name</th>
+                      <th></th>
                       <th>Plate Number</th>
+                      <th>Driver Name</th>
+                      <th>Received</th>
                       <th>Boundary</th>
-                      <th>Type</th>
+                      <th>Short</th>
+                      <th>Fund</th>
+                      <th>Contribution</th>
+                      <th>Loan</th>
+                      <th>Carwash</th>
                       <th>Travel Date</th>
-                      <th>Payment Date</th>
-                      <th>Action</th>
+                      <th>Remarks</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr th:each="tempPayment : ${page.content}">
-                      <td th:text="${tempPayment.id}" />
-                      <td th:text="${tempPayment.driverName}" />
+                    <tr th:each="tempPayment, iterStat : ${page.content}">
+                      <td th:text="${iterStat.count}" />
                       <td th:text="${tempPayment.vehicle.plateNumber}" />
-                      <td th:text="${tempPayment.amountBoundary}" />
-                      <td th:text="${tempPayment.paymentType}" />
-                      <td th:text="${#dates.format(tempPayment.travelDate, 'dd/MM/yyyy')}" />
-                      <td th:text="${#dates.format(tempPayment.paymentDate, 'dd/MM/yyyy')}" />
+                      <td th:text="${tempPayment.driverName}" />
+                      <td class="amountReceived"
+                        th:text="${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash) > 0} ? ${#numbers.formatDecimal((tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash), 0, 'COMMA', 2, 'POINT')} : ${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash)}" />
+                      <td class="amountBoundary"
+                        th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal(tempPayment.amountBoundary, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}" />
+                      <td class="amountShort"
+                        th:text="${tempPayment.amountShort > 0} ? ${#numbers.formatDecimal(tempPayment.amountShort, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountShort}" />
+                      <td class="amountFund"
+                        th:text="${tempPayment.amountFund > 0} ? ${#numbers.formatDecimal(tempPayment.amountFund, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountFund}" />
+                      <td class="amountContribution"
+                        th:text="${tempPayment.amountContribution > 0} ? ${#numbers.formatDecimal(tempPayment.amountContribution, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountContribution}" />
+                      <td class="amountLoanPayment"
+                        th:text="${tempPayment.amountLoanPayment > 0} ? ${#numbers.formatDecimal(tempPayment.amountLoanPayment, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountLoanPayment}" />
+                      <td class="amountCarwash"
+                        th:text="${tempPayment.amountCarwash > 0} ? ${#numbers.formatDecimal(tempPayment.amountCarwash, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountCarwash}" />
+                      <td th:text="${#dates.format(tempPayment.travelDate, 'MM/dd/yyyy')}" />
+                        <td th:text="${tempPayment.remarks}" />
                       <td>
                         <a th:href="@{/payments/update(paymentId=${tempPayment.id})}" class="btn btn-info mr-sm-3">
                           Update
@@ -227,7 +256,7 @@
           </div>
         </div>
       </div>
-      
+
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
       <!-- Page Specific JS Files -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
@@ -238,8 +267,8 @@
   </div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
       class="bi bi-arrow-up-short"></i></a>
-  
-  
+
+
 
   <!-- Vendor JS Files -->
   <script src="/vendor/apexcharts/apexcharts.min.js"></script>

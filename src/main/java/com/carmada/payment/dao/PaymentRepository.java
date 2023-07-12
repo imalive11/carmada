@@ -25,13 +25,22 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 	
 	public Page<Payment> findByTravelDateAfter(Pageable pageable, Date dateToday);
 	
-	public List<Payment> findByRemarksContains(String remarks);
-	
-	@Query("SELECT p FROM Payment p WHERE p.remarks LIKE :remarks")
-	public List<Payment> searchByRemarksLike(@Param("remarks") String remarks);
+	public Page<Payment> findByRemarksContains(Pageable pageable, String remarks);
 	
 	@Query("SELECT p FROM Payment p WHERE p.paymentDate = :paymentDate")
 	public List<Payment> searchByPaymentDateLike(@Param("paymentDate") Date paymentDate);
+	
+	@Query("SELECT MIN(p.travelDate) FROM Payment p")
+	public Date findFirstTravelDate();
+
+    @Query("SELECT MAX(p.travelDate) FROM Payment p")
+    public Date findLatestTravelDate();
+    
+    @Query("SELECT MIN(p.travelDate) FROM Payment p WHERE YEAR(p.travelDate) = :year")
+    Date findFirstDateByYear(@Param("year") int year);
+
+    @Query("SELECT MAX(p.travelDate) FROM Payment p WHERE YEAR(p.travelDate) = :year")
+    Date findLatestDateByYear(@Param("year") int year);
 	
 	public Page<Payment> findByDriverFirstNameIgnoreCaseContainsOrDriverLastNameIgnoreCaseContains(Pageable pageable, String firstName, String lastName);
 
