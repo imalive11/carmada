@@ -414,7 +414,7 @@
                                               <th
                                                 colspan="1"
                                                 class="fs-3"
-                                                th:text="${#strings.toString(#dates.format(page.content[0].travelDate, 'MMM yyyy'))}"
+                                                th:text="${#strings.toString(#dates.format(firstDate, 'MMM yyyy'))}"
                                               ></th>
                                               <th colspan="1" class="fs-3">
                                                 to
@@ -422,7 +422,7 @@
                                               <th
                                                 colspan="1"
                                                 class="fs-3"
-                                                th:text="${#strings.toString(#dates.format(page.content[__${page.content.size() - 1}__].travelDate, 'MMM yyyy'))}"
+                                                th:text="${#strings.toString(#dates.format(latestDate, 'MMM yyyy'))}"
                                               ></th>
                                             </tr>
                                             <tr>
@@ -519,7 +519,7 @@
                                         <button
                                           type="button"
                                           class="btn btn-primary"
-                                          th:attr="onclick='exportTableToExcel(\'vehicle\', \''  + ${#strings.toString(#dates.format(page.content[0].travelDate, 'MMM'))} + '\', \'' + ${#strings.toString(#dates.format(page.content[__${page.content.size() - 1}__].travelDate, 'MMM'))} + '\', \'' + ${vehicle.plateNumber} + '\')'"
+                                          th:attr="onclick='exportTableToExcel(\'vehicle\', \''  + ${#strings.toString(#dates.format(firstDate, 'MMM'))} + '\', \'' + ${#strings.toString(#dates.format(latestDate, 'MMM'))} + '\', \'' + ${vehicle.plateNumber} + '\')'"
                                         >
                                           Export
                                         </button>
@@ -607,13 +607,13 @@
                                             <th
                                               colspan="1"
                                               class="fs-3"
-                                              th:text="${#strings.toString(#dates.format(page.content[0].travelDate, 'MMM yyyy'))}"
+                                              th:text="${#strings.toString(#dates.format(firstDate, 'MMM yyyy'))}"
                                             ></th>
                                             <th colspan="1" class="fs-3">to</th>
                                             <th
                                               colspan="1"
                                               class="fs-3"
-                                              th:text="${#strings.toString(#dates.format(page.content[__${page.content.size() - 1}__].travelDate, 'MMM yyyy'))}"
+                                              th:text="${#strings.toString(#dates.format(latestDate, 'MMM yyyy'))}"
                                             ></th>
                                           </tr>
                                           <tr>
@@ -669,7 +669,7 @@
                                       <button
                                         type="button"
                                         class="btn btn-primary"
-                                        th:attr="onclick='exportTableToExcel(\'vehicle\', \''  + ${#strings.toString(#dates.format(page.content[0].travelDate, 'MMM'))} + '\', \'' + ${#strings.toString(#dates.format(page.content[__${page.content.size() - 1}__].travelDate, 'MMM'))} + '\', \'' + ${vehicle.plateNumber} + '\')'"
+                                        th:attr="onclick='exportTableToExcel(\'vehicle\', \''  + ${#strings.toString(#dates.format(firstDate, 'MMM'))} + '\', \'' + ${#strings.toString(#dates.format(latestDate, 'MMM'))} + '\', \'' + ${vehicle.plateNumber} + '\')'"
                                       >
                                         Export
                                       </button>

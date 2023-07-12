@@ -147,6 +147,9 @@ public class DriverController {
 		
 		model.addAttribute("driver", driver);
 		
+		Date firstDate = paymentService.findFirstTravelDate();
+		Date latestDate = paymentService.findLatestTravelDate();
+		
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
 		Page<Payment> page;
 		List<Incident> incidents = null;
@@ -178,6 +181,10 @@ public class DriverController {
         model.addAttribute("page", page);
         
         model.addAttribute("incidents", incidents);
+        
+
+        model.addAttribute("firstDate", firstDate);
+        model.addAttribute("latestDate", latestDate);
 		
 		// send over to our form
 		return "drivers/driver-profile";			
