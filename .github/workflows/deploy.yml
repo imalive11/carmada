@@ -30,7 +30,8 @@ jobs:
           sed -i "s|spring.datasource.login.password=|spring.datasource.login.password=${{ secrets.DATABASE_PASSWORD }}|g" application.properties
           sed -i "s|spring.datasource.drivers.username=|spring.datasource.drivers.username=${{ secrets.DATABASE_USERNAME }}|g" application.properties
           sed -i "s|spring.datasource.drivers.password=|spring.datasource.drivers.password=${{ secrets.DATABASE_PASSWORD }}|g" application.properties
-          
+          cat application.properties
+         
       - name: Check Java Installation
         run: java -version
         
