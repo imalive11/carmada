@@ -96,68 +96,68 @@
                   <div class="col-sm-10">
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeFull"
-                        value="fullBoundary" checked>
+                        value="fullBoundary" th:checked="${payment != null && payment.paymentType == 'fullBoundary'}">
                       <label class="form-check-label" for="paymentTypeFull" >
                         Full Boundary
                       </label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeDaily"
-                        value="daily">
+                        value="daily" th:checked="${payment != null && payment.paymentType == 'daily'}">
                       <label class="form-check-label" for="paymentTypeDaily">
                         Daily
                       </label>
                     </div>
                     <div class="form-check ">
                       <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeShort"
-                        value="short">
+                        value="short" th:checked="${payment != null && payment.paymentType == 'short'}">
                       <label class="form-check-label" for="paymentTypeShort">
                         Short
                       </label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="paymentType" id="paymentTypePartial"
-                        value="partialBoundary">
+                        value="partialBoundary" th:checked="${payment != null && payment.paymentType == 'partialBoundary'}">
                       <label class="form-check-label" for="paymentTypePartial">
                         Partial Boundary
                       </label>
                     </div>
                     <div class="form-check ">
                       <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeNoBoundary"
-                        value="noBoundary">
+                        value="noBoundary" th:checked="${payment != null && payment.paymentType == 'noBoundary'}">
                       <label class="form-check-label" for="paymentTypeNoBoundary">
                         No Boundary
                       </label>
                     </div>
                   </div>
                 </fieldset>
-                <fieldset class="col-md-6" id="boundaryRate" onChange="adjustBoundaryRate()">
+                <fieldset class="col-md-6" id="boundaryRate" onChange="adjustBoundaryRate()" th:field="*{rateBoundary}">
                   <legend class="col-form-label col-sm-10 pt-0">Boundary Rate</legend>
                   <div class="col-sm-10">
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="boundaryRate"
-                        id="boundaryRateRegular" value="regular" checked>
+                        id="boundaryRateRegular" value="regular" th:checked="${payment.rateBoundary == 'regular'}">
                       <label class="form-check-label" for="boundaryRateRegular">
                         Regular
                       </label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="boundaryRate"
-                        id="boundaryRateWeekend" value="weekend">
+                        id="boundaryRateWeekend" value="weekend" th:checked="${payment.rateBoundary == 'weekend'}">
                       <label class="form-check-label" for="boundaryRateWeekend">
                         Weekend
                       </label>
                     </div>
                     <div class="form-check ">
                       <input class="form-check-input" type="radio" name="boundaryRate"
-                        id="boundaryRateHoliday" value="holiday">
+                        id="boundaryRateHoliday" value="holiday" th:checked="${payment.rateBoundary == 'holiday'}">
                       <label class="form-check-label" for="boundaryRateHoliday">
                         Holiday
                       </label>
                     </div>
                     <div class="form-check ">
                       <input class="form-check-input" type="radio" name="boundaryRate"
-                        id="coding" value="coding">
+                        id="coding" value="coding" th:checked="${payment.rateBoundary == 'coding'}">
                       <label class="form-check-label" for="coding">
                         Coding
                       </label>
