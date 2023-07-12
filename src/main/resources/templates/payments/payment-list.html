@@ -220,19 +220,19 @@
                       <td th:text="${iterStat.count}" />
                       <td th:text="${tempPayment.vehicle.plateNumber}" />
                       <td th:text="${tempPayment.driverName}" />
-                      <td class="amountReceived"
+                      <td 
                         th:text="${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash) > 0} ? ${#numbers.formatDecimal((tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash), 0, 'COMMA', 2, 'POINT')} : ${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash)}" />
                       <td class="amountBoundary"
                         th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal(tempPayment.amountBoundary, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}" />
-                      <td class="amountShort"
+                      <td 
                         th:text="${tempPayment.amountShort > 0} ? ${#numbers.formatDecimal(tempPayment.amountShort, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountShort}" />
-                      <td class="amountFund"
+                      <td 
                         th:text="${tempPayment.amountFund > 0} ? ${#numbers.formatDecimal(tempPayment.amountFund, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountFund}" />
-                      <td class="amountContribution"
+                      <td 
                         th:text="${tempPayment.amountContribution > 0} ? ${#numbers.formatDecimal(tempPayment.amountContribution, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountContribution}" />
-                      <td class="amountLoanPayment"
+                      <td 
                         th:text="${tempPayment.amountLoanPayment > 0} ? ${#numbers.formatDecimal(tempPayment.amountLoanPayment, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountLoanPayment}" />
-                      <td class="amountCarwash"
+                      <td 
                         th:text="${tempPayment.amountCarwash > 0} ? ${#numbers.formatDecimal(tempPayment.amountCarwash, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountCarwash}" />
                       <td th:text="${#dates.format(tempPayment.travelDate, 'MM/dd/yyyy')}" />
                         <td th:text="${tempPayment.remarks}" />
