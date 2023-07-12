@@ -25,7 +25,7 @@ jobs:
         
       - name: Update Secrets
         run: |
-          cd src/main/resources/application.properties
+          cd src/main/resources/
           sed -i "s|spring.datasource.login.username=|spring.datasource.login.username=${{ secrets.DATABASE_USERNAME }}|g" application.properties
           sed -i "s|spring.datasource.login.password=|spring.datasource.login.password=${{ secrets.DATABASE_PASSWORD }}|g" application.properties
           sed -i "s|spring.datasource.drivers.username=|spring.datasource.drivers.username=${{ secrets.DATABASE_USERNAME }}|g" application.properties
