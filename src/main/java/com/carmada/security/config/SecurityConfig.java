@@ -95,7 +95,7 @@ public class SecurityConfig {
 					.mvcMatchers("/payments/**").authenticated()
 					.mvcMatchers("/vehicles/**").authenticated()
 					.mvcMatchers("/incidents/**").authenticated()
-//					.mvcMatchers("/*").authenticated()
+					.mvcMatchers("/*").authenticated()
 					)
 	            .oauth2Login()
 	            	.loginPage("/")
