@@ -30,6 +30,9 @@ jobs:
           sed -i "s|spring.datasource.login.password=|spring.datasource.login.password=${{ secrets.DATABASE_PASSWORD }}|g" application.properties
           sed -i "s|spring.datasource.drivers.username=|spring.datasource.drivers.username=${{ secrets.DATABASE_USERNAME }}|g" application.properties
           sed -i "s|spring.datasource.drivers.password=|spring.datasource.drivers.password=${{ secrets.DATABASE_PASSWORD }}|g" application.properties
+          sed -i "s|spring.security.oauth2.client.registration.cognito.clientId=|spring.security.oauth2.client.registration.cognito.clientId=${{ secrets.COGNITO_CLIENTID }}|g" application.properties
+          sed -i "s|spring.security.oauth2.client.registration.cognito.clientSecret=|spring.security.oauth2.client.registration.cognito.clientSecret=${{ secrets.COGNITO_SECRET }}|g" application.properties
+          sed -i "s|spring.security.oauth2.client.provider.cognito.issuerUri=|spring.security.oauth2.client.provider.cognito.issuerUri=${{ secrets.COGNITO_ISSUERID }}|g" application.properties
           cat application.properties
          
       - name: Check Java Installation
