@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="login/layout">
-
+<html 
+lang="en" 
+xmlns:th="https://www.thymeleaf.org" 
+xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="login/layout"
+>
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -64,19 +67,20 @@
                 method="POST" onsubmit="return validatePaymentDescriptionHandler()" novalidate>
                 <input type="hidden" th:field="*{id}" />
                 <div class="col-md-6">
-				  <label class="col-sm-3 col-form-label">Vehicle</label>
-				  <div class="col-sm-12">
-				    <select name="vehicle" id="vehicle" class="form-select" aria-label="Default select example"
-				      th:field="*{vehicle}" onchange="getBoundaryRateHandler()" required>
-				      <option value="" selected>Select Vehicle</option>
-				      <option th:each="vehicle : ${vehicles}" th:text="${vehicle.plateNumber}" th:value="${vehicle.id}" th:data-value="${vehicle.boundaryRate}">
-				      </option>
-				    </select>
-				    <div class="invalid-feedback">
-				      Please provide a Vehicle.
-				    </div>
-				  </div>
-				</div>
+                  <label class="col-sm-3 col-form-label">Vehicle</label>
+                  <div class="col-sm-12">
+                    <select name="vehicle" id="vehicle" class="form-select" aria-label="Default select example"
+                      th:field="*{vehicle}" onchange="getBoundaryRateHandler()" required>
+                      <option value="" selected>Select Vehicle</option>
+                      <option th:each="vehicle : ${vehicles}" th:text="${vehicle.plateNumber}" th:value="${vehicle.id}"
+                        th:data-value="${vehicle.boundaryRate}">
+                      </option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Please provide a Vehicle.
+                    </div>
+                  </div>
+                </div>
                 <div class="col-md-6">
                   <label class="col-sm-3 col-form-label">Driver</label>
                   <div class="col-sm-12">
@@ -87,46 +91,49 @@
                         th:value="${driver.id}"></option>
                     </select>
                     <div class="invalid-feedback">
-                    	Please provide a Driver.
-                  	</div>
+                      Please provide a Driver.
+                    </div>
                   </div>
                 </div>
-                <fieldset class="col-md-6" id="paymentType" th:field="*{paymentType}" onChange="setPaymentTypeHandler()">
+                <fieldset class="col-md-6" id="paymentType" th:field="*{paymentType}"
+                  onChange="setPaymentTypeHandler()">
                   <legend class="col-form-label col-sm-10 pt-0">Payment Type</legend>
                   <div class="col-sm-10">
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeFull"
-                        value="fullBoundary" th:checked="${payment != null && payment.paymentType == 'fullBoundary'}">
-                      <label class="form-check-label" for="paymentTypeFull" >
+                        value="FULL_BOUNDARY" th:checked="${payment != null && payment.paymentType == 'FULL_BOUNDARY'}">
+                      <label class="form-check-label" for="paymentTypeFull">
                         Full Boundary
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeDaily"
-                        value="daily" th:checked="${payment != null && payment.paymentType == 'daily'}">
-                      <label class="form-check-label" for="paymentTypeDaily">
-                        Daily
                       </label>
                     </div>
                     <div class="form-check ">
                       <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeShort"
-                        value="short" th:checked="${payment != null && payment.paymentType == 'short'}">
+                        value="SHORT" th:checked="${payment != null && payment.paymentType == 'SHORT'}">
                       <label class="form-check-label" for="paymentTypeShort">
                         Short
                       </label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="paymentType" id="paymentTypePartial"
-                        value="partialBoundary" th:checked="${payment != null && payment.paymentType == 'partialBoundary'}">
+                        value="PARTIAL_BOUNDARY"
+                        th:checked="${payment != null && payment.paymentType == 'PARTIAL_BOUNDARY'}">
                       <label class="form-check-label" for="paymentTypePartial">
                         Partial Boundary
                       </label>
                     </div>
                     <div class="form-check ">
                       <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeNoBoundary"
-                        value="noBoundary" th:checked="${payment != null && payment.paymentType == 'noBoundary'}">
+                        value="NO_BOUNDARY" th:checked="${payment != null && payment.paymentType == 'NO_BOUNDARY'}">
                       <label class="form-check-label" for="paymentTypeNoBoundary">
                         No Boundary
+                      </label>
+                    </div>
+                    <div class="form-check ">
+                      <input class="form-check-input" type="radio" name="paymentType" id="paymentTypeChargeBoundary"
+                        value="CHARGE_BOUNDARY"
+                        th:checked="${payment != null && payment.paymentType == 'CHARGE_BOUNDARY'}">
+                      <label class="form-check-label" for="paymentTypeChargeBoundary">
+                        Charge Boundary
                       </label>
                     </div>
                   </div>
@@ -135,29 +142,29 @@
                   <legend class="col-form-label col-sm-10 pt-0">Boundary Rate</legend>
                   <div class="col-sm-10">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="boundaryRate"
-                        id="boundaryRateRegular" value="regular" th:checked="${payment.rateBoundary == 'regular'}">
+                      <input class="form-check-input" type="radio" name="boundaryRate" id="boundaryRateRegular"
+                        value="regular" th:checked="${payment != null && payment.rateBoundary == 'regular'}">
                       <label class="form-check-label" for="boundaryRateRegular">
                         Regular
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="boundaryRate"
-                        id="boundaryRateWeekend" value="weekend" th:checked="${payment.rateBoundary == 'weekend'}">
+                      <input class="form-check-input" type="radio" name="boundaryRate" id="boundaryRateWeekend"
+                        value="weekend" th:checked="${payment != null && payment.rateBoundary == 'weekend'}">
                       <label class="form-check-label" for="boundaryRateWeekend">
                         Weekend
                       </label>
                     </div>
                     <div class="form-check ">
-                      <input class="form-check-input" type="radio" name="boundaryRate"
-                        id="boundaryRateHoliday" value="holiday" th:checked="${payment.rateBoundary == 'holiday'}">
+                      <input class="form-check-input" type="radio" name="boundaryRate" id="boundaryRateHoliday"
+                        value="holiday" th:checked="${payment != null && payment.rateBoundary == 'holiday'}">
                       <label class="form-check-label" for="boundaryRateHoliday">
                         Holiday
                       </label>
                     </div>
                     <div class="form-check ">
-                      <input class="form-check-input" type="radio" name="boundaryRate"
-                        id="coding" value="coding" th:checked="${payment.rateBoundary == 'coding'}">
+                      <input class="form-check-input" type="radio" name="boundaryRate" id="coding" value="coding"
+                        th:checked="${payment != null && payment.rateBoundary == 'coding'}">
                       <label class="form-check-label" for="coding">
                         Coding
                       </label>
@@ -173,114 +180,124 @@
                 <div class="col-md-6">
                   <label for="short" class="col-sm-6 form-label">Short</label>
                   <div class="col-sm-12">
-                    <input type="number" class="form-control" th:field="*{amountShort}" 
-                    	id="boundaryShort" onBlur="shortBoundaryHandler()">
+                    <input type="number" class="form-control" th:field="*{amountShort}" id="boundaryShort"
+                      onBlur="shortBoundaryHandler()">
                   </div>
                 </div>
-                <label class="col-form-label col-sm-12 pt-0">Other Payments</label>
-                  <div class="row ms-0 mb-2">
+                <div class="col-sm-6">
+                  <label class="col-form-label col-sm-12 pt-0">Other Payments</label>
+                  <div class="ms-0 mb-2">
                     <div class="form-check col-md-3">
-                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsFund" onchange="otherPaymentsHandler()">
+                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsFund"
+                        onchange="otherPaymentsHandler()">
                       <label class="form-check-label" for="otherPaymentsFund">
                         Fund
                       </label>
                     </div>
                     <div class="form-check col-md-4">
-                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsLoan" onchange="otherPaymentsHandler()">
+                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsLoan"
+                        onchange="otherPaymentsHandler()">
                       <label class="form-check-label" for="otherPaymentsLoan">
                         Loan Payment
                       </label>
                     </div>
                     <div class="form-check col-md-3">
-                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsContribution" onchange="otherPaymentsHandler()">
+                      <input name="otherPayments" class="form-check-input" type="checkbox"
+                        id="otherPaymentsContribution" onchange="otherPaymentsHandler()">
                       <label class="form-check-label" for="otherPaymentsContribution">
                         Contribution
                       </label>
                     </div>
                     <div class="form-check col-md-3">
-                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsCarwash" onchange="otherPaymentsHandler()">
+                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsCarwash"
+                        onchange="otherPaymentsHandler()">
                       <label class="form-check-label" for="otherPaymentsCarwash">
                         Carwash
                       </label>
                     </div>
                   </div>
-                <div class="col-md-6">
-                  <label for="boundaryFund" class="col-sm-6 form-label">Fund</label>
-                  <div class="col-sm-12">
-                    <input type="number" class="form-control" th:field="*{amountFund}" id="boundaryFund"
-                    	step="10"	>
-                  </div>
                 </div>
-                <div class="col-md-6">
-                  <label for="boundaryLoan" class="col-sm-6 form-label">Loan Payment</label>
-                  <div class="col-sm-12">
-                    <input type="number" class="form-control" th:field="*{amountLoanPayment}" id="boundaryLoan" 
-                      step="10">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <label for="contribution" class="col-sm-6 form-label">Contribution</label>
-                  <div class="col-sm-12">
-                    <input type="number" class="form-control" th:field="*{amountContribution}" id="contribution" 
-                      step="10" min="0">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <label for="carwash" class="col-sm-6 form-label">Carwash</label>
-                  <div class="col-sm-12">
-                    <input type="number" class="form-control" th:field="*{amountCarwash}" id="carwash" 
-                      step="5" min="0">
-                  </div>
-                </div>
-
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                   <label class="col-form-label col-sm-12 pt-0">Payment Description</label>
                   <div class="invalid-feedback" id="errorDiv" style="display: none;">
-                    	Please provide a Description.
+                    Please provide a Description.
                   </div>
-                  <div class="row ms-0 mb-2">
-                    <div class="form-check col-md-1">
-                      <input name="typeDescription" class="form-check-input" type="checkbox" id="daily" onchange="appendPaymentDescriptionHandler()" value="daily">
-                      <label class="form-check-label" for="daily">
-                        Daily
+                  <div class="ms-0 mb-2">
+                    <div class="form-check col-md-2">
+                      <input name="typeDescription" class="form-check-input" type="checkbox" id="late"
+                        onchange="appendPaymentDescriptionHandler()" value="late">
+                      <label class="form-check-label" for="late">
+                        Late
                       </label>
                     </div>
                     <div class="form-check col-md-2">
-                      <input name="typeDescription" class="form-check-input" type="checkbox" id="extraDriver" onchange="appendPaymentDescriptionHandler()" value="extra driver">
+                      <input name="typeDescription" class="form-check-input" type="checkbox" id="extraDriver"
+                        onchange="appendPaymentDescriptionHandler()" value="extra driver">
                       <label class="form-check-label" for="extraDriver">
                         Extra
                       </label>
                     </div>
-                    <div class="form-check col-md-2">
-                      <input name="typeDescription" class="form-check-input" type="checkbox" id="noDriver" onchange="appendPaymentDescriptionHandler()" value="no driver">
+                    <div class="form-check col-md-6">
+                      <input name="typeDescription" class="form-check-input" type="checkbox" id="noDriver"
+                        onchange="appendPaymentDescriptionHandler()" value="no driver">
                       <label class="form-check-label" for="noDriver">
                         No Driver
                       </label>
                     </div>
                     <div class="form-check col-md-2">
-                      <input name="typeDescription" class="form-check-input" type="checkbox" id="absent" onchange="appendPaymentDescriptionHandler()" value="absent">
+                      <input name="typeDescription" class="form-check-input" type="checkbox" id="absent"
+                        onchange="appendPaymentDescriptionHandler()" value="absent">
                       <label class="form-check-label" for="absent">
                         Absent
                       </label>
                     </div>
-                    <div class="form-check col-md-3">
-                      <input name="typeDescription" class="form-check-input" type="checkbox" id="mainAndRepair" onchange="appendPaymentDescriptionHandler()" value="maintenance">
+                    <div class="form-check col-md-6">
+                      <input name="typeDescription" class="form-check-input" type="checkbox" id="mainAndRepair"
+                        onchange="appendPaymentDescriptionHandler()" value="maintenance">
                       <label class="form-check-label" for="mainAndRepair">
                         Maintenance and Repair
                       </label>
                     </div>
                     <div class="form-check col-md-2">
-                      <input name="typeDescription" class="form-check-input" type="checkbox" id="accident" onchange="appendPaymentDescriptionHandler()" value="accident">
+                      <input name="typeDescription" class="form-check-input" type="checkbox" id="accident"
+                        onchange="appendPaymentDescriptionHandler()" value="accident">
                       <label class="form-check-label" for="accident">
                         Accident
                       </label>
                     </div>
-                    <input type="hidden" class="form-control"
-                    	placeholder="Complete Boundary, Trouble, No Driver etc." th:field="*{paymentDescription}" id="paymentDescription">
+                    <input type="hidden" class="form-control" placeholder="Complete Boundary, Trouble, No Driver etc."
+                      th:field="*{paymentDescription}" id="paymentDescription">
                   </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="boundaryFund" class="col-sm-6 form-label">Fund</label>
+                  <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{amountFund}" id="boundaryFund">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="boundaryLoan" class="col-sm-6 form-label">Loan Payment</label>
+                  <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{amountLoanPayment}" id="boundaryLoan">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="contribution" class="col-sm-6 form-label">Contribution</label>
+                  <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{amountContribution}" id="contribution">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="carwash" class="col-sm-6 form-label">Carwash</label>
+                  <div class="col-sm-12">
+                    <input type="number" class="form-control" th:field="*{amountCarwash}" id="carwash">
+                  </div>
+                </div>
+                <div class="col-md-12">
                   <label for="remarks" class="form-label col-sm-6">Remarks</label>
                   <input type="text" class="form-control" id="remarks" placeholder="" th:field="*{remarks}">
                 </div>
+
                 <div class="col-md-6">
                   <label for="travelDate" class="col-sm-6 form-label">Travel Date</label>
                   <div class="col-sm-12">
@@ -303,21 +320,23 @@
         </div>
       </div>
     </section>
-
-    <!-- Vendor JS Files -->
-    <script src="/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/vendor/chart.js/chart.umd.js"></script>
-    <script src="/vendor/echarts/echarts.min.js"></script>
-    <script src="/vendor/quill/quill.min.js"></script>
-    <script src="/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="/vendor/tinymce/tinymce.min.js"></script>
-    <script src="/vendor/php-email-form/validate.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="/js/main.js"></script>
     <script src="/js/payment-inputs.js"></script>
+  </div>
+  <!-- Vendor JS Files -->
+  <script src="/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/chart.js/chart.umd.js"></script>
+  <script src="/vendor/echarts/echarts.min.js"></script>
+  <script src="/vendor/quill/quill.min.js"></script>
+  <script src="/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="/vendor/tinymce/tinymce.min.js"></script>
+  <script src="/vendor/php-email-form/validate.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="/js/main.js"></script>
+  <script src="/js/payment-inputs.js"></script>
 
 
   </div>

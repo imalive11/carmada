@@ -58,7 +58,7 @@
           
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">List of Drivers</h5>
+              <h5 class="card-title">Active Drivers</h5>
               
               <form th:action="@{/drivers/search}" class="form-inline needs-validation row g-3"  novalidate>
               
@@ -111,11 +111,12 @@
 	                             class="btn btn-info btn-sm" >
 	                            Update
 	                          </a>
-	                          <a th:href="@{/drivers/delete(driverId=${tempDriver.id})}"
-	                             class="btn btn-danger btn-sm"
-	                             onclick="if (!(confirm('Are you sure you want to delete this Driver?'))) return false" >
-	                            Delete
-	                          </a>
+                            <a th:href="@{/drivers/deactivate(driverId=${tempDriver.id})}"
+                                      class="btn btn-danger btn-sm"
+                                      id="profileLink"
+                                      onclick="if (!(confirm('Are you sure you want to deactivate this Driver?'))) return false" >
+                                      Deactivate
+                            </a>
 	                      </td>
 	                  </tr>
 	                </tbody>

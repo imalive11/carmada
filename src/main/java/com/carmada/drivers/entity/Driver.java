@@ -40,6 +40,9 @@ public class Driver {
 	@Column(name="first_name")
 	private String firstName;
 	
+	@Column(name="status")
+	private boolean status;
+	
 	@NotEmpty(message = "Missing Last Name")
     @Size(min = 1, max = 30)
 	@Column(name="last_name")
@@ -70,6 +73,13 @@ public class Driver {
 					CascadeType.DETACH, CascadeType.REFRESH})
 	private List<Incident> incidents;
 	
+	@JsonIgnoreProperties("driver")
+	@OneToMany(mappedBy="driver", 
+			fetch= FetchType.LAZY,
+			cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+					CascadeType.DETACH, CascadeType.REFRESH})
+	private List<EmploymentActivity> activities;
+	
 	public void add(Payment tempPayment) {
 
 		if (this.payments == null) {
@@ -79,6 +89,17 @@ public class Driver {
 		this.payments.add(tempPayment);
 
 		tempPayment.setDriver(this);
+	}
+	
+	public void addActivity(EmploymentActivity employmentActivity) {
+
+		if (this.activities == null) {
+			this.activities = new ArrayList<>();
+		}
+
+		this.activities.add(employmentActivity);
+
+		employmentActivity.setDriver(this);
 	}
 	
 	public DriverPersonalInfo getDriverPersonalInfo() {
@@ -135,6 +156,30 @@ public class Driver {
 	public Driver(String firstName, String lastName) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public List<Incident> getIncidents() {
+		return incidents;
+	}
+
+	public void setIncidents(List<Incident> incidents) {
+		this.incidents = incidents;
+	}
+
+	public List<EmploymentActivity> getActivities() {
+		return activities;
+	}
+
+	public void setActivities(List<EmploymentActivity> activities) {
+		this.activities = activities;
 	}
 
 

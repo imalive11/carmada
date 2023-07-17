@@ -12,5 +12,11 @@ public interface DriverRepository extends JpaRepository<Driver, Integer> {
 	
 	public List<Driver> findAllByOrderByIdAsc();
 
+	public List<Driver> findByStatusTrueAndFirstNameIgnoreCaseContainsOrLastNameIgnoreCaseContains(String firstName, String lastName);
+	
 	public List<Driver> findByFirstNameIgnoreCaseContainsOrLastNameIgnoreCaseContains(String firstName, String lastName);
+	
+	public List<Driver> findByStatusTrue();
+	
+	
 }

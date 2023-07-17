@@ -59,6 +59,22 @@ public class DriverController {
 //    }
 //	
 	@GetMapping
+	public String listAllActive(Model model){
+		List<Driver> drivers;
+		try {
+			drivers = driverService.findAllActiveDrivers();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "drivers/home-page";
+		}
+		
+		model.addAttribute("drivers", drivers);
+
+		return "drivers/driver-list";
+	}
+	
+	@GetMapping("/all")
 	public String listAll(Model model){
 		List<Driver> drivers;
 		try {
@@ -70,13 +86,13 @@ public class DriverController {
 		}
 		
 		model.addAttribute("drivers", drivers);
-		return "drivers/driver-list";
+		return "drivers/driver-list-all";
 	}
 	
 	@GetMapping("/search")
-	public String findByName(@RequestParam("name") String name, Model model){
+	public String findByNameByStatus(@RequestParam("name") String name, Model model){
 
-		List<Driver> drivers = driverService.findByName(name);
+		List<Driver> drivers = driverService.findByNameByStatus(name);
 		
 		if (drivers.isEmpty() == true) {
 			model.addAttribute("errorMessage", "Driver not found!");
@@ -86,6 +102,21 @@ public class DriverController {
 		model.addAttribute("drivers", drivers);
 		
 		return "drivers/driver-list";
+	}
+	
+	@GetMapping("/searchall")
+	public String findByName(@RequestParam("name") String name, Model model){
+
+		List<Driver> drivers = driverService.findByName(name);
+		
+		if (drivers.isEmpty() == true) {
+			model.addAttribute("errorMessage", "Driver not found!");
+			return "drivers/driver-list-all";
+		}
+		
+		model.addAttribute("drivers", drivers);
+		
+		return "drivers/driver-list-all";
 	}
 	
 	@GetMapping("/add")
@@ -117,6 +148,16 @@ public class DriverController {
 	public String delete(@RequestParam("driverId") int theId) {
 		
 		driverService.delete(theId);
+		
+		return "redirect:/drivers/";
+		
+	}
+	
+	@GetMapping("/deactivate")
+	public String deactivate(@RequestParam("driverId") int theId) {
+		
+		
+		driverService.deactivate(theId);
 		
 		return "redirect:/drivers/";
 		

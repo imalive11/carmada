@@ -118,8 +118,6 @@ public class VehicleController {
 		
 		model.addAttribute("vehicle", vehicle);
 		
-		
-		
 		return "vehicles/vehicle-form";			
 	}
 

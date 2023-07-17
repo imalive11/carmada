@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -48,6 +50,31 @@ public class Vehicle {
 	@Column(name="franchise")
 	private String franchise;
 	
+	@Enumerated(EnumType.STRING)
+    @Column(name = "travel_type")
+    private TravelType travelType;
+
+    public enum TravelType {
+        DAILY,
+        REGULAR
+    }	
+	
+	public TravelType getTravelType() {
+		return travelType;
+	}
+
+	public void setTravelType(TravelType travelType) {
+		this.travelType = travelType;
+	}
+
+	public List<Incident> getIncidents() {
+		return incidents;
+	}
+
+	public void setIncidents(List<Incident> incidents) {
+		this.incidents = incidents;
+	}
+
 	@JsonIgnoreProperties("vehicle")
 	@OneToMany(mappedBy="vehicle", fetch= FetchType.LAZY,
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE,
@@ -78,7 +105,7 @@ public class Vehicle {
 	@Column(name="expiration_year")
 	private Integer expirationYear;
 	
-	public void add(Payment tempPayment) {
+	public void addPayment(Payment tempPayment) {
 
 		if (this.payments == null) {
 			this.payments = new ArrayList<>();
@@ -87,6 +114,17 @@ public class Vehicle {
 		this.payments.add(tempPayment);
 
 		tempPayment.setVehicle(this);
+	}
+	
+	public void addIncident(Incident incident) {
+
+		if (this.incidents == null) {
+			this.incidents = new ArrayList<>();
+		}
+
+		this.incidents.add(incident);
+
+		incident.setVehicle(this);
 	}
 
 	public String getFranchise() {

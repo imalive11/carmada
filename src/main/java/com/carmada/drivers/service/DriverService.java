@@ -8,6 +8,8 @@ public interface DriverService {
 
 	public List<Driver> findAll();
 	
+	public List<Driver> findAllActiveDrivers();
+	
 	public Driver findById(int id);
 	
 	public void save(Driver driver);
@@ -15,4 +17,8 @@ public interface DriverService {
 	public void delete(int id);
 
 	public List<Driver> findByName(String name);
+	
+	public List<Driver> findByNameByStatus(String name);
+
+	public void deactivate(int theId);
 }

@@ -27,11 +27,11 @@ public class DriverServiceImpl implements DriverService {
 
 	@Override
 	@Transactional
-	public List<Driver> findByName(String name) {
+	public List<Driver> findByNameByStatus(String name) {
 		
 		List<Driver> result = 
 				this.driverRepository
-					.findByFirstNameIgnoreCaseContainsOrLastNameIgnoreCaseContains(name, name);
+					.findByStatusTrueAndFirstNameIgnoreCaseContainsOrLastNameIgnoreCaseContains(name, name);
 		
 		return result;
 		
@@ -60,6 +60,37 @@ public class DriverServiceImpl implements DriverService {
 			throw new RuntimeException("Did not find Driver by id: " + driver);
 		}
 		return driver;
+	}
+	@Override
+	public void deactivate(int theId) {
+		
+		Optional<Driver> result = driverRepository.findById(theId);
+		
+		Driver driver = null;
+		if(result.isPresent() == true) {
+			driver = result.get();
+			if (driver.isStatus()) {
+				driver.setStatus(false);
+			} else driver.setStatus(true);
+			
+			this.driverRepository.save(driver);
+		} else {
+			throw new RuntimeException("Did not find Driver by id: " + driver);
+		}
+
+	}
+	@Override
+	public List<Driver> findAllActiveDrivers() {
+		
+		return this.driverRepository.findByStatusTrue();
+	}
+	@Override
+	public List<Driver> findByName(String name) {
+		List<Driver> result = 
+				this.driverRepository
+					.findByFirstNameIgnoreCaseContainsOrLastNameIgnoreCaseContains(name, name);
+		
+		return result;
 	}
 
 

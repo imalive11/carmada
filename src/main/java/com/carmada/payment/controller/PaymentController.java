@@ -202,7 +202,7 @@ public class PaymentController {
 	
 	private void listDriverAndVehicleForDropdown(Model model) {
 
-		List<Driver> drivers = driverService.findAll();
+		List<Driver> drivers = driverService.findAllActiveDrivers();
 		
 		model.addAttribute("drivers", drivers);
 		

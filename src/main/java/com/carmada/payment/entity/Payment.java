@@ -78,43 +78,25 @@ public class Payment {
 	@NotNull(message="Missing Vehicle")
 	private Vehicle vehicle;
 	
-	public Integer getAmountRateBoundary() {
-		return amountRateBoundary;
-	}
-
-	public void setAmountRateBoundary(Integer amountRateBoundary) {
-		this.amountRateBoundary = amountRateBoundary;
-	}
-
-	public String getRateBoundary() {
-		return rateBoundary;
-	}
-
-	public void setRateBoundary(String rateBoundary) {
-		this.rateBoundary = rateBoundary;
-	}
-
-	public double getAmountContribution() {
-		return amountContribution;
-	}
-
-	public void setAmountContribution(double amountContribution) {
-		this.amountContribution = amountContribution;
-	}
 
 	@Column(name="driver_name")
 	private String driverName;
 	
-	@Column(name="payment_type")
-	private String paymentType;
+//	@Enumerated(EnumType.STRING)
+    @Column(name = "payment_type")
+    private String paymentType;
+
+//    public enum PaymentType {
+//        FULL_BOUNDARY,
+//        SHORT,
+//        PARTIAL_BOUNDARY,
+//        NO_BOUNDARY,
+//        CHARGE_BOUNDARY
+//    }
 	
 	@Column(name="payment_description")
 	private String paymentDescription;
 	
-	
-	public String getPaymentType() {
-		return paymentType;
-	}
 
 	public Payment(int id, @Min(value = 0, message = "Missing Boundary") double amountBoundary, double amountShort,
 			double amountFund, double amountLoanPayment, double amountContribution, double amountCarwash,
@@ -143,16 +125,44 @@ public class Payment {
 		this.paymentDescription = paymentDescription;
 	}
 
-	public void setPaymentType(String paymentType) {
-		this.paymentType = paymentType;
-	}
-
 	public String getPaymentDescription() {
 		return paymentDescription;
 	}
 
 	public void setPaymentDescription(String paymentDescription) {
 		this.paymentDescription = paymentDescription;
+	}
+
+	public double getAmountContribution() {
+		return amountContribution;
+	}
+
+	public void setAmountContribution(double amountContribution) {
+		this.amountContribution = amountContribution;
+	}
+
+	public Integer getAmountRateBoundary() {
+		return amountRateBoundary;
+	}
+
+	public void setAmountRateBoundary(Integer amountRateBoundary) {
+		this.amountRateBoundary = amountRateBoundary;
+	}
+
+	public String getRateBoundary() {
+		return rateBoundary;
+	}
+
+	public void setRateBoundary(String rateBoundary) {
+		this.rateBoundary = rateBoundary;
+	}
+
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
 	}
 
 	public String getRemarks() {

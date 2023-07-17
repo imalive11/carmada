@@ -39,8 +39,7 @@ public class Incident {
     public enum IncidentType {
         DAMAGE,
         VIOLATION,
-        CASH_ADVANCE,
-        CHARGE_BOUNDARY
+        CASH_ADVANCE
     }
 	
     @DateTimeFormat(pattern = "yyyy-MM-dd")
