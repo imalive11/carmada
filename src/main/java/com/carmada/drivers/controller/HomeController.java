@@ -1,19 +1,26 @@
 package com.carmada.drivers.controller;
 
-import java.text.ParseException;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.carmada.payment.entity.Payment;
+import com.carmada.payment.service.PaymentService;
 
 @Controller
 @RequestMapping("/home")
 public class HomeController {
 	
-//	@Autowired
-//	private PaymentService paymentService;
+	@Autowired
+	private PaymentService paymentService;
 
 
 	@ExceptionHandler(Exception.class)
@@ -23,20 +30,19 @@ public class HomeController {
     }
 	
 	@GetMapping
-	public String listAll(Model model) throws ParseException{
+	public String listAll(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(defaultValue = "60") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            Model model){
 		
-//		List<Payment> currentDatePayments = paymentService.findByCurrentDate();
-//		
-//		double totalRevenue = 0;
-//		
-//		for (Payment payment: currentDatePayments) {
-//			totalRevenue += payment.getAmountBoundary();
-//		}
-//		model.addAttribute("totalRevenue", totalRevenue);
-//		
-//		model.addAttribute("currentDatePayments", currentDatePayments);
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
+		Page<Payment> page;
+        page = paymentService.findLatestDayPayment(pageable);
+        model.addAttribute("page", page);
 		
 		return "login/home-page";
 	}
+	
+	
 
 }
