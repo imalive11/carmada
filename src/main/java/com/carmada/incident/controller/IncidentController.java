@@ -64,12 +64,12 @@ public class IncidentController {
             Model model){
 		
 		List<Incident> incidents = null;
+		Date parsedStartDate = null;
+        Date parsedEndDate = null;
 		
 		if (name != null && !name.isEmpty() && startDate != null && endDate != null) {
 			
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			Date parsedStartDate = null;
-            Date parsedEndDate = null;
             
             try {
             	parsedStartDate = formatter.parse(startDate);
@@ -86,8 +86,6 @@ public class IncidentController {
         	
         } else if (startDate != null && endDate != null) {
         	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			Date parsedStartDate = null;
-            Date parsedEndDate = null;
             
             try {
             	parsedStartDate = formatter.parse(startDate);
@@ -106,6 +104,8 @@ public class IncidentController {
 		
 		if (incidents != null) {
 			 model.addAttribute("incidents", incidents);
+			 model.addAttribute("firstDate", parsedStartDate);
+		     model.addAttribute("latestDate", parsedEndDate);
 		}
        
 		return "incidents/incident-list";

@@ -544,7 +544,7 @@
                                         <button
                                           type="button"
                                           class="btn btn-primary"
-                                          th:attr="onclick='exportTableToExcel(\'driver\', \''  + ${#strings.toString(#dates.format(firstDate, 'MMM'))} + '\', \'' + ${#strings.toString(#dates.format(firstDate, 'MMM'))} + '\', \'' + ${#strings.concat(driver.firstName, ' ', driver.lastName)} + '\')'"
+                                          th:attr="onclick='exportTableToExcel(\'driver\', \''  + ${#strings.toString(#dates.format(firstDate, 'MMM'))} + '\', \'' + ${#strings.toString(#dates.format(latestDate, 'MMM'))} + '\', \'' + ${#strings.concat(driver.firstName, ' ', driver.lastName)} + '\')'"
                                         >
                                           Export
                                         </button>
