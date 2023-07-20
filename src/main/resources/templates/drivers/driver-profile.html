@@ -210,7 +210,7 @@
                         id="dateRange"
                         onChange="dateRangeHandler()"
                       >
-                        <div class="row">
+                        <div>
                           <legend class="col-form-label col-sm-10 pt-1 label">
                             Select Range
                           </legend>
@@ -730,55 +730,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
         <script src="/js/payment-summary.js"></script>
-        <script>
-          $(document).ready(function () {
-            dateRangeHandler();
-          });
-          const getParameterByName = (name) => {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-          };
-
-          // Example usage:
-          const parameterValue = getParameterByName("dateRange");
-
-          const dateRangeHandler = () => {
-            var selectedRange = $("input[name='dateRange']:checked").val();
-            var selectedYear = $("#selected-year").val();
-            var selectedStartMonth = $("#from-select").val();
-            var selectedEndMonth = $("#to-select").val();
-
-            if (
-              selectedRange === "allyear" ||
-              selectedRange === "firsthalf" ||
-              selectedRange === "secondhalf"
-            ) {
-              $("#from-select").prop("disabled", true);
-              $("#to-select").prop("disabled", true);
-              var startDate;
-              var endDate;
-
-              if (selectedRange === "allyear") {
-                startDate = `${selectedYear}-01-01`;
-                endDate = `${selectedYear}-12-31`;
-              } else if (selectedRange === "firsthalf") {
-                startDate = `${selectedYear}-01-01`;
-                endDate = `${selectedYear}-06-30`;
-              } else if (selectedRange === "secondhalf") {
-                startDate = `${selectedYear}-07-01`;
-                endDate = `${selectedYear}-12-31`;
-              }
-            } else if (selectedRange === "custom") {
-              $("#from-select").prop("disabled", false);
-              $("#to-select").prop("disabled", false);
-              var startDate = `${selectedYear}-${selectedStartMonth}`;
-              var endDate = `${selectedYear}-${selectedEndMonth}`;
-            }
-            $("#startDateInput").val(startDate);
-            $("#endDateInput").val(endDate);
-          };
-        </script>
-        
+        <script src="/js/date-handler.js"></script>
       </section>
     </div>
     <!-- Vendor JS Files -->

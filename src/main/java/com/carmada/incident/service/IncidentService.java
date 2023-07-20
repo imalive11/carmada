@@ -21,9 +21,13 @@ public interface IncidentService {
 
 	public List<Incident> findByIncidentDate(Date incidentDate);
 	
+	public List<Incident> findByIncidentDateBetween(Date startDate, Date endDate);
+	
 	public List<Incident> findAllByDriverAndDate(int id, Date startDate, Date endDate);
 	
 	public List<Incident> findAllByVehicleAndDate(int id, Date startDate, Date endDate);
+	
+	public List<Incident> findAllByDriverNameAndDate(String name, Date startDate, Date endDate);
 	
 	public List<Incident> findByDriverId(int id);
 

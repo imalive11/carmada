@@ -60,27 +60,6 @@ import org.springframework.security.web.SecurityFilterChain;
 //		
 //}
 
-//@Configuration
-//@EnableWebSecurity
-//@ComponentScan(basePackages="com.carmada")
-//public class SecurityConfig {
-//
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.csrf()
-//            .and()
-//            .authorizeRequests(authz -> authz.mvcMatchers("/")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated())
-//            .oauth2Login()
-//            .and()
-//            .logout()
-//            .logoutSuccessUrl("/");
-//        return http.build();
-//    }
-//}
-
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackages = "com.carmada")

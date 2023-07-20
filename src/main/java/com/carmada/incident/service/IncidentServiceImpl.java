@@ -94,4 +94,16 @@ public class IncidentServiceImpl implements IncidentService {
 		return this.incidentRepository.findAllByVehicleIdAndIncidentDateBetween(vehicleId, startDate, endDate);
 	}
 
+	@Override
+	public List<Incident> findAllByDriverNameAndDate(String name, Date startDate, Date endDate) {
+		// TODO Auto-generated method stub
+		return this.incidentRepository.findByDriverFirstNameIgnoreCaseContainsOrDriverLastNameIgnoreCaseContainsAndIncidentDateBetween(name, name, startDate, endDate);
+	}
+
+	@Override
+	public List<Incident> findByIncidentDateBetween(Date startDate, Date endDate) {
+		// TODO Auto-generated method stub
+		return this.incidentRepository.findAllByIncidentDateBetween(startDate, endDate);
+	}
+
 }

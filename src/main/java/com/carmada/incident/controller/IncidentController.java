@@ -51,7 +51,6 @@ public class IncidentController {
 	public String listAll(Model model){
 		List<Incident> incidents = incidentService.findAll();
 	
-		
 		model.addAttribute("incidents", incidents);
 		
 		return "incidents/incident-list";
@@ -60,39 +59,44 @@ public class IncidentController {
 	@GetMapping("/search")
 	public String searchIncident(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false, value = "inputDate") String date,
+            @RequestParam(required = false, value = "startDate") String startDate,
+            @RequestParam(required = false, value = "endDate") String endDate,
             Model model){
 		
 		List<Incident> incidents = null;
 		
-		if (name != null && !name.isEmpty() && date != null) {
+		if (name != null && !name.isEmpty() && startDate != null && endDate != null) {
 			
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date parsedDate = null;
+			Date parsedStartDate = null;
+            Date parsedEndDate = null;
             
             try {
-            	parsedDate = formatter.parse(date);
+            	parsedStartDate = formatter.parse(startDate);
+            	parsedEndDate = formatter.parse(endDate);
 	        } catch (ParseException e) {
 	                e.printStackTrace();
 	        }
         	
-        	incidents = incidentService.findByDriverAndIncidentDate(name, parsedDate);
+        	incidents = incidentService.findAllByDriverNameAndDate(name, parsedStartDate, parsedEndDate);
         	
         } else if (name != null && !name.isEmpty()) {
         	
         	incidents = incidentService.findByDriver(name);
         	
-        } else if (date != null) {
+        } else if (startDate != null && endDate != null) {
         	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date parsedDate = null;
+			Date parsedStartDate = null;
+            Date parsedEndDate = null;
             
             try {
-            	parsedDate = formatter.parse(date);
+            	parsedStartDate = formatter.parse(startDate);
+            	parsedEndDate = formatter.parse(endDate);
 	        } catch (ParseException e) {
 	                e.printStackTrace();
 	        }
             
-            incidents = incidentService.findByIncidentDate(parsedDate);
+            incidents = incidentService.findByIncidentDateBetween(parsedStartDate, parsedEndDate);
             
         } else {
         	

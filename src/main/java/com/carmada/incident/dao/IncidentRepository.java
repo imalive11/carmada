@@ -23,6 +23,10 @@ public interface IncidentRepository extends JpaRepository<Incident, Integer> {
 	
 	public List<Incident> findAllByVehicleIdAndIncidentDateBetween(int id, Date startDate, Date endDate);
 	
+	public List<Incident> findAllByIncidentDateBetween(Date startDate, Date endDate);
+	
+	public List<Incident> findByDriverFirstNameIgnoreCaseContainsOrDriverLastNameIgnoreCaseContainsAndIncidentDateBetween(String firstName, String lastName, Date startDate, Date endDate);
+	
 	public List<Incident> findByDriverId(int id);
 	
 	public List<Incident> findByVehicleId(int id);

@@ -10,6 +10,7 @@ public class CognitoWebConfiguration implements WebMvcConfigurer {
 	@Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("login/login");
+        registry.addViewController("/home").setViewName("login/home-page");
     }
 	
 }

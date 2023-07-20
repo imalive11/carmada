@@ -61,16 +61,89 @@
               <h5 class="card-title">List of Incidents</h5>
 
               <form th:action="@{/incidents/search}" class="form-inline row g-3" method="get">
-                <div class="row mb-3">
-                  <label for="inputDate" class="col-sm-2 col-form-label">Search by Incident Date</label>
-                  <div class="col-sm-2">
-                    <input type="date" class="form-control" name="inputDate" th:value="${inputDate}" id="inputDate" />
+                <div class="mb-3">
+                  <h5>Search by Incident Date</h5>
+                  <input type="hidden" name="startDate" id="startDateInput" />
+                  <input type="hidden" name="endDate" id="endDateInput" />
+                  <fieldset class="col-md-8 mb-3 row" id="dateRange" onChange="dateRangeHandler()">
+                    <div class="row">
+                      <legend class="col-form-label col-sm-10 label">
+                        Select Range
+                      </legend>
+                      <div>
+                      <div class="form-check col-md-3">
+                        <input class="form-check-input" type="radio" name="dateRange" id="all-year" value="allyear"
+                          checked />
+                        <label class="form-check-label" for="all-year">
+                          All Year
+                        </label>
+                      </div>
+                      <div class="form-check col-md-3">
+                        <input class="form-check-input" type="radio" name="dateRange" id="custom" value="custom" />
+                        <label class="form-check-label" for="Custom">
+                          Custom
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  </fieldset>
+                  <div class="row mb-3">
+                    <label class="col-lg-2 col-md-4 label">Select Year</label>
+                    <div class="col-lg-3 col-md-4">
+                      <select id="selected-year" class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        onchange="dateRangeHandler()">
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023" selected>2023</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label class="col-lg-2 col-md-8 label">From:</label>
+                    <div class="col-lg-3 col-md-4">
+                      <select id="from-select" class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        onchange="dateRangeHandler()">
+                        <option value="01-01">January</option>
+                        <option value="02-01">February</option>
+                        <option value="03-01">March</option>
+                        <option value="04-01">April</option>
+                        <option value="05-01">May</option>
+                        <option value="06-01">June</option>
+                        <option value="07-01">July</option>
+                        <option value="08-01">August</option>
+                        <option value="09-01">September</option>
+                        <option value="10-01">October</option>
+                        <option value="11-01">November</option>
+                        <option value="12-01">Decemeber</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label class="col-lg-2 col-md-8 label">To:</label>
+                    <div class="col-lg-3 col-md-4">
+                      <select id="to-select" class="form-select form-select-sm" aria-label=".form-select-sm example"
+                        onchange="dateRangeHandler()">
+                        <option value="01-31">January</option>
+                        <option value="02-29">February</option>
+                        <option value="03-31">March</option>
+                        <option value="04-30">April</option>
+                        <option value="05-31">May</option>
+                        <option value="06-30">June</option>
+                        <option value="07-31">July</option>
+                        <option value="08-31">August</option>
+                        <option value="09-30">September</option>
+                        <option value="10-31">October</option>
+                        <option value="11-30">November</option>
+                        <option value="12-31">Decemeber</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label for="name" class="col-sm-2 col-form-label">Search by Driver</label>
                   <div class="col-sm-2">
-                    <input type="text" class="form-control" name="name" th:value="${name}" placeholder="Search Driver" id="name"/>
+                    <input type="text" class="form-control" name="name" th:value="${name}" placeholder="Search Driver"
+                      id="name" />
                     <div class="invalid-feedback">
                       Please type the name of the driver you are searching!
                     </div>
@@ -84,12 +157,75 @@
                   <a th:href="@{/incidents/add}" class="btn btn-primary mb-3 ">
                     New Incident
                   </a>
-                  
+                </div>
+                <div class="col-md-9">
+                  <button type="button" class="btn btn-success mb-3 mr-sm-5 float-end" data-bs-toggle="modal"
+                    data-bs-target="#fullscreenModalIncident">
+                    Create Report
+                  </button>
+
+                  <div class="modal fade" id="fullscreenModalIncident" tabindex="-1">
+                    <div class="modal-dialog modal-fullscreen">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">
+                            Incident History
+                          </h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <table class="table table-hover table-sm" id="incident-table">
+                            <thead>
+                              <tr>
+                                <th>Incident ID</th>
+                                <th>Driver</th>
+                                <th>Plate Number</th>
+                                <th>Incident Type</th>
+                                <th>Incident Amount</th>
+                                <th>Incident Date</th>
+                                <th>Remarks</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr th:each="incident, iterStat : ${incidents}">
+                                <td th:text="${incident.id}" />
+                                <td th:text="${incident.driver.firstName} + ' ' + ${incident.driver.lastName}" />
+                                <td th:text="${incident.vehicle.plateNumber}" />
+                                <td class="incidentType" th:text="${incident.incidentType}" />
+                                <td class="incidentAmount"
+                                  th:text="${incident.incidentAmount > 0} ? ${#numbers.formatDecimal((incident.incidentAmount), 0, 'COMMA', 2, 'POINT')} : ${incident.incidentAmount}" />
+                                <td th:text="${#dates.format(incident.incidentDate, 'dd/MM/yyyy')}" />
+                                <td th:text="${incident.remarks}" />
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td colspan="3">Grand Total</td>
+                                <td id="totalIncidentAmount"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                          </button>
+                          <!-- <button
+                              type="button"
+                              class="btn btn-primary"
+                              th:attr="onclick='exportTableToExcel(${#strings.toString(#dates.format(firstDate, 'MMM'))})'"
+                            >
+                              Export
+                            </button> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Full Screen Modal-->
                 </div>
                 <table id="incident-table" class="table table-hover">
                   <thead>
                     <tr>
-                      <th>Inciden ID</th>
+                      <th>Incident ID</th>
                       <th>Driver</th>
                       <th>Plate Number</th>
                       <th>Incident Type</th>
@@ -97,24 +233,25 @@
                       <th>Incident Date</th>
                       <th>Remarks</th>
                       <th>Action</th>
-  
                     </tr>
                   </thead>
                   <tbody>
                     <tr th:each="incident : ${incidents}">
-  
+
                       <td th:text="${incident.id}" />
                       <td th:text="${incident.driver.firstName} + ' ' + ${incident.driver.lastName}" />
                       <td th:text="${incident.vehicle.plateNumber}" />
                       <td th:text="${incident.incidentType}" />
-                      <td th:text="${incident.incidentAmount > 0} ? ${#numbers.formatDecimal(incident.incidentAmount, 0, 'COMMA', 2, 'POINT')} : ${incident.incidentAmount}" />
+                      <td
+                        th:text="${incident.incidentAmount > 0} ? ${#numbers.formatDecimal(incident.incidentAmount, 0, 'COMMA', 2, 'POINT')} : ${incident.incidentAmount}" />
                       <td th:text="${#dates.format(incident.incidentDate, 'dd/MM/yyyy')}" />
                       <td th:text="${incident.remarks}" />
                       <td>
                         <a th:href="@{/incidents/update(incidentId=${incident.id})}" class="btn btn-info btn-sm inline">
                           Update
                         </a>
-                        <a th:href="@{/incidents/delete(incidentId=${incident.id})}" class="btn btn-danger btn-sm inline"
+                        <a th:href="@{/incidents/delete(incidentId=${incident.id})}"
+                          class="btn btn-danger btn-sm inline"
                           onclick="if (!(confirm('Are you sure you want to delete this Incident?'))) return false">
                           Delete
                         </a>
@@ -122,18 +259,20 @@
                     </tr>
                   </tbody>
                 </table>
-                </form>
-               
+              </form>
+
             </div>
           </div>
         </div>
       </div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-      
+
       <!-- Page Specific JS Files -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+      <script src="/js/payment-summary.js"></script>
+      <script src="/js/date-handler.js"></script>
     </section>
   </div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
