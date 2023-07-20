@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" 
-		xmlns:th="https://www.thymeleaf.org"
-		xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
-      		layout:decorate="login/layout">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="login/layout">
 
 <head>
   <meta charset="utf-8">
@@ -18,7 +16,9 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -41,7 +41,7 @@
 </head>
 
 <body>
-<div layout:fragment="content">
+  <div layout:fragment="content">
     <div class="pagetitle">
       <h1>Drivers</h1>
       <nav>
@@ -55,74 +55,74 @@
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
-          
+
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Active Drivers</h5>
-              
-              <form th:action="@{/drivers/search}" class="form-inline needs-validation row g-3"  novalidate>
-              
-              	<div class="col-md-3">
+
+              <form th:action="@{/drivers/search}" class="form-inline needs-validation row g-3" novalidate>
+
+                <div class="col-md-3">
                   <div class="has-validation">
-                    <input type="text" class="form-control has-validation mb-2" name="name"
-                      required>
+                    <input type="text" class="form-control has-validation mb-2" name="name" required>
                     <div class="invalid-feedback">
                       Please type the name of the driver you are searching!
                     </div>
                   </div>
                 </div>
-                
+
                 <div class="col-md-5">
-              <button class="btn btn-success mb-3 mr-sm-5" type="submit">Search</button>
-              <a th:href="@{/drivers/add}"
-					class="btn btn-primary mb-3">
-					New Driver
-				</a>
-				</div>
-				
-					
-	              <!-- Table with hoverable rows -->
-	              <table class="table table-hover table-sm">
-	                <thead>
-	                  <tr>
-	                    <th>Driver ID</th>
-	                    <th>First Name</th>
-	                    <th>Last Name</th>
-	                    <th>License ID</th>
-	                    <th>Contact No.</th>
-	                    <th>Emp. Date</th>
-	                    <th>Actions</th>
-	                  </tr>
-	                </thead>
-	                <tbody>
-	                  <tr th:each="tempDriver : ${drivers}">
-	                    <td th:text="${tempDriver.id}" />
-	                    <td th:text="${tempDriver.firstName}" />	
-	                    <td th:text="${tempDriver.lastName}" />	
-	                    <td th:text="${tempDriver.driverPersonalInfo.licenseId}" />
-	                    <td th:text="${tempDriver.driverPersonalInfo.mobileNumber}" />
-	                    <td th:text="${#dates.format(tempDriver.employmentDate, 'dd/MM/yyyy')}" />
-	                      <td>
-                            <a th:href="@{/drivers/profile(driverId=${tempDriver.id})}"
-	                             class="btn btn-success btn-sm" >
-	                            Profile
-	                          </a>
-	                          <a th:href="@{/drivers/update(driverId=${tempDriver.id})}"
-	                             class="btn btn-info btn-sm" >
-	                            Update
-	                          </a>
-                            <a th:href="@{/drivers/deactivate(driverId=${tempDriver.id})}"
-                                      class="btn btn-danger btn-sm"
-                                      id="profileLink"
-                                      onclick="if (!(confirm('Are you sure you want to deactivate this Driver?'))) return false" >
-                                      Deactivate
+                  <button class="btn btn-success mb-3 mr-sm-5" type="submit">Search</button>
+                  <a th:href="@{/drivers/add}" class="btn btn-primary mb-3">
+                    New Driver
+                  </a>
+                </div>
+                <div class="card overflow-auto">
+                  <div class="card-body">
+
+
+                    <!-- Table with hoverable rows -->
+                    <table class="table table-hover table-sm">
+                      <thead>
+                        <tr>
+                          <th>Driver ID</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th>License ID</th>
+                          <th>Contact No.</th>
+                          <th>Emp. Date</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr th:each="tempDriver : ${drivers}">
+                          <td th:text="${tempDriver.id}" />
+                          <td th:text="${tempDriver.firstName}" />
+                          <td th:text="${tempDriver.lastName}" />
+                          <td th:text="${tempDriver.driverPersonalInfo.licenseId}" />
+                          <td th:text="${tempDriver.driverPersonalInfo.mobileNumber}" />
+                          <td th:text="${#dates.format(tempDriver.employmentDate, 'dd/MM/yyyy')}" />
+                          <td>
+                            <a th:href="@{/drivers/profile(driverId=${tempDriver.id})}" class="btn btn-success btn-sm">
+                              Profile
                             </a>
-	                      </td>
-	                  </tr>
-	                </tbody>
-	              </table>
-              <div th:if="${errorMessage}" th:text="${errorMessage}" class="alert alert-danger mb-3 mr-sm-5 text-center"></div>
-		    </form>	
+                            <a th:href="@{/drivers/update(driverId=${tempDriver.id})}" class="btn btn-info btn-sm">
+                              Update
+                            </a>
+                            <a th:href="@{/drivers/deactivate(driverId=${tempDriver.id})}" class="btn btn-danger btn-sm"
+                              id="profileLink"
+                              onclick="if (!(confirm('Are you sure you want to deactivate this Driver?'))) return false">
+                              Deactivate
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div th:if="${errorMessage}" th:text="${errorMessage}"
+                      class="alert alert-danger mb-3 mr-sm-5 text-center"></div>
+                  </div>
+                </div>
+              </form>
               <!-- End Table with hoverable rows -->
 
             </div>
@@ -133,7 +133,8 @@
     </section>
 
   </div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="/vendor/apexcharts/apexcharts.min.js"></script>
