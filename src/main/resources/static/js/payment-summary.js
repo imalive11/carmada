@@ -63,6 +63,7 @@ var totalAmountContribution = 0;
 var totalAmountCarwash = 0;
 var totalAmountLoanPayment = 0;
 var totalAttendanceCount = 0;
+var totalForRepair = 0;
 
 $("td.amountReceived").each(function () {
   // Remove Comma before parsing
@@ -105,11 +106,17 @@ $("td.attendanceCount").each(function () {
   if ($(this).text() !== "noBoundary") {
     totalAttendanceCount += 1;
   }
-  
-  
 })
 
+$("td.forRepair").each(function () {
+  if ($(this).text().includes("maintenance")) {
+    totalForRepair += 1;
+  }
+});
+
+
 $("#totalAttendanceCount").text(totalAttendanceCount);
+$("#totalRepair").text(totalForRepair);
 
 $("#totalAmountReceived").text(totalAmountReceived.toLocaleString("en-US",
   {

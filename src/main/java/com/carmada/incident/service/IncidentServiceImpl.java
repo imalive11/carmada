@@ -106,4 +106,10 @@ public class IncidentServiceImpl implements IncidentService {
 		return this.incidentRepository.findAllByIncidentDateBetween(startDate, endDate);
 	}
 
+	@Override
+	public List<Incident> findIncidentsForCurrentMonth() {
+		// TODO Auto-generated method stub
+		return this.incidentRepository.findIncidentsForCurrentMonth();
+	}
+
 }

@@ -32,4 +32,6 @@ public interface IncidentService {
 	public List<Incident> findByDriverId(int id);
 
 	public List<Incident> findByVehicleId(int id);
+	
+	public List<Incident> findIncidentsForCurrentMonth();
 }

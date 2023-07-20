@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.carmada.incident.entity.Incident;
@@ -30,6 +31,9 @@ public interface IncidentRepository extends JpaRepository<Incident, Integer> {
 	public List<Incident> findByDriverId(int id);
 	
 	public List<Incident> findByVehicleId(int id);
+	
+	@Query("SELECT i FROM Incident i WHERE MONTH(i.incidentDate) = MONTH(CURRENT_DATE()) AND YEAR(i.incidentDate) = YEAR(CURRENT_DATE())")
+	public List<Incident> findIncidentsForCurrentMonth();
 	
 }
 	
