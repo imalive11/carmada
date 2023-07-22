@@ -269,3 +269,15 @@ $("#incidents-damages").text(sumByIncidentType.DAMAGE.toLocaleString("en-US",
     maximumFractionDigits: 2
   }
 ));
+
+// var sumBoundaryByFranchise = {
+//   LADY_ELLA: 0,
+//   GRAB: 0,
+//   ARTHURA: 0
+// };
+
+// $("#report-for-export tbody tr").each(function() {
+//   var franchise = $(this).find(".franchise").text().trim();
+//   var boundaryAmount = parseFloat($(this).find(".incidentAmount").text().replace(/,/g, ""));
+//   sumBoundaryByFranchise[franchise] += boundaryAmount;
+// });

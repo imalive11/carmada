@@ -215,6 +215,13 @@ layout:decorate="login/layout"
                         Carwash
                       </label>
                     </div>
+                    <div class="form-check col-md-3">
+                      <input name="otherPayments" class="form-check-input" type="checkbox" id="otherPaymentsPenalty"
+                        onchange="otherPaymentsHandler()">
+                      <label class="form-check-label" for="otherPaymentsPenalty">
+                        Penalty
+                      </label>
+                    </div>
                   </div>
                 </div>
                 <div class="col-sm-6">
@@ -323,6 +330,19 @@ layout:decorate="login/layout"
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/payment-inputs.js"></script>
   </div>
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </footer><!-- End Footer -->
   <!-- Vendor JS Files -->
   <script src="/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -338,8 +358,6 @@ layout:decorate="login/layout"
   <script src="/js/main.js"></script>
   <script src="/js/payment-inputs.js"></script>
 
-
-  </div>
 </body>
 
 </html>

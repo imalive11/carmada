@@ -128,6 +128,7 @@
                                 <th>Loan</th>
                                 <th>Carwash</th>
                                 <th>Remarks</th>
+                                <th>Franchise</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -150,9 +151,13 @@
                                 <td class="amountCarwash"
                                   th:text="${tempPayment.amountCarwash > 0} ? ${#numbers.formatDecimal(tempPayment.amountCarwash, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountCarwash}" />
                                 <td th:text="${tempPayment.remarks}" />
+                                <td class="franchise" 
+                                  th:text="${tempPayment.vehicle.franchise}" />
                               </tr>
                               <tr>
-                                <td colspan="3">Grand Total</td>
+                                <td></td>
+                                <td></td>
+                                <td colspan="1">Grand Total</td>
                                 <td id="totalAmountReceived"></td>
                                 <td id="totalAmountBoundary"></td>
                                 <td id="totalAmountShort"></td>
@@ -160,6 +165,343 @@
                                 <td id="totalAmountContribution"></td>
                                 <td id="totalAmountLoanPayment"></td>
                                 <td id="totalAmountCarwash"></td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>Lady Ella</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Boundary
+                                </td>
+                                <td></td>
+                                <td id="totalBoundaryLadyElla"></td>
+                                <td></td>
+                                <td>Denomination</td>
+                                <td>PCS</td>
+                                <td>Cash on Hand</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Other Payments(Benefits, Fund, Hulog)
+                                </td>
+                                <td></td>
+                                <td id="totalOtherPaymentsLadyElla"></td>
+                                <td></td>
+                                <td>1000</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Late Boundary
+                                </td>
+                                <td></td>
+                                <td id="totalLateBoundaryLadyElla"></td>
+                                <td></td>
+                                <td>500</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Carwash for Lady Ella
+                                </td>
+                                <td></td>
+                                <td id="totalCarwashEllaLadyElla"></td>
+                                <td></td>
+                                <td>200</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Carwash for Carwash Boy
+                                </td>
+                                <td></td>
+                                <td id="totalCarwashBoyLadyElla"></td>
+                                <td></td>
+                                <td>100</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Total
+                                </td>
+                                <td></td>
+                                <td id="totalAmountLadyElla"></td>
+                                <td></td>
+                                <td>50</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Deductions
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>20</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  For Remittance
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total</td>
+                                <td></td>
+                                <td>=SUM(G63:G69)</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Arthura
+                                </td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Boundary
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Denomination</td>
+                                <td>PCS</td>
+                                <td>Cash on Hand</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Other Payments(Benefits, Fund, Hulog)
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>1000</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Late Boundary
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>500</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Carwash for Lady Ella
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>200</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Carwash for Carwash Boy
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>100</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Total
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>50</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Deductions
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>20</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  For Remittance
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total</td>
+                                <td></td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>Grab and New Unit</td></tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Boundary
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Denomination</td>
+                                <td>PCS</td>
+                                <td>Cash on Hand</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Other Payments(Benefits, Fund, Hulog)
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>1000</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Late Boundary
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>500</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Carwash for Lady Ella
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>200</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Carwash for Carwash Boy
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>100</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Total
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>50</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Deductions
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>20</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  For Remittance
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total</td>
+                                <td></td>
+                                <td>0</td>
                               </tr>
                             </tbody>
                           </table>

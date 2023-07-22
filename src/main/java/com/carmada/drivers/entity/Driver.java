@@ -41,7 +41,7 @@ public class Driver {
 	private String firstName;
 	
 	@Column(name="status")
-	private boolean status;
+	private boolean status = true;
 	
 	@NotEmpty(message = "Missing Last Name")
     @Size(min = 1, max = 30)

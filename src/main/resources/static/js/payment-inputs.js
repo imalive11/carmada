@@ -94,6 +94,7 @@ const otherPaymentsHandler = () => {
   const selectElementLoan = getElementByQuery('#otherPaymentsLoan');
   const selectElementContribution = getElementByQuery('#otherPaymentsContribution');
   const selectElementCarwash = getElementByQuery('#otherPaymentsCarwash');
+  const selectElementPenalty = getElementByQuery('#otherPaymentsPenalty');
 
   setElementValue("boundaryFund", selectElementFund.checked ? 50 : 0);
   setElementValue("boundaryLoan", selectElementLoan.checked ? 50 : 0);
@@ -104,6 +105,7 @@ const otherPaymentsHandler = () => {
   setElementReadOnly('boundaryLoan', !selectElementLoan.checked);
   setElementReadOnly('contribution', !selectElementContribution.checked);
   setElementReadOnly('carwash', !selectElementCarwash.checked);
+  setElementReadOnly('boundary', !selectElementPenalty.checked);
 };
 
 
@@ -149,6 +151,5 @@ document.addEventListener("DOMContentLoaded", () => {
   if (paramValue === null) {
     setPaymentTypeHandler();
     getBoundaryRateHandler();
-    clearOtherPaymentsCheckboxHandler();
   }
 });
