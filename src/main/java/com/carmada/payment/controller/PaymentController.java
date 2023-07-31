@@ -59,7 +59,7 @@ public class PaymentController {
 	
 	@GetMapping
 	public String listAll(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-            @RequestParam(defaultValue = "60") int pageSize,
+            @RequestParam(defaultValue = "100") int pageSize,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(required = false) String name,
             @RequestParam(required = false, value = "inputDate") String date,
@@ -67,9 +67,14 @@ public class PaymentController {
 		
 		
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
-		Page<Payment> page;
-        page = paymentService.findLatestDayPayment(pageable);
-        model.addAttribute("page", page);
+		
+		Page<Payment> pageTravelDate;
+		pageTravelDate = paymentService.findLatestDayPaymentTravelDate(pageable);
+		Page<Payment> pagePaymentDate;
+		pagePaymentDate = paymentService.findLatestDayPaymentDate(pageable);
+		
+        model.addAttribute("pageTravelDate", pageTravelDate);
+        model.addAttribute("pagePaymentDate", pagePaymentDate);
 		
 		return "payments/payment-list";
 	}
@@ -124,7 +129,7 @@ public class PaymentController {
             
         } else {
         	
-            page = paymentService.findLatestDayPayment(pageable);
+            page = paymentService.findLatestDayPaymentTravelDate(pageable);
         }
 		
         model.addAttribute("page", page);

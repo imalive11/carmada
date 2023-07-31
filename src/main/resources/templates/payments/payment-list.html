@@ -113,7 +113,7 @@
                                 <th colspan="8">Driver's Daily Report</th>
                                 <th>Date</th>
                                 <th id="reportDate"
-                                  th:text="${page != null and page.content.size() > 0 and page.content[0] != null} ? ${#strings.toString(#dates.format(page.content[0].travelDate, 'EEEE, dd MMMM yyyy'))} : ''">
+                                  th:text="${pageTravelDate != null and pageTravelDate.content.size() > 0 and pageTravelDate.content[0] != null} ? ${#strings.toString(#dates.format(pageTravelDate.content[0].travelDate, 'EEEE, dd MMMM yyyy'))} : ''">
                                 </th>
                               </tr>
                               <tr>
@@ -128,11 +128,11 @@
                                 <th>Loan</th>
                                 <th>Carwash</th>
                                 <th>Remarks</th>
-                                <th>Franchise</th>
+                                <th style="display: none;">Franchise</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr th:each="tempPayment, iterStat : ${page.content}">
+                              <tr th:each="tempPayment, iterStat : ${pageTravelDate.content}">
                                 <td th:text="${iterStat.count}" />
                                 <td th:text="${tempPayment.vehicle.plateNumber}" />
                                 <td th:text="${tempPayment?.driver?.firstName} + ' ' + ${tempPayment?.driver?.lastName}" />
@@ -152,7 +152,7 @@
                                   th:text="${tempPayment.amountCarwash > 0} ? ${#numbers.formatDecimal(tempPayment.amountCarwash, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountCarwash}" />
                                 <td th:text="${tempPayment.remarks}" />
                                 <td class="franchise" 
-                                  th:text="${tempPayment.vehicle.franchise}" />
+                                  th:text="${tempPayment.vehicle.franchise}" style="display: none;" />
                               </tr>
                               <tr>
                                 <td></td>
@@ -166,6 +166,42 @@
                                 <td id="totalAmountLoanPayment"></td>
                                 <td id="totalAmountCarwash"></td>
                               </tr>
+                              <tr><td>Late Boundary</td></tr>
+                              <tr th:each="tempPayment, iterStat : ${pagePaymentDate.content}">
+                                <td th:text="${iterStat.count}" />
+                                <td th:text="${tempPayment.vehicle.plateNumber}" />
+                                <td th:text="${tempPayment?.driver?.firstName} + ' ' + ${tempPayment?.driver?.lastName}" />
+                                <td class="amountReceivedLate"
+                                  th:text="${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash) > 0} ? ${#numbers.formatDecimal((tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash), 0, 'COMMA', 2, 'POINT')} : ${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash)}" />
+                                <td class="amountBoundaryLate"
+                                  th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal(tempPayment.amountBoundary, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}" />
+                                <td class="amountShortLate"
+                                  th:text="${tempPayment.amountShort > 0} ? ${#numbers.formatDecimal(tempPayment.amountShort, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountShort}" />
+                                <td class="amountFundLate"
+                                  th:text="${tempPayment.amountFund > 0} ? ${#numbers.formatDecimal(tempPayment.amountFund, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountFund}" />
+                                <td class="amountContributionLate"
+                                  th:text="${tempPayment.amountContribution > 0} ? ${#numbers.formatDecimal(tempPayment.amountContribution, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountContribution}" />
+                                <td class="amountLoanPaymentLate"
+                                  th:text="${tempPayment.amountLoanPayment > 0} ? ${#numbers.formatDecimal(tempPayment.amountLoanPayment, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountLoanPayment}" />
+                                <td class="amountCarwashLate"
+                                  th:text="${tempPayment.amountCarwash > 0} ? ${#numbers.formatDecimal(tempPayment.amountCarwash, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountCarwash}" />
+                                <td th:text="${tempPayment.remarks}" />
+                                <td class="franchise" 
+                                  th:text="${tempPayment.vehicle.franchise}" style="display: none;" />
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td colspan="1">Grand Total</td>
+                                <td id="totalAmountReceivedLate"></td>
+                                <td id="totalAmountBoundaryLate"></td>
+                                <td id="totalAmountShortLate"></td>
+                                <td id="totalAmountFundLate"></td>
+                                <td id="totalAmountContributionLate"></td>
+                                <td id="totalAmountLoanPaymentLate"></td>
+                                <td id="totalAmountCarwashLate"></td>
+                              </tr>
+                              
                               <tr>
                                 <td></td>
                                 <td>Lady Ella</td>
@@ -291,7 +327,7 @@
                                   Boundary
                                 </td>
                                 <td></td>
-                                <td></td>
+                                <td id="totalBoundaryArthura"></td>
                                 <td></td>
                                 <td>Denomination</td>
                                 <td>PCS</td>
@@ -303,7 +339,7 @@
                                   Other Payments(Benefits, Fund, Hulog)
                                 </td>
                                 <td></td>
-                                <td></td>
+                                <td id="totalOtherPaymentsArthura"></td>
                                 <td></td>
                                 <td>1000</td>
                                 <td>0</td>
@@ -327,7 +363,7 @@
                                   Carwash for Lady Ella
                                 </td>
                                 <td></td>
-                                <td></td>
+                                <td id="totalCarwashEllaArthura"></td>
                                 <td></td>
                                 <td>200</td>
                                 <td>0</td>
@@ -339,7 +375,7 @@
                                   Carwash for Carwash Boy
                                 </td>
                                 <td></td>
-                                <td></td>
+                                <td id="totalCarwashBoyArthura"></td>
                                 <td></td>
                                 <td>100</td>
                                 <td>0</td>
@@ -403,7 +439,7 @@
                                   Boundary
                                 </td>
                                 <td></td>
-                                <td></td>
+                                <td id="totalBoundaryGrab"></td>
                                 <td></td>
                                 <td>Denomination</td>
                                 <td>PCS</td>
@@ -415,7 +451,7 @@
                                   Other Payments(Benefits, Fund, Hulog)
                                 </td>
                                 <td></td>
-                                <td></td>
+                                <td id="totalOtherPaymentsGrab"></td>
                                 <td></td>
                                 <td>1000</td>
                                 <td>0</td>
@@ -439,7 +475,7 @@
                                   Carwash for Lady Ella
                                 </td>
                                 <td></td>
-                                <td></td>
+                                <td id="totalCarwashEllaGrab"></td>
                                 <td></td>
                                 <td>200</td>
                                 <td>0</td>
@@ -451,7 +487,7 @@
                                   Carwash for Carwash Boy
                                 </td>
                                 <td></td>
-                                <td></td>
+                                <td id="totalCarwashBoyGrab"></td>
                                 <td></td>
                                 <td>100</td>
                                 <td>0</td>
@@ -559,7 +595,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr th:each="tempPayment, iterStat : ${page.content}">
+                    <tr th:each="tempPayment, iterStat : ${pageTravelDate.content}">
                       <td th:text="${iterStat.count}" />
                       <td th:text="${tempPayment.vehicle.plateNumber}" />
                       <td th:text="${tempPayment?.driver?.firstName} + ' ' + ${tempPayment?.driver?.lastName}" />

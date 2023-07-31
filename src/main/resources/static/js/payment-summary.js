@@ -103,7 +103,7 @@ $("td.amountCarwash").each(function () {
 })
 
 $("td.attendanceCount").each(function () {
-  if ($(this).text() !== "noBoundary") {
+  if ($(this).text() !== "NO_BOUNDARY") {
     totalAttendanceCount += 1;
   }
 })
@@ -116,6 +116,7 @@ $("td.forRepair").each(function () {
 
 
 $("#totalAttendanceCount").text(totalAttendanceCount);
+
 $("#totalRepair").text(totalForRepair);
 
 $("#totalAmountReceived").text(totalAmountReceived.toLocaleString("en-US",
@@ -166,6 +167,7 @@ $("#totalAmountCarwash").text(totalAmountCarwash.toLocaleString("en-US",
     maximumFractionDigits: 2
   }
 ));
+
 
 // Performance Tab
 $("#totalAmountReceived").text(totalAmountReceived.toLocaleString("en-US",
@@ -270,14 +272,230 @@ $("#incidents-damages").text(sumByIncidentType.DAMAGE.toLocaleString("en-US",
   }
 ));
 
-// var sumBoundaryByFranchise = {
-//   LADY_ELLA: 0,
-//   GRAB: 0,
-//   ARTHURA: 0
-// };
+var sumBoundaryByFranchise = {
+  'Lady Ella': 0,
+  'Grab Car': 0,
+  'Arthura': 0
+};
 
-// $("#report-for-export tbody tr").each(function() {
-//   var franchise = $(this).find(".franchise").text().trim();
-//   var boundaryAmount = parseFloat($(this).find(".incidentAmount").text().replace(/,/g, ""));
-//   sumBoundaryByFranchise[franchise] += boundaryAmount;
-// });
+var sumOtherPaymentsByFranchise = {
+  'Lady Ella': 0,
+  'Grab Car': 0,
+  'Arthura': 0
+};
+
+var sumCarwashLadyEllaByFranchise = {
+  'Lady Ella': 0,
+  'Grab Car': 0,
+  'Arthura': 0
+};
+
+var sumCarwashBoyByFranchise = {
+  'Lady Ella': 0,
+  'Grab Car': 0,
+  'Arthura': 0
+};
+
+
+
+
+
+
+
+// variables for late payments
+
+var sumBoundaryLateByFranchise = {
+  'Lady Ella': 0,
+  'Grab Car': 0,
+  'Arthura': 0
+};
+
+var sumOtherPaymentsLateByFranchise = {
+  'Lady Ella': 0,
+  'Grab Car': 0,
+  'Arthura': 0
+};
+
+var sumCarwashLadyEllaLateByFranchise = {
+  'Lady Ella': 0,
+  'Grab Car': 0,
+  'Arthura': 0
+};
+
+var sumCarwashBoyLateByFranchise = {
+  'Lady Ella': 0,
+  'Grab Car': 0,
+  'Arthura': 0
+};
+
+var totalAmountReceivedLate = 0;
+var totalAmountBoundaryLate = 0;
+var totalAmountShortLate = 0;
+var totalAmountFundLate = 0;
+var totalAmountContributionLate = 0;
+var totalAmountLoanPaymentLate = 0;
+var totalAmountCarwashLate = 0;
+
+$("#report-for-export tbody tr").each(function() {
+  var franchise = $(this).find(".franchise").text().trim();
+  var amountBoundary = parseFloat($(this).find(".amountBoundary").text().replace(/,/g, ""));
+  var amountFund = parseFloat($(this).find(".amountFund").text().replace(/,/g, ""));
+  var amountContribution = parseFloat($(this).find(".amountContribution").text().replace(/,/g, ""));
+  var amountLoanPayment = parseFloat($(this).find(".amountLoanPayment").text().replace(/,/g, ""));
+  var amountCarwash = parseFloat($(this).find(".amountCarwash").text().replace(/,/g, ""));
+
+  var amountOtherPayments = amountFund + amountContribution + amountLoanPayment;
+
+  if (amountCarwash > 0 ) {
+    var amountCarwashBoy = amountCarwash - 30;
+    var amountCarwashLadyElla = amountCarwash - 35;
+    sumCarwashLadyEllaByFranchise[franchise] += amountCarwashLadyElla;
+    sumCarwashBoyByFranchise[franchise] += amountCarwashBoy;
+  }
+
+  var amountCarwashBoy = amountCarwash - 30;
+  var amountCarwashLadyElla = amountCarwash - 35;
+
+  if (!isNaN(amountBoundary) ){
+  sumBoundaryByFranchise[franchise] += amountBoundary;
+  sumOtherPaymentsByFranchise[franchise] += amountOtherPayments;
+
+  }
+
+  //Late boundary
+  var amountReceivedLate = parseFloat($(this).find(".amountReceivedLate").text().replace(/,/g, ""));
+  var amountBoundaryLate = parseFloat($(this).find(".amountBoundaryLate").text().replace(/,/g, ""));
+  var amountShortLate = parseFloat($(this).find(".amountShortLate").text().replace(/,/g, ""));
+  var amountFundLate = parseFloat($(this).find(".amountFundLate").text().replace(/,/g, ""));
+  var amountContributionLate = parseFloat($(this).find(".amountContributionLate").text().replace(/,/g, ""));
+  var amountLoanPaymentLate = parseFloat($(this).find(".amountLoanPaymentLate").text().replace(/,/g, ""));
+  var amountCarwashLate = parseFloat($(this).find(".amountCarwashLate").text().replace(/,/g, ""));
+  
+  if (!isNaN(amountReceivedLate) ){
+    totalAmountReceivedLate += amountReceivedLate;
+    totalAmountBoundaryLate += amountBoundaryLate;
+    totalAmountShortLate += amountShortLate;
+    totalAmountFundLate += amountFundLate;
+    totalAmountContributionLate += amountContributionLate;
+    totalAmountLoanPaymentLate += amountLoanPaymentLate;
+    totalAmountCarwashLate += amountCarwashLate;
+  }
+  
+  
+});
+
+$("#totalAmountReceivedLate").text(totalAmountReceivedLate.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));
+
+$("#totalAmountBoundaryLate").text(totalAmountBoundaryLate.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));
+
+$("#totalAmountShortLate").text(totalAmountShortLate.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));
+
+$("#totalAmountFundLate").text(totalAmountFundLate.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));
+
+$("#totalAmountContributionLate").text(totalAmountContributionLate.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));
+
+$("#totalAmountLoanPaymentLate").text(totalAmountLoanPaymentLate.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));
+
+$("#totalAmountCarwashLate").text(totalAmountCarwashLate.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));
+
+
+
+// Display the sum for 'Lady Ella' franchise in the HTML element with ID "incidents-damages"
+//Report for Lady Ella
+$("#totalBoundaryLadyElla").text(sumBoundaryByFranchise['Lady Ella'].toLocaleString("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}));
+
+$("#totalOtherPaymentsLadyElla").text(sumOtherPaymentsByFranchise['Lady Ella'].toLocaleString("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}));
+
+$("#totalCarwashEllaLadyElla").text(sumCarwashLadyEllaByFranchise['Lady Ella'].toLocaleString("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}));
+
+$("#totalCarwashBoyLadyElla").text(sumCarwashBoyByFranchise['Lady Ella'].toLocaleString("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}));
+
+//Report for Arthura
+$("#totalBoundaryArthura").text(sumBoundaryByFranchise['Arthura'].toLocaleString("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}));
+
+$("#totalOtherPaymentsArthura").text(sumOtherPaymentsByFranchise['Arthura'].toLocaleString("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}));
+
+$("#totalCarwashEllaArthura").text(sumCarwashLadyEllaByFranchise['Arthura'].toLocaleString("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}));
+
+$("#totalCarwashBoyArthura").text(sumCarwashBoyByFranchise['Arthura'].toLocaleString("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}));
+
+//Report for Grab
+$("#totalBoundaryGrab").text(sumBoundaryByFranchise['Grab Car'].toLocaleString("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}));
+
+$("#totalOtherPaymentsGrab").text(sumOtherPaymentsByFranchise['Grab Car'].toLocaleString("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}));
+
+$("#totalCarwashEllaGrab").text(sumCarwashLadyEllaByFranchise['Grab Car'].toLocaleString("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}));
+
+$("#totalCarwashBoyGrab").text(sumCarwashBoyByFranchise['Grab Car'].toLocaleString("en-US", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+}));
+

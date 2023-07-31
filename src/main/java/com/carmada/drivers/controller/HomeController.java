@@ -44,7 +44,7 @@ public class HomeController {
 		
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
 		Page<Payment> page;
-        page = paymentService.findLatestDayPayment(pageable);
+        page = paymentService.findLatestDayPaymentTravelDate(pageable);
         List<Incident> incidents = incidentService.findIncidentsForCurrentMonth();
         
         model.addAttribute("incidents", incidents);

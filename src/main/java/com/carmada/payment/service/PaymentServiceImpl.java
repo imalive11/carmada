@@ -104,7 +104,7 @@ public class PaymentServiceImpl implements PaymentService {
 	
 	@Override
 	@Transactional
-	public Page<Payment> findLatestDayPayment(Pageable pageable) {
+	public Page<Payment> findLatestDayPaymentTravelDate(Pageable pageable) {
 		Date latestPaymentDate = this.findLatestTravelDate();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(latestPaymentDate);
@@ -166,6 +166,13 @@ public class PaymentServiceImpl implements PaymentService {
 	public Date getLatestDateForYear(int year) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public Page<Payment> findLatestDayPaymentDate(Pageable pageable) {
+		
+		Date latestPaymentDate = this.findLatestTravelDate();
+
+		return paymentRepository.findPaymentsAfterDateExcludingToday(pageable, latestPaymentDate);
 	}
 
 

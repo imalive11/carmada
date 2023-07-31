@@ -25,6 +25,11 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 	
 	public Page<Payment> findByTravelDateAfter(Pageable pageable, Date dateToday);
 	
+	public Page<Payment> findByPaymentDateAfter(Pageable pageable, Date dateToday);
+	
+	@Query("SELECT p FROM Payment p WHERE p.paymentDate > :dateToday AND p.travelDate <> :dateToday")
+    Page<Payment> findPaymentsAfterDateExcludingToday(Pageable pageable, Date dateToday);
+	
 	public Page<Payment> findByRemarksContains(Pageable pageable, String remarks);
 	
 	@Query("SELECT p FROM Payment p WHERE p.paymentDate = :paymentDate")

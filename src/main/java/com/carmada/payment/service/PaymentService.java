@@ -36,7 +36,9 @@ public interface PaymentService {
 
 	public Payment findLatestPayment();
 
-	public Page<Payment> findLatestDayPayment(Pageable pageable);
+	public Page<Payment> findLatestDayPaymentTravelDate(Pageable pageable);
+	
+	public Page<Payment> findLatestDayPaymentDate(Pageable pageable);
 	
 	public Page<Payment> findByVehicleId(Pageable pageable, int id);
 	
