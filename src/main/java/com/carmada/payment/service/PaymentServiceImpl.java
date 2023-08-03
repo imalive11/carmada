@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,15 +83,6 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 	
 	@Override
-	public Page<Payment> searchByRemarksLike(Pageable pageable, String remarks) {
-		Page<Payment> result = 
-				this.paymentRepository
-					.findByRemarksContains(pageable, remarks);
-		
-		return result;
-	}
-	
-	@Override
 	@Transactional
 	public Payment findLatestPayment() {
 		return paymentRepository.findFirstByOrderByTravelDateDesc();
@@ -104,10 +96,10 @@ public class PaymentServiceImpl implements PaymentService {
 	
 	@Override
 	@Transactional
-	public Page<Payment> findLatestDayPaymentTravelDate(Pageable pageable) {
-		Date latestPaymentDate = this.findLatestTravelDate();
+	public Page<Payment> findLatestDayTravelDate(Pageable pageable) {
+		Date latestTravelDate = this.findLatestTravelDate();
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(latestPaymentDate);
+		cal.setTime(latestTravelDate);
 
 		// Subtract one day from the Calendar object
 		cal.add(Calendar.DAY_OF_MONTH, -1);
@@ -117,6 +109,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 		return paymentRepository.findByTravelDateAfter(pageable,yesterday);
 	}
+	
 	@Override
 	public Page<Payment> findByDriverId(Pageable pageable, int id) {
 		return paymentRepository.findByDriverId(pageable, id);
@@ -158,6 +151,12 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 	
 	@Override
+	public Date findLatestPaymentDate() {
+		// TODO Auto-generated method stub
+		return paymentRepository.findLatestPaymentDate();
+	}
+	
+	@Override
 	public Date getFirstDateForYear(int year) {
 		// TODO Auto-generated method stub
 		return null;
@@ -167,12 +166,64 @@ public class PaymentServiceImpl implements PaymentService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 	@Override
-	public Page<Payment> findLatestDayPaymentDate(Pageable pageable) {
+	public List<Payment> findLatePaymentDate(Date travelDate) {
 		
-		Date latestPaymentDate = this.findLatestTravelDate();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(travelDate);
 
-		return paymentRepository.findPaymentsAfterDateExcludingToday(pageable, latestPaymentDate);
+		// Subtract one day from the Calendar object
+		cal.add(Calendar.DAY_OF_MONTH, 1);
+
+		// Get the new date from the Calendar object
+		Date paymentDate = cal.getTime();
+
+		return paymentRepository.findLatePayments(travelDate, paymentDate);
+	}
+	
+	@Override
+	public List<Payment> findLatestLatePaymentDate() {
+		
+		Date latestTravelDate = this.findLatestTravelDate();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(latestTravelDate);
+
+		// Subtract one day from the Calendar object
+		cal.add(Calendar.DAY_OF_MONTH, 1);
+
+		// Get the new date from the Calendar object
+		Date paymentDate = cal.getTime();
+
+		return paymentRepository.findLatePayments(latestTravelDate, paymentDate);
+	}
+	
+	@Override
+	public Page<Payment> searchByRemarksLike(String remarks, Pageable pageable) {
+		Page<Payment> result = 
+				this.paymentRepository
+					.findByRemarksContains(pageable, remarks);
+		
+		return result;
+	}
+	
+	@Override
+	public Page<Payment> searchByRemarksLikeAndTravelDate(String remarks, Date startDate, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return paymentRepository.searchByRemarksLikeAndTravelDate(remarks, startDate, pageable);
+	}
+	
+	@Override
+	public Page<Payment> searchByRemarksLikeAndDriverName(String remarks, String name, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return paymentRepository.searchByRemarksLikeAndDriverName(remarks, name, name, pageable);
+	}
+	
+	@Override
+	public Page<Payment> searchByRemarksLikeAndDriverNameAndtravelDate(String remarks, String firstName,
+			String lastName, Date travelDate, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return paymentRepository.searchByRemarksLikeAndDriverNameAndtravelDate(remarks, firstName, lastName, travelDate, pageable);
 	}
 
 

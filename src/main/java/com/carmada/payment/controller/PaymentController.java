@@ -69,14 +69,51 @@ public class PaymentController {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
 		
 		Page<Payment> pageTravelDate;
-		pageTravelDate = paymentService.findLatestDayPaymentTravelDate(pageable);
-		Page<Payment> pagePaymentDate;
-		pagePaymentDate = paymentService.findLatestDayPaymentDate(pageable);
+		pageTravelDate = paymentService.findLatestDayTravelDate(pageable);
 		
         model.addAttribute("pageTravelDate", pageTravelDate);
-        model.addAttribute("pagePaymentDate", pagePaymentDate);
 		
 		return "payments/payment-list";
+	}
+	
+	@GetMapping("/report")
+	public String createReport(@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+            @RequestParam(defaultValue = "100") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false, value = "inputDate") String date,
+            Model model){
+		
+		
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
+		
+		Page<Payment> pageByTravelDate = null;
+		List<Payment> latePayments = null;
+		
+		if (date != null ) {
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedDate = null;
+            
+            try {
+            	parsedDate = formatter.parse(date);
+	        } catch (ParseException e) {
+	                e.printStackTrace();
+	        }
+            
+            latePayments = paymentService.findLatePaymentDate(parsedDate);
+            
+            pageByTravelDate = paymentService.findAllByDate(pageable, parsedDate, parsedDate);
+            
+        } else {
+        	
+        	latePayments = paymentService.findLatestLatePaymentDate();
+        	pageByTravelDate = paymentService.findLatestDayTravelDate(pageable);
+        	
+        }
+		
+        model.addAttribute("pageTravelDate", pageByTravelDate);
+        model.addAttribute("latePayments", latePayments);
+		
+		return "payments/payment-list-report";
 	}
 	
 	@GetMapping("/search")
@@ -129,10 +166,11 @@ public class PaymentController {
             
         } else {
         	
-            page = paymentService.findLatestDayPaymentTravelDate(pageable);
+            page = paymentService.findLatestDayTravelDate(pageable);
         }
 		
-        model.addAttribute("page", page);
+        model.addAttribute("pageTravelDate", page);
+        
 		return "payments/payment-list";
 	}
 	
@@ -140,15 +178,56 @@ public class PaymentController {
 	public String listLatePayment( @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
             @RequestParam(defaultValue = "100") int pageSize,
             @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false, value = "inputDate") String date,
             Model model){
 		
 		String remarks = "late";
-		
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
+		Page<Payment> page;
 		
-		Page<Payment> page = paymentService.searchByRemarksLike(pageable, remarks);
+		if (name != null && !name.isEmpty() && date != null ) {
+        	
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedDate = null;
+            
+            try {
+            	parsedDate = formatter.parse(date);
+	        } catch (ParseException e) {
+	                e.printStackTrace();
+	        }
+            page = paymentService.searchByRemarksLikeAndDriverNameAndtravelDate(remarks, name, name, parsedDate, pageable);
+            
+            if (page.hasContent() == false) {
+    			model.addAttribute("errorMessage", "No Driver found!");
+    		}
+            
+        } else if (name != null && !name.isEmpty()) {
+        	
+            page = paymentService.searchByRemarksLikeAndDriverName(remarks, name, pageable);
+            
+            if (page.hasContent() == false) {
+    			model.addAttribute("errorMessage", "No Driver found!");
+    		}
+            
+        } else if (date != null ) {
+        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedDate = null;
+            
+            try {
+            	parsedDate = formatter.parse(date);
+	        } catch (ParseException e) {
+	                e.printStackTrace();
+	        }
+            
+            page = paymentService.searchByRemarksLikeAndTravelDate(remarks, parsedDate, pageable);
+            
+        } else {
+        	
+            page = paymentService.searchByRemarksLike(remarks, pageable);
+        }
 		
-		model.addAttribute("page", page);
+		model.addAttribute("pageTravelDate", page);
 		
 		return "payments/late-payment-list";
 	}

@@ -27,10 +27,20 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 	
 	public Page<Payment> findByPaymentDateAfter(Pageable pageable, Date dateToday);
 	
-	@Query("SELECT p FROM Payment p WHERE p.paymentDate > :dateToday AND p.travelDate <> :dateToday")
-    Page<Payment> findPaymentsAfterDateExcludingToday(Pageable pageable, Date dateToday);
+	@Query("SELECT p FROM Payment p WHERE p.paymentDate = :paymentDate AND p.travelDate < :travelDate")
+	public List<Payment> findLatePayments(Date travelDate, Date paymentDate);
 	
 	public Page<Payment> findByRemarksContains(Pageable pageable, String remarks);
+	
+	@Query("SELECT p FROM Payment p WHERE p.remarks LIKE %:remarks% AND p.travelDate = :searchDate")
+    Page<Payment> searchByRemarksLikeAndTravelDate(String remarks, Date searchDate, Pageable pageable);
+	
+	@Query("SELECT p FROM Payment p JOIN p.driver d WHERE p.remarks LIKE %:remarks% AND (d.firstName LIKE %:firstName% OR d.lastName LIKE %:lastName%)")
+	Page<Payment> searchByRemarksLikeAndDriverName(@Param("remarks") String remarks, @Param("firstName") String firstName, @Param("lastName") String lastName, Pageable pageable);
+
+	@Query("SELECT p FROM Payment p JOIN p.driver d WHERE p.remarks LIKE %:remarks% AND (d.firstName LIKE %:firstName% OR d.lastName LIKE %:lastName%) AND p.travelDate = :travelDate")
+	public Page<Payment> searchByRemarksLikeAndDriverNameAndtravelDate(@Param("remarks") String remarks, @Param("firstName") String firstName, @Param("lastName") String lastName, @Param("travelDate") Date travelDate, Pageable pageable);
+
 	
 	@Query("SELECT p FROM Payment p WHERE p.paymentDate = :paymentDate")
 	public List<Payment> searchByPaymentDateLike(@Param("paymentDate") Date paymentDate);
@@ -40,6 +50,9 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
     @Query("SELECT MAX(p.travelDate) FROM Payment p")
     public Date findLatestTravelDate();
+    
+    @Query("SELECT MAX(p.paymentDate) FROM Payment p")
+    public Date findLatestPaymentDate();
     
     @Query("SELECT MIN(p.travelDate) FROM Payment p WHERE YEAR(p.travelDate) = :year")
     Date findFirstDateByYear(@Param("year") int year);

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="login/layout">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+  <title>Carmada - Payments</title>
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
+
+  <!-- Favicons -->
+  <link href="/img/favicon.png" rel="icon" />
+  <link href="/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+
+  <!-- Vendor CSS Files -->
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="/vendor/quill/quill.snow.css" rel="stylesheet" />
+  <link href="/vendor/quill/quill.bubble.css" rel="stylesheet" />
+  <link href="/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="/vendor/simple-datatables/style.css" rel="stylesheet" />
+
+  <!-- Template Main CSS File -->
+  <link href="/css/style.css" rel="stylesheet" />
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.5.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+  <div layout:fragment="content">
+    <div class="pagetitle">
+      <h1>Payments</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/home">Home</a></li>
+          <li class="breadcrumb-item"><a href="/payments">Payments</a></li>
+        </ol>
+      </nav>
+    </div>
+    <!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Daily Report</h5>
+
+              <form th:action="@{/payments/report}" class="form-inline row g-3" method="get">
+                <div class="row mb-3">
+                  <label for="inputDate" class="col-sm-2 col-form-label">Select Travel Date</label>
+                  <div class="col-sm-2">
+                    <input type="date" class="form-control" name="inputDate" th:value="${inputDate}" id="inputDate" />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <button class="btn btn-success mb-3 mr-sm-5" type="submit">
+                    Submit
+                  </button>
+                  <a th:href="@{/payments/add}" class="btn btn-primary mb-3 ">
+                    New Payment
+                  </a>
+                </div>
+                <!-- Full Screen Modal -->
+                <div class="col-md-9">
+                  <button type="button" class="btn btn-success mb-3 mr-sm-5 float-end" data-bs-toggle="modal"
+                    data-bs-target="#fullscreenModal">
+                    Create Report
+                  </button>
+
+                  <div class="modal fade" id="fullscreenModal" tabindex="-1">
+                    <div class="modal-dialog modal-fullscreen">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Daily Report</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <table class="table table-hover table-sm" id="report-for-export">
+                            <thead>
+                              <tr>
+                                <th></th>
+                                <th colspan="10" class="fs-3">Lady Ella Transport</th>
+                              </tr>
+                              <tr>
+                                <th></th>
+                                <th colspan="8">Driver's Daily Report</th>
+                                <th>Date</th>
+                                <th id="reportDate"
+                                  th:text="${pageTravelDate != null and pageTravelDate.content.size() > 0 and pageTravelDate.content[0] != null} ? ${#strings.toString(#dates.format(pageTravelDate.content[0].travelDate, 'EEEE, dd MMMM yyyy'))} : ''">
+                                </th>
+                              </tr>
+                              <tr>
+                                <th></th>
+                                <th>Plate Number</th>
+                                <th>Driver Name</th>
+                                <th>Received</th>
+                                <th>Boundary</th>
+                                <th>Short</th>
+                                <th>Fund</th>
+                                <th>Contribution</th>
+                                <th>Loan</th>
+                                <th>Carwash</th>
+                                <th>Remarks</th>
+                                <th style="display: none;">Franchise</th>
+                              </tr>
+                            </thead>
+                            <tbody> 
+                              <tr th:if="${pageTravelDate.content != null}" th:each="tempPayment, iterStat : ${pageTravelDate.content}">
+                                <td th:text="${iterStat.count}" />
+                                <td th:text="${tempPayment.vehicle.plateNumber}" />
+                                <td th:text="${tempPayment?.driver?.firstName} + ' ' + ${tempPayment?.driver?.lastName}" />
+                                <td class="amountReceived"
+                                  th:text="${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash) > 0} ? ${#numbers.formatDecimal((tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash), 0, 'COMMA', 2, 'POINT')} : ${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash)}" />
+                                <td class="amountBoundary"
+                                  th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal(tempPayment.amountBoundary, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}" />
+                                <td class="amountShort"
+                                  th:text="${tempPayment.amountShort > 0} ? ${#numbers.formatDecimal(tempPayment.amountShort, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountShort}" />
+                                <td class="amountFund"
+                                  th:text="${tempPayment.amountFund > 0} ? ${#numbers.formatDecimal(tempPayment.amountFund, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountFund}" />
+                                <td class="amountContribution"
+                                  th:text="${tempPayment.amountContribution > 0} ? ${#numbers.formatDecimal(tempPayment.amountContribution, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountContribution}" />
+                                <td class="amountLoanPayment"
+                                  th:text="${tempPayment.amountLoanPayment > 0} ? ${#numbers.formatDecimal(tempPayment.amountLoanPayment, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountLoanPayment}" />
+                                <td class="amountCarwash"
+                                  th:text="${tempPayment.amountCarwash > 0} ? ${#numbers.formatDecimal(tempPayment.amountCarwash, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountCarwash}" />
+                                <td th:text="${tempPayment.remarks}" />
+                                <td class="franchise" 
+                                  th:text="${tempPayment.vehicle.franchise}" style="display: none;" />
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td colspan="1">Grand Total</td>
+                                <td id="totalAmountReceived"></td>
+                                <td id="totalAmountBoundary"></td>
+                                <td id="totalAmountShort"></td>
+                                <td id="totalAmountFund"></td>
+                                <td id="totalAmountContribution"></td>
+                                <td id="totalAmountLoanPayment"></td>
+                                <td id="totalAmountCarwash"></td>
+                              </tr>
+                              </tbody>
+                              <tbody th:unless="${#lists.isEmpty(latePayments)}">
+                              <tr>
+                                <td>Late Boundary</td></tr>
+                              <tr th:each="tempPayment, iterStat : ${latePayments}">
+                                <td th:text="${iterStat.count}" />
+                                <td th:text="${tempPayment.vehicle.plateNumber}" />
+                                <td th:text="${tempPayment?.driver?.firstName} + ' ' + ${tempPayment?.driver?.lastName}" />
+                                <td class="amountReceivedLate"
+                                  th:text="${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash) > 0} ? ${#numbers.formatDecimal((tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash), 0, 'COMMA', 2, 'POINT')} : ${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash)}" />
+                                <td class="amountBoundaryLate"
+                                  th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal(tempPayment.amountBoundary, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}" />
+                                <td class="amountShortLate"
+                                  th:text="${tempPayment.amountShort > 0} ? ${#numbers.formatDecimal(tempPayment.amountShort, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountShort}" />
+                                <td class="amountFundLate"
+                                  th:text="${tempPayment.amountFund > 0} ? ${#numbers.formatDecimal(tempPayment.amountFund, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountFund}" />
+                                <td class="amountContributionLate"
+                                  th:text="${tempPayment.amountContribution > 0} ? ${#numbers.formatDecimal(tempPayment.amountContribution, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountContribution}" />
+                                <td class="amountLoanPaymentLate"
+                                  th:text="${tempPayment.amountLoanPayment > 0} ? ${#numbers.formatDecimal(tempPayment.amountLoanPayment, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountLoanPayment}" />
+                                <td class="amountCarwashLate"
+                                  th:text="${tempPayment.amountCarwash > 0} ? ${#numbers.formatDecimal(tempPayment.amountCarwash, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountCarwash}" />
+                                <td th:text="${tempPayment.remarks}" />
+                                <td class="franchise" 
+                                  th:text="${tempPayment.vehicle.franchise}" style="display: none;" />
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td colspan="1">Grand Total</td>
+                                <td id="totalAmountReceivedLate"></td>
+                                <td id="totalAmountBoundaryLate"></td>
+                                <td id="totalAmountShortLate"></td>
+                                <td id="totalAmountFundLate"></td>
+                                <td id="totalAmountContributionLate"></td>
+                                <td id="totalAmountLoanPaymentLate"></td>
+                                <td id="totalAmountCarwashLate"></td>
+                              </tr>
+                            </tbody>
+                          <tbody>
+                              <tr>
+                                <td></td>
+                                <td>Lady Ella</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Boundary
+                                </td>
+                                <td></td>
+                                <td id="totalBoundaryLadyElla"></td>
+                                <td></td>
+                                <td>Denomination</td>
+                                <td>PCS</td>
+                                <td>Cash on Hand</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Other Payments(Benefits, Fund, Hulog)
+                                </td>
+                                <td></td>
+                                <td id="totalOtherPaymentsLadyElla"></td>
+                                <td></td>
+                                <td>1000</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Late Boundary
+                                </td>
+                                <td></td>
+                                <td id="totalLateBoundaryLadyElla"></td>
+                                <td></td>
+                                <td>500</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Carwash for Lady Ella
+                                </td>
+                                <td></td>
+                                <td id="totalCarwashEllaLadyElla"></td>
+                                <td></td>
+                                <td>200</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Carwash for Carwash Boy
+                                </td>
+                                <td></td>
+                                <td id="totalCarwashBoyLadyElla"></td>
+                                <td></td>
+                                <td>100</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Total
+                                </td>
+                                <td></td>
+                                <td id="totalAmountLadyElla"></td>
+                                <td></td>
+                                <td>50</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Deductions
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>20</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  For Remittance
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total</td>
+                                <td></td>
+                                <td>=SUM(G63:G69)</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Arthura
+                                </td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Boundary
+                                </td>
+                                <td></td>
+                                <td id="totalBoundaryArthura"></td>
+                                <td></td>
+                                <td>Denomination</td>
+                                <td>PCS</td>
+                                <td>Cash on Hand</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Other Payments(Benefits, Fund, Hulog)
+                                </td>
+                                <td></td>
+                                <td id="totalOtherPaymentsArthura"></td>
+                                <td></td>
+                                <td>1000</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Late Boundary
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>500</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Carwash for Lady Ella
+                                </td>
+                                <td></td>
+                                <td id="totalCarwashEllaArthura"></td>
+                                <td></td>
+                                <td>200</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Carwash for Carwash Boy
+                                </td>
+                                <td></td>
+                                <td id="totalCarwashBoyArthura"></td>
+                                <td></td>
+                                <td>100</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Total
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>50</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Deductions
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>20</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  For Remittance
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total</td>
+                                <td></td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>Grab and New Unit</td></tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Boundary
+                                </td>
+                                <td></td>
+                                <td id="totalBoundaryGrab"></td>
+                                <td></td>
+                                <td>Denomination</td>
+                                <td>PCS</td>
+                                <td>Cash on Hand</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Other Payments(Benefits, Fund, Hulog)
+                                </td>
+                                <td></td>
+                                <td id="totalOtherPaymentsGrab"></td>
+                                <td></td>
+                                <td>1000</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Late Boundary
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>500</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Carwash for Lady Ella
+                                </td>
+                                <td></td>
+                                <td id="totalCarwashEllaGrab"></td>
+                                <td></td>
+                                <td>200</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Carwash for Carwash Boy
+                                </td>
+                                <td></td>
+                                <td id="totalCarwashBoyGrab"></td>
+                                <td></td>
+                                <td>100</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Total
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>50</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  Deductions
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>20</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>0</td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>
+                                  For Remittance
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>Total</td>
+                                <td></td>
+                                <td>0</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary"
+                            onclick="exportTableToExcel('daily')">Export</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div><!-- End Full Screen Modal-->
+                </div>
+
+                <!-- <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item" th:class="${page.number == 0} ? disabled">
+                      <a class="page-link" th:href="@{/payments/search(inputDate=${inputDate}, name=${name}, pageNo=${page.number})}"
+                        aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(1, 10)}"
+                      th:class="${page.number == (i-1)} ? active">
+                      <a class="page-link" th:href="@{/payments/search(inputDate=${inputDate}, name=${name}, pageNo=${i})}" th:text="${i}"></a>
+                    </li>
+                    <li class="page-item" th:class="${page.number == (page.totalPages - 1)} ? disabled">
+                      <a class="page-link" th:href="@{/payments/search(inputDate=${inputDate}, name=${name}, pageNo=${page.number + 1})}"
+                        aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav> -->
+                <div class="card overflow-auto">
+                  <div class="card-body">
+                <!-- Table with hoverable rows -->
+                <table class="table table-hover table-sm">
+                  <thead>
+
+                    <tr>
+                      <th></th>
+                      <th>Plate Number</th>
+                      <th>Driver Name</th>
+                      <th>Received</th>
+                      <th>Boundary</th>
+                      <th>Short</th>
+                      <th>Fund</th>
+                      <th>Contribution</th>
+                      <th>Loan</th>
+                      <th>Carwash</th>
+                      <th>Travel Date</th>
+                      <th>Remarks</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="tempPayment, iterStat : ${pageTravelDate.content}">
+                      <td th:text="${iterStat.count}" />
+                      <td th:text="${tempPayment.vehicle.plateNumber}" />
+                      <td th:text="${tempPayment?.driver?.firstName} + ' ' + ${tempPayment?.driver?.lastName}" />
+                      <td 
+                        th:text="${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash) > 0} ? ${#numbers.formatDecimal((tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash), 0, 'COMMA', 2, 'POINT')} : ${(tempPayment.amountBoundary + tempPayment.amountFund + tempPayment.amountLoanPayment + tempPayment.amountContribution + tempPayment.amountCarwash)}" />
+                      <td
+                        th:text="${tempPayment.amountBoundary > 0} ? ${#numbers.formatDecimal(tempPayment.amountBoundary, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountBoundary}" />
+                      <td 
+                        th:text="${tempPayment.amountShort > 0} ? ${#numbers.formatDecimal(tempPayment.amountShort, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountShort}" />
+                      <td 
+                        th:text="${tempPayment.amountFund > 0} ? ${#numbers.formatDecimal(tempPayment.amountFund, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountFund}" />
+                      <td 
+                        th:text="${tempPayment.amountContribution > 0} ? ${#numbers.formatDecimal(tempPayment.amountContribution, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountContribution}" />
+                      <td 
+                        th:text="${tempPayment.amountLoanPayment > 0} ? ${#numbers.formatDecimal(tempPayment.amountLoanPayment, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountLoanPayment}" />
+                      <td 
+                        th:text="${tempPayment.amountCarwash > 0} ? ${#numbers.formatDecimal(tempPayment.amountCarwash, 0, 'COMMA', 2, 'POINT')} : ${tempPayment.amountCarwash}" />
+                      <td th:text="${#dates.format(tempPayment.travelDate, 'MM/dd/yyyy')}" />
+                      <td th:text="${#dates.format(tempPayment.paymentDate, 'MM/dd/yyyy')}" />
+                        <td th:text="${tempPayment.remarks}" />
+                      <td>
+                        <a th:href="@{/payments/update(paymentId=${tempPayment.id})}" class="btn btn-info mr-sm-3">
+                          Update
+                        </a>
+                        <a th:href="@{/payments/delete(paymentId=${tempPayment.id})}" class="btn btn-danger inline"
+                          onclick="if (!(confirm('Are you sure you want to delete this Driver?'))) return false">
+                          Delete
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div th:if="${errorMessage}" th:text="${errorMessage}"
+                  class="alert alert-danger mb-3 mr-sm-5 text-center"></div>
+                  </div>
+                </div>
+              </form>
+              <!-- End Table with hoverable rows -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+      <!-- Page Specific JS Files -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+      <script src="/js/payment-summary.js"></script>
+    </section>
+  </div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+
+
+  <!-- Vendor JS Files -->
+  <script src="/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/chart.js/chart.umd.js"></script>
+  <script src="/vendor/echarts/echarts.min.js"></script>
+  <script src="/vendor/quill/quill.min.js"></script>
+  <script src="/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="/vendor/tinymce/tinymce.min.js"></script>
+  <script src="/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="/js/main.js"></script>
+</body>
+
+</html>

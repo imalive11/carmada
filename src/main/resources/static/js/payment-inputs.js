@@ -2,22 +2,19 @@
 let selectedOptionPaymentType = null;
 let rate = null;
 
-const getElementById = (id) => document.getElementById(id);
-const getElementByQuery = (query) => document.querySelector(query);
-
 const setElementValue = (id, value) => {
-  getElementById(id).value = value;
+  $("#" + id).val(value);
 };
 
 const setElementReadOnly = (id, readOnly) => {
-  getElementById(id).readOnly = readOnly;
+  $("#" + id).prop("readOnly", readOnly);
 };
 
-//Payment Type Inputs
+// Payment Type Inputs
 
 const updateRate = () => {
-  const selectElementVehicle = getElementByQuery('#vehicle');
-  rate = selectElementVehicle.options[selectElementVehicle.selectedIndex].getAttribute('data-value');
+  const selectedVehicle = $("#vehicle").val();
+  rate = selectedVehicle ? $("#vehicleList [value='" + selectedVehicle + "']").data("value") : 0;
 };
 
 const setPaymentTypeHandler = () => {
@@ -26,28 +23,28 @@ const setPaymentTypeHandler = () => {
 };
 
 const setPaymentType = () => {
-  const paymentTypeInput = document.querySelector('input[name="paymentType"]:checked');
-  selectedOptionPaymentType = paymentTypeInput ? paymentTypeInput.value : 'FULL_BOUNDARY';
+  const paymentTypeInput = $('input[name="paymentType"]:checked');
+  selectedOptionPaymentType = paymentTypeInput.length ? paymentTypeInput.val() : "FULL_BOUNDARY";
 
   if (selectedOptionPaymentType === "FULL_BOUNDARY") {
-    setElementReadOnly('boundaryShort', true);
-    setElementReadOnly('boundary', true);
-    setElementValue('boundaryShort', 0);
+    setElementReadOnly("boundaryShort", true);
+    setElementReadOnly("boundary", true);
+    setElementValue("boundaryShort", 0);
   } else if (selectedOptionPaymentType === "SHORT") {
-    setElementReadOnly('boundary', false);
-    setElementReadOnly('boundaryShort', false);
+    setElementReadOnly("boundary", false);
+    setElementReadOnly("boundaryShort", false);
   } else if (selectedOptionPaymentType === "PARTIAL_BOUNDARY") {
-    setElementReadOnly('boundaryShort', false);
-    setElementReadOnly('boundary', false);
+    setElementReadOnly("boundaryShort", false);
+    setElementReadOnly("boundary", false);
   } else if (selectedOptionPaymentType === "NO_BOUNDARY") {
-    setElementReadOnly('boundaryShort', true);
-    setElementReadOnly('boundary', true);
-    setElementValue('boundaryShort', 0);
-    setElementValue('boundary', 0);
+    setElementReadOnly("boundaryShort", true);
+    setElementReadOnly("boundary", true);
+    setElementValue("boundaryShort", 0);
+    setElementValue("boundary", 0);
   } else if (selectedOptionPaymentType === "CHARGE_BOUNDARY") {
-    setElementReadOnly('boundaryShort', false);
-    setElementReadOnly('boundary', true);
-    setElementValue('boundary', 0);
+    setElementReadOnly("boundaryShort", false);
+    setElementReadOnly("boundary", true);
+    setElementValue("boundary", 0);
   }
 };
 
@@ -73,9 +70,9 @@ const adjustBoundaryRateHandler = () => {
 };
 
 const adjustBoundaryRate = () => {
-  selectedOptionPaymentType = getElementByQuery('input[name="paymentType"]:checked').value;
+  selectedOptionPaymentType = $('input[name="paymentType"]:checked').val();
   setElementValue("boundary", rate);
-  const selectedRate = getElementByQuery('input[name="boundaryRate"]:checked').value;
+  const selectedRate = $('input[name="boundaryRate"]:checked').val();
 
   if ((selectedRate === "weekend" || selectedRate === "holiday") && rate !== null) {
     setElementValue("boundary", rate - 100);
@@ -87,69 +84,86 @@ const adjustBoundaryRate = () => {
     setElementValue("boundary", 0);
   }
 };
+
 // End of Payment Type inputs
 
 const otherPaymentsHandler = () => {
-  const selectElementFund = getElementByQuery('#otherPaymentsFund');
-  const selectElementLoan = getElementByQuery('#otherPaymentsLoan');
-  const selectElementContribution = getElementByQuery('#otherPaymentsContribution');
-  const selectElementCarwash = getElementByQuery('#otherPaymentsCarwash');
-  const selectElementPenalty = getElementByQuery('#otherPaymentsPenalty');
+  const selectElementFund = $("#otherPaymentsFund");
+  const selectElementLoan = $("#otherPaymentsLoan");
+  const selectElementContribution = $("#otherPaymentsContribution");
+  const selectElementCarwash = $("#otherPaymentsCarwash");
+  const selectElementPenalty = $("#otherPaymentsPenalty");
 
-  setElementValue("boundaryFund", selectElementFund.checked ? 50 : 0);
-  setElementValue("boundaryLoan", selectElementLoan.checked ? 50 : 0);
-  setElementValue("contribution", selectElementContribution.checked ? 50 : 0);
-  setElementValue("carwash", selectElementCarwash.checked ? 65 : 0);
+  setElementValue("boundaryFund", selectElementFund.prop("checked") ? 50 : 0);
+  setElementValue("boundaryLoan", selectElementLoan.prop("checked") ? 50 : 0);
+  setElementValue("contribution", selectElementContribution.prop("checked") ? 50 : 0);
+  setElementValue("carwash", selectElementCarwash.prop("checked") ? 65 : 0);
 
-  setElementReadOnly('boundaryFund', !selectElementFund.checked);
-  setElementReadOnly('boundaryLoan', !selectElementLoan.checked);
-  setElementReadOnly('contribution', !selectElementContribution.checked);
-  setElementReadOnly('carwash', !selectElementCarwash.checked);
-  setElementReadOnly('boundary', !selectElementPenalty.checked);
+  setElementReadOnly("boundaryFund", !selectElementFund.prop("checked"));
+  setElementReadOnly("boundaryLoan", !selectElementLoan.prop("checked"));
+  setElementReadOnly("contribution", !selectElementContribution.prop("checked"));
+  setElementReadOnly("carwash", !selectElementCarwash.prop("checked"));
+  setElementReadOnly("boundary", !selectElementPenalty.prop("checked"));
 };
 
-
 const appendPaymentDescriptionHandler = () => {
-  const checkboxes = ['extraDriver', 'noDriver', 'absent', 'mainAndRepair', 'accident', 'late'];
-  const descriptionField = getElementById("paymentDescription");
-  descriptionField.value = "";
+  const checkboxes = ["extraDriver", "noDriver", "absent", "mainAndRepair", "accident", "late"];
+  const descriptionField = $("#paymentDescription");
+  descriptionField.val("");
 
   checkboxes.forEach((checkbox) => {
-    const element = getElementById(checkbox);
-    if (element.checked) {
-      descriptionField.value += " " + element.value;
+    const element = $("#" + checkbox);
+    if (element.prop("checked")) {
+      descriptionField.val(descriptionField.val() + " " + element.val());
     }
   });
 };
 
 const clearPaymentDescriptionHandler = () => {
-  const checkboxes = ['extraDriver', 'noDriver', 'absent', 'mainAndRepair', 'accident', 'late'];
-  const descriptionField = getElementById("paymentDescription");
+  const checkboxes = ["extraDriver", "noDriver", "absent", "mainAndRepair", "accident", "late"];
+  const descriptionField = $("#paymentDescription");
   checkboxes.forEach((checkbox) => {
-    getElementById(checkbox).checked = false;
+    $("#" + checkbox).prop("checked", false);
   });
-  descriptionField.value = "";
+  descriptionField.val("");
 };
 
 const validatePaymentDescriptionHandler = () => {
-  const myInputValue = getElementById("paymentDescription").value;
+  const myInputValue = $("#paymentDescription").val();
 
   setPaymentType();
   if ((selectedOptionPaymentType === "PARTIAL_BOUNDARY" || selectedOptionPaymentType === "NO_BOUNDARY") && myInputValue === "") {
-    getElementById("errorDiv").style.display = "block";
+    $("#errorDiv").css("display", "block");
     return false;
   }
 
   return true;
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  getElementById("travelDate").valueAsDate = new Date();
-  getElementById("paymentDate").valueAsDate = new Date();
+$(document).ready(function () {
+  $("#travelDate").val(new Date().toISOString().slice(0, 10));
+  $("#paymentDate").val(new Date().toISOString().slice(0, 10));
+
   const searchParams = new URLSearchParams(window.location.search);
   const paramValue = searchParams.get("paymentId");
   if (paramValue === null) {
     setPaymentTypeHandler();
     getBoundaryRateHandler();
   }
+
+  // Display Driver Name
+  $("#drivers").on("change", function () {
+    const selectedOption = $("#driverList [value='" + $(this).val() + "']");
+    const selectedDriverTextBox = $("#selectedDriver");
+    const fullName = selectedOption.text();
+    selectedDriverTextBox.val(fullName);
+  });
+
+  // Display Vehicle
+  $("#vehicle").on("change", function () {
+    const selectedOption = $("#vehicleList [value='" + $(this).val() + "']");
+    const selectedVehicleTextBox = $("#selectedVehicle");
+    const vehicle = selectedOption.text();
+    selectedVehicleTextBox.val(vehicle);
+  });
 });

@@ -69,6 +69,28 @@ layout:decorate="login/layout"
                 <div class="col-md-6">
                   <label class="col-sm-3 col-form-label">Vehicle</label>
                   <div class="col-sm-12">
+                      <input list="vehicleList" name="vehicle" id="vehicle" class="form-control" placeholder="Select Vehicle"
+                             th:field="*{vehicle}" onchange="getBoundaryRateHandler()" required>
+                      <datalist id="vehicleList">
+                          <option th:each="vehicle : ${vehicles}" th:value="${vehicle.id}" th:data-value="${vehicle.boundaryRate}"
+                                  th:text="${vehicle.plateNumber}">
+                          </option>
+                      </datalist>
+                      <div class="invalid-feedback">
+                          Please provide a Vehicle.
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-6 mt-3">
+                <label class="col-sm-12 col-form-label">Plate Number</label>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" id="selectedVehicle" readonly>
+                </div>
+              </div>
+              
+                <!-- <div class="col-md-6">
+                  <label class="col-sm-3 col-form-label">Vehicle</label>
+                  <div class="col-sm-12">
                     <select name="vehicle" id="vehicle" class="form-select" aria-label="Default select example"
                       th:field="*{vehicle}" onchange="getBoundaryRateHandler()" required>
                       <option value="" selected>Select Vehicle</option>
@@ -80,8 +102,30 @@ layout:decorate="login/layout"
                       Please provide a Vehicle.
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="col-md-6">
+                  <label class="col-sm-3 col-form-label">Driver</label>
+                  <div class="col-sm-12">
+                      <input list="driverList" name="drivers" id="drivers" class="form-control" placeholder="Select Driver"
+                             th:field="*{driver}" required>
+                      <datalist id="driverList">
+                          <option th:each="driver : ${drivers}" th:value="${driver.id}"
+                                  th:text="${driver.firstName + ' ' + driver.lastName}">
+                          </option>
+                      </datalist>
+                      <div class="invalid-feedback">
+                          Please provide a Driver.
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-6 mt-3">
+                <label class="col-sm-3 col-form-label">Name</label>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" id="selectedDriver" readonly>
+                </div>
+              </div>
+              
+                <!-- <div class="col-md-6">
                   <label class="col-sm-3 col-form-label">Driver</label>
                   <div class="col-sm-12">
                     <select name="drivers" id="drivers" class="form-select" aria-label="Default select example"
@@ -94,7 +138,7 @@ layout:decorate="login/layout"
                       Please provide a Driver.
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <fieldset class="col-md-6" id="paymentType" th:field="*{paymentType}"
                   onChange="setPaymentTypeHandler()">
                   <legend class="col-form-label col-sm-10 pt-0">Payment Type</legend>
@@ -180,8 +224,7 @@ layout:decorate="login/layout"
                 <div class="col-md-6">
                   <label for="short" class="col-sm-6 form-label">Short</label>
                   <div class="col-sm-12">
-                    <input type="number" class="form-control" th:field="*{amountShort}" id="boundaryShort"
-                      onBlur="shortBoundaryHandler()">
+                    <input type="number" class="form-control" th:field="*{amountShort}" id="boundaryShort">
                   </div>
                 </div>
                 <div class="col-sm-6">
