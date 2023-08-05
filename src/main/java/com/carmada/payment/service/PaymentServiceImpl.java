@@ -41,7 +41,7 @@ public class PaymentServiceImpl implements PaymentService {
 		System.out.println();  
 		
 		Date dateToday = new SimpleDateFormat("yyyy-MM-dd").parse(dtf.format(now));
-		return paymentRepository.findByTravelDateAfter(pageable, dateToday);
+		return paymentRepository.findPaymentsAfterDateOrderByVehicleIdAndFranchiseAsc(dateToday, pageable);
 	}
 
 	@Override
@@ -95,6 +95,12 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 	
 	@Override
+	public Page<Payment> findAllByTravelDateOrderByVehicleId(Pageable pageable, Date startDate, Date endDate) {
+
+		return paymentRepository.findPaymentsAfterDateOrderByVehicleIdAndFranchiseAsc(startDate, endDate, pageable);
+	}
+	
+	@Override
 	@Transactional
 	public Page<Payment> findLatestDayTravelDate(Pageable pageable) {
 		Date latestTravelDate = this.findLatestTravelDate();
@@ -107,7 +113,7 @@ public class PaymentServiceImpl implements PaymentService {
 		// Get the new date from the Calendar object
 		Date yesterday = cal.getTime();
 
-		return paymentRepository.findByTravelDateAfter(pageable,yesterday);
+		return paymentRepository.findPaymentsAfterDateOrderByVehicleIdAndFranchiseAsc(yesterday, pageable);
 	}
 	
 	@Override

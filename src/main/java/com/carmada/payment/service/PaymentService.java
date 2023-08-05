@@ -60,5 +60,7 @@ public interface PaymentService {
     public Date findLatestPaymentDate();
 
     public List<Payment> findLatestLatePaymentDate();
+
+	Page<Payment> findAllByTravelDateOrderByVehicleId(Pageable pageable, Date startDate, Date endDate);
 	
 }

@@ -19,11 +19,15 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 	
 	public Page<Payment> findAllByTravelDateBetweenOrderByIdDesc(Pageable pageable, Date startDate, Date endDate);
 	
+	@Query("SELECT p FROM Payment p JOIN p.vehicle v WHERE p.travelDate BETWEEN :startDate AND :endDate ORDER BY v.franchise DESC, v.id ASC")
+	public Page<Payment> findPaymentsAfterDateOrderByVehicleIdAndFranchiseAsc(@Param("startDate") Date startDate, @Param("endDate") Date endDate, Pageable pageable);
+	
 	public Page<Payment> findFirst56ByOrderByIdDesc(Pageable pageable);
 	
 	public Payment findFirstByOrderByTravelDateDesc();
 	
-	public Page<Payment> findByTravelDateAfter(Pageable pageable, Date dateToday);
+	@Query("SELECT p FROM Payment p JOIN p.vehicle v WHERE p.travelDate > :dateToday ORDER BY v.franchise DESC, v.id ASC")
+	public Page<Payment> findPaymentsAfterDateOrderByVehicleIdAndFranchiseAsc(@Param("dateToday") Date dateToday, Pageable pageable);
 	
 	public Page<Payment> findByPaymentDateAfter(Pageable pageable, Date dateToday);
 	

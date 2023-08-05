@@ -101,7 +101,7 @@ public class PaymentController {
             
             latePayments = paymentService.findLatePaymentDate(parsedDate);
             
-            pageByTravelDate = paymentService.findAllByDate(pageable, parsedDate, parsedDate);
+            pageByTravelDate = paymentService.findAllByTravelDateOrderByVehicleId(pageable, parsedDate, parsedDate);
             
         } else {
         	
@@ -258,7 +258,7 @@ public class PaymentController {
 		payment.setFullName();
 		paymentService.save(payment);
 		
-		return "redirect:/payments/";
+		return "redirect:/payments/report";
 	}
 	
 	@GetMapping("/update")
@@ -279,7 +279,7 @@ public class PaymentController {
 		
 		paymentService.delete(id);
 		
-		return "redirect:/payments/";
+		return "redirect:/payments/report";
 		
 	}
 	
