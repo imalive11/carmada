@@ -19,14 +19,14 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 	
 	public Page<Payment> findAllByTravelDateBetweenOrderByIdDesc(Pageable pageable, Date startDate, Date endDate);
 	
-	@Query("SELECT p FROM Payment p JOIN p.vehicle v WHERE p.travelDate BETWEEN :startDate AND :endDate ORDER BY v.franchise DESC, v.id ASC")
+	@Query("SELECT p FROM Payment p JOIN p.vehicle v WHERE p.travelDate BETWEEN :startDate AND :endDate ORDER BY v.franchise DESC, v.coding ASC")
 	public Page<Payment> findPaymentsAfterDateOrderByVehicleIdAndFranchiseAsc(@Param("startDate") Date startDate, @Param("endDate") Date endDate, Pageable pageable);
 	
 	public Page<Payment> findFirst56ByOrderByIdDesc(Pageable pageable);
 	
 	public Payment findFirstByOrderByTravelDateDesc();
 	
-	@Query("SELECT p FROM Payment p JOIN p.vehicle v WHERE p.travelDate > :dateToday ORDER BY v.franchise DESC, v.id ASC")
+	@Query("SELECT p FROM Payment p JOIN p.vehicle v WHERE p.travelDate > :dateToday ORDER BY v.franchise DESC, v.coding ASC")
 	public Page<Payment> findPaymentsAfterDateOrderByVehicleIdAndFranchiseAsc(@Param("dateToday") Date dateToday, Pageable pageable);
 	
 	public Page<Payment> findByPaymentDateAfter(Pageable pageable, Date dateToday);
@@ -34,12 +34,12 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 	@Query("SELECT p FROM Payment p WHERE p.paymentDate = :paymentDate AND p.travelDate < :travelDate")
 	public List<Payment> findLatePayments(Date travelDate, Date paymentDate);
 	
-	public Page<Payment> findByRemarksContains(Pageable pageable, String remarks);
+	public Page<Payment> findByPaymentDescriptionContainsOrderByTravelDateDesc(Pageable pageable, String remarks);
 	
 	@Query("SELECT p FROM Payment p WHERE p.remarks LIKE %:remarks% AND p.travelDate = :searchDate")
     Page<Payment> searchByRemarksLikeAndTravelDate(String remarks, Date searchDate, Pageable pageable);
 	
-	@Query("SELECT p FROM Payment p JOIN p.driver d WHERE p.remarks LIKE %:remarks% AND (d.firstName LIKE %:firstName% OR d.lastName LIKE %:lastName%)")
+	@Query("SELECT p FROM Payment p JOIN p.driver d WHERE p.amountBoundary = 0 AND p.remarks LIKE %:remarks% AND (d.firstName LIKE %:firstName% OR d.lastName LIKE %:lastName%) ORDER BY travel_date DESC")
 	Page<Payment> searchByRemarksLikeAndDriverName(@Param("remarks") String remarks, @Param("firstName") String firstName, @Param("lastName") String lastName, Pageable pageable);
 
 	@Query("SELECT p FROM Payment p JOIN p.driver d WHERE p.remarks LIKE %:remarks% AND (d.firstName LIKE %:firstName% OR d.lastName LIKE %:lastName%) AND p.travelDate = :travelDate")

@@ -8,15 +8,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.carmada.payment.dao.PaymentRepository;
 import com.carmada.payment.entity.Payment;
+import com.carmada.vehicle.entity.Vehicle;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -113,7 +116,7 @@ public class PaymentServiceImpl implements PaymentService {
 		// Get the new date from the Calendar object
 		Date yesterday = cal.getTime();
 
-		return paymentRepository.findPaymentsAfterDateOrderByVehicleIdAndFranchiseAsc(yesterday, pageable);
+		return this.findAndSortPaymentsAfterDate(yesterday, pageable);
 	}
 	
 	@Override
@@ -208,7 +211,7 @@ public class PaymentServiceImpl implements PaymentService {
 	public Page<Payment> searchByRemarksLike(String remarks, Pageable pageable) {
 		Page<Payment> result = 
 				this.paymentRepository
-					.findByRemarksContains(pageable, remarks);
+					.findByPaymentDescriptionContainsOrderByTravelDateDesc(pageable, remarks);
 		
 		return result;
 	}
@@ -231,6 +234,33 @@ public class PaymentServiceImpl implements PaymentService {
 		// TODO Auto-generated method stub
 		return paymentRepository.searchByRemarksLikeAndDriverNameAndtravelDate(remarks, firstName, lastName, travelDate, pageable);
 	}
+	
+	public Page<Payment> findAndSortPaymentsAfterDate(Date dateToday, Pageable pageable) {
+        Page<Payment> paymentsPage = paymentRepository.findPaymentsAfterDateOrderByVehicleIdAndFranchiseAsc(dateToday, pageable);
+
+        List<Payment> sortedPayments = paymentsPage.getContent().stream()
+                .sorted((p1, p2) -> {
+                    Vehicle vehicle1 = p1.getVehicle();
+                    Vehicle vehicle2 = p2.getVehicle();
+
+                    int franchiseComparison = vehicle2.getFranchise().compareTo(vehicle1.getFranchise());
+                    if (franchiseComparison != 0) {
+                        return franchiseComparison;
+                    }
+
+                    int codingComparison = Integer.compare(vehicle1.getCoding(), vehicle2.getCoding());
+                    if (codingComparison != 0) {
+                        return codingComparison;
+                    }
+
+                    char lastDigit1 = vehicle1.getPlateNumber().charAt(vehicle1.getPlateNumber().length() - 1);
+                    char lastDigit2 = vehicle2.getPlateNumber().charAt(vehicle2.getPlateNumber().length() - 1);
+                    return Character.compare(lastDigit1, lastDigit2);
+                })
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(sortedPayments, pageable, paymentsPage.getTotalElements());
+    }
 
 
 }

@@ -65,7 +65,15 @@ layout:decorate="login/layout"
               <!-- Multi Columns Form -->
               <form class="row g-3 needs-validation" action="#" th:action="@{/payments/save}" th:object="${payment}"
                 method="POST" onsubmit="return validatePaymentDescriptionHandler()" novalidate>
+                <!-- Hidden Fields -->
+                <!-- Text Box for payment id -->
                 <input type="hidden" th:field="*{id}" />
+                <!-- Text Box for amount_rate_boundary -->
+                <input type="hidden" class="form-control"
+                      th:field="*{amountRateBoundary}" id="amountRateBoundary">
+                <!-- Text Box for payment description -->
+                <input type="hidden" class="form-control" placeholder="Complete Boundary, Trouble, No Driver etc."
+                      th:field="*{paymentDescription}" id="paymentDescription">
                 <div class="col-md-6">
                   <label class="col-sm-3 col-form-label">Vehicle</label>
                   <div class="col-sm-12">
@@ -87,22 +95,6 @@ layout:decorate="login/layout"
                     <input type="text" class="form-control" id="selectedVehicle" readonly>
                 </div>
               </div>
-              
-                <!-- <div class="col-md-6">
-                  <label class="col-sm-3 col-form-label">Vehicle</label>
-                  <div class="col-sm-12">
-                    <select name="vehicle" id="vehicle" class="form-select" aria-label="Default select example"
-                      th:field="*{vehicle}" onchange="getBoundaryRateHandler()" required>
-                      <option value="" selected>Select Vehicle</option>
-                      <option th:each="vehicle : ${vehicles}" th:text="${vehicle.plateNumber}" th:value="${vehicle.id}"
-                        th:data-value="${vehicle.boundaryRate}">
-                      </option>
-                    </select>
-                    <div class="invalid-feedback">
-                      Please provide a Vehicle.
-                    </div>
-                  </div>
-                </div> -->
                 <div class="col-md-6">
                   <label class="col-sm-3 col-form-label">Driver</label>
                   <div class="col-sm-12">
@@ -124,21 +116,6 @@ layout:decorate="login/layout"
                     <input type="text" class="form-control" id="selectedDriver" readonly>
                 </div>
               </div>
-              
-                <!-- <div class="col-md-6">
-                  <label class="col-sm-3 col-form-label">Driver</label>
-                  <div class="col-sm-12">
-                    <select name="drivers" id="drivers" class="form-select" aria-label="Default select example"
-                      th:field="*{driver}" required>
-                      <option value="" selected>Select Driver</option>
-                      <option th:each="driver : ${drivers}" th:text="${driver.firstName} + ' ' + ${driver.lastName}"
-                        th:value="${driver.id}"></option>
-                    </select>
-                    <div class="invalid-feedback">
-                      Please provide a Driver.
-                    </div>
-                  </div>
-                </div> -->
                 <fieldset class="col-md-6" id="paymentType" th:field="*{paymentType}"
                   onChange="setPaymentTypeHandler()">
                   <legend class="col-form-label col-sm-10 pt-0">Payment Type</legend>
@@ -182,39 +159,40 @@ layout:decorate="login/layout"
                     </div>
                   </div>
                 </fieldset>
-                <fieldset class="col-md-6" id="boundaryRate" onChange="adjustBoundaryRate()" th:field="*{rateBoundary}">
+                <fieldset class="col-md-6" id="rateBoundary" onChange="adjustBoundaryRate()" th:field="*{rateBoundary}">
                   <legend class="col-form-label col-sm-10 pt-0">Boundary Rate</legend>
                   <div class="col-sm-10">
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="boundaryRate" id="boundaryRateRegular"
-                        value="regular" th:checked="${payment != null && payment.rateBoundary == 'regular'}">
+                      <input class="form-check-input" type="radio" name="rateBoundary" id="boundaryRateRegular"
+                        value="REGULAR" th:checked="${payment != null && payment.rateBoundary == 'REGULAR'}">
                       <label class="form-check-label" for="boundaryRateRegular">
                         Regular
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="boundaryRate" id="boundaryRateWeekend"
-                        value="weekend" th:checked="${payment != null && payment.rateBoundary == 'weekend'}">
+                      <input class="form-check-input" type="radio" name="rateBoundary" id="boundaryRateWeekend"
+                        value="WEEKEND" th:checked="${payment != null && payment.rateBoundary == 'WEEKEND'}">
                       <label class="form-check-label" for="boundaryRateWeekend">
                         Weekend
                       </label>
                     </div>
                     <div class="form-check ">
-                      <input class="form-check-input" type="radio" name="boundaryRate" id="boundaryRateHoliday"
-                        value="holiday" th:checked="${payment != null && payment.rateBoundary == 'holiday'}">
+                      <input class="form-check-input" type="radio" name="rateBoundary" id="boundaryRateHoliday"
+                        value="HOLIDAY" th:checked="${payment != null && payment.rateBoundary == 'HOLIDAY'}">
                       <label class="form-check-label" for="boundaryRateHoliday">
                         Holiday
                       </label>
                     </div>
                     <div class="form-check ">
-                      <input class="form-check-input" type="radio" name="boundaryRate" id="coding" value="coding"
-                        th:checked="${payment != null && payment.rateBoundary == 'coding'}">
+                      <input class="form-check-input" type="radio" name="rateBoundary" id="coding" value="CODING"
+                        th:checked="${payment != null && payment.rateBoundary == 'CODING'}">
                       <label class="form-check-label" for="coding">
                         Coding
                       </label>
                     </div>
                   </div>
                 </fieldset>
+                
                 <div class="col-md-6">
                   <label for="boundary" class="col-sm-6 form-label">Boundary</label>
                   <div class="col-sm-12">
@@ -315,8 +293,7 @@ layout:decorate="login/layout"
                         Accident
                       </label>
                     </div>
-                    <input type="hidden" class="form-control" placeholder="Complete Boundary, Trouble, No Driver etc."
-                      th:field="*{paymentDescription}" id="paymentDescription">
+                    
                   </div>
                 </div>
                 <div class="col-md-6">

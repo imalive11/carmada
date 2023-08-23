@@ -186,41 +186,13 @@ public class PaymentController {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sortBy));
 		Page<Payment> page;
 		
-		if (name != null && !name.isEmpty() && date != null ) {
-        	
-        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date parsedDate = null;
-            
-            try {
-            	parsedDate = formatter.parse(date);
-	        } catch (ParseException e) {
-	                e.printStackTrace();
-	        }
-            page = paymentService.searchByRemarksLikeAndDriverNameAndtravelDate(remarks, name, name, parsedDate, pageable);
-            
-            if (page.hasContent() == false) {
-    			model.addAttribute("errorMessage", "No Driver found!");
-    		}
-            
-        } else if (name != null && !name.isEmpty()) {
+		if (name != null && !name.isEmpty()) {
         	
             page = paymentService.searchByRemarksLikeAndDriverName(remarks, name, pageable);
             
             if (page.hasContent() == false) {
     			model.addAttribute("errorMessage", "No Driver found!");
     		}
-            
-        } else if (date != null ) {
-        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date parsedDate = null;
-            
-            try {
-            	parsedDate = formatter.parse(date);
-	        } catch (ParseException e) {
-	                e.printStackTrace();
-	        }
-            
-            page = paymentService.searchByRemarksLikeAndTravelDate(remarks, parsedDate, pageable);
             
         } else {
         	
@@ -255,6 +227,7 @@ public class PaymentController {
 			
 			return "payments/payment-form";
 		}
+		
 		payment.setFullName();
 		paymentService.save(payment);
 		

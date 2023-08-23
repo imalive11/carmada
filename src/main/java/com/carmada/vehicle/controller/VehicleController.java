@@ -98,9 +98,12 @@ public class VehicleController {
 	@PostMapping("/save")
 	public String saveVehicle(@Valid @ModelAttribute("vehicle") Vehicle vehicle, BindingResult bindingResult) {
 		
+		
+		
 		if (bindingResult.hasErrors()) {
 			return "vehicles/vehicle-form";
 		}
+		
 		vehicleService.save(vehicle);
 		
 		return "redirect:/vehicles/";
@@ -184,6 +187,8 @@ public class VehicleController {
 		// send over to our form
 		return "vehicles/vehicle-profile";			
 	}
+	
+	
 	
 
 }

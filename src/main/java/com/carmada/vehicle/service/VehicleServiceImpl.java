@@ -19,6 +19,7 @@ public class VehicleServiceImpl implements VehicleService {
 	public VehicleServiceImpl(VehicleRepository vehicleRepository) {
 		this.vehicleRepository = vehicleRepository;
 	}
+	
 	@Override
 	@Transactional
 	public List<Vehicle> findAll() {
@@ -44,6 +45,7 @@ public class VehicleServiceImpl implements VehicleService {
 	@Override
 	@Transactional
 	public void save(Vehicle vehicle) {
+		setCoding(vehicle);
 		this.vehicleRepository.save(vehicle);
 	}
 
@@ -60,6 +62,31 @@ public class VehicleServiceImpl implements VehicleService {
 		List<Vehicle> vehicles = vehicleRepository.findByPlateNumberIgnoreCaseContains(name);
 		
 		return vehicles;
+	}
+	
+	public void setCoding(Vehicle vehicle) {
+		String plateNumber = vehicle.getPlateNumber();
+		
+		if (plateNumber != null) {
+            // Use regex to match the last character of the input string
+            int lastCharacter = Integer.parseInt(plateNumber.substring(plateNumber.length() - 1));
+
+            // Check conditions and set property accordingly
+            if (lastCharacter == 1 ||lastCharacter == 2) {
+            	vehicle.setCoding(1);
+            } else if (lastCharacter == 3 ||lastCharacter == 4) {
+            	vehicle.setCoding(2);
+            } else if (lastCharacter == 5 ||lastCharacter == 6) {
+            	vehicle.setCoding(3);
+            } else if (lastCharacter == 7 ||lastCharacter == 8) {
+            	vehicle.setCoding(4);
+            } else if (lastCharacter == 9 ||lastCharacter == 0) {
+            	vehicle.setCoding(5);
+            }  else {
+            	throw new IllegalArgumentException("Invalid Plate Number: " + plateNumber);
+            }
+        } 
+
 	}
 
 }

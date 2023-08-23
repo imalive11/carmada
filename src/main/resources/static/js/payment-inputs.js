@@ -30,6 +30,7 @@ const setPaymentType = () => {
     setElementReadOnly("boundaryShort", true);
     setElementReadOnly("boundary", true);
     setElementValue("boundaryShort", 0);
+    setElementValue("boundary", rate);
   } else if (selectedOptionPaymentType === "SHORT") {
     setElementReadOnly("boundary", false);
     setElementReadOnly("boundaryShort", false);
@@ -61,23 +62,27 @@ const getBoundaryRateHandler = () => {
   setElementValue("boundary", getBoundaryRate());
 };
 
-const adjustBoundaryRateHandler = () => {
-  if (rate === null || selectedOptionPaymentType === "NO_BOUNDARY" || selectedOptionPaymentType === "CHARGE_BOUNDARY") {
-    setElementValue("boundary", 0);
-  } else {
-    setElementValue("boundary", rate);
-  }
-};
+// const adjustBoundaryRateHandler = () => {
+//   if (rate === null || selectedOptionPaymentType === "NO_BOUNDARY" || selectedOptionPaymentType === "CHARGE_BOUNDARY") {
+//     setElementValue("boundary", 0);
+//   } else {
+//     setElementValue("boundary", rate);
+//   }
+// };
 
 const adjustBoundaryRate = () => {
   selectedOptionPaymentType = $('input[name="paymentType"]:checked').val();
   setElementValue("boundary", rate);
-  const selectedRate = $('input[name="boundaryRate"]:checked').val();
+  setElementValue("amountRateBoundary", rate); 
+  const selectedRate = $('input[name="rateBoundary"]:checked').val();
 
-  if ((selectedRate === "weekend" || selectedRate === "holiday") && rate !== null) {
+  if ((selectedRate === "WEEKEND" || selectedRate === "HOLIDAY") && rate !== null) {
     setElementValue("boundary", rate - 100);
-  } else if (selectedRate === "coding" && rate !== null) {
+    setElementValue("amountRateBoundary", rate - 100); 
+
+  } else if (selectedRate === "CODING" && rate !== null) {
     setElementValue("boundary", rate - 200);
+    setElementValue("amountRateBoundary", rate - 100); 
   }
 
   if (rate === null || selectedOptionPaymentType === "NO_BOUNDARY" || selectedOptionPaymentType === "CHARGE_BOUNDARY") {
@@ -140,30 +145,40 @@ const validatePaymentDescriptionHandler = () => {
   return true;
 };
 
+const updateSelected = () => {
+  // Update selected driver
+  const selectedDriverOption = $("#driverList [value='" + $("#drivers").val() + "']");
+  const selectedDriverTextBox = $("#selectedDriver");
+  const driverFullName = selectedDriverOption.text();
+  selectedDriverTextBox.val(driverFullName);
+
+  // Update selected vehicle
+  const selectedVehicleOption = $("#vehicleList [value='" + $("#vehicle").val() + "']");
+  const selectedVehicleTextBox = $("#selectedVehicle");
+  const vehicle = selectedVehicleOption.text();
+  selectedVehicleTextBox.val(vehicle);
+}
+
 $(document).ready(function () {
-  $("#travelDate").val(new Date().toISOString().slice(0, 10));
-  $("#paymentDate").val(new Date().toISOString().slice(0, 10));
 
   const searchParams = new URLSearchParams(window.location.search);
   const paramValue = searchParams.get("paymentId");
-  if (paramValue === null) {
+  if (paramValue !== null) {
     setPaymentTypeHandler();
     getBoundaryRateHandler();
+    updateSelected()
+  } else {
+    $("#travelDate").val(new Date().toISOString().slice(0, 10));
+    $("#paymentDate").val(new Date().toISOString().slice(0, 10));
   }
 
   // Display Driver Name
   $("#drivers").on("change", function () {
-    const selectedOption = $("#driverList [value='" + $(this).val() + "']");
-    const selectedDriverTextBox = $("#selectedDriver");
-    const fullName = selectedOption.text();
-    selectedDriverTextBox.val(fullName);
+    updateSelected()
   });
 
   // Display Vehicle
   $("#vehicle").on("change", function () {
-    const selectedOption = $("#vehicleList [value='" + $(this).val() + "']");
-    const selectedVehicleTextBox = $("#selectedVehicle");
-    const vehicle = selectedOption.text();
-    selectedVehicleTextBox.val(vehicle);
+    updateSelected()
   });
 });

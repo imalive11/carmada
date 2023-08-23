@@ -50,6 +50,9 @@ public class Vehicle {
 	@Column(name="franchise")
 	private String franchise;
 	
+    @Column(name = "coding")
+    private Integer coding;
+	
 	@Enumerated(EnumType.STRING)
     @Column(name = "travel_type")
     private TravelType travelType;
@@ -208,6 +211,12 @@ public class Vehicle {
 		this.payments = payments;
 	}
 
+	
+	public Integer getCoding() {
+		return coding;
+	}
+
+
 	public Vehicle() {
 	}
 
@@ -227,7 +236,14 @@ public class Vehicle {
 		this.assignedDriver2 = assignedDriver2;
 		this.boundaryRate = boundaryRate;
 		this.expirationYear = expirationYear;
+		
 	}
+
+	public void setCoding(Integer coding) {
+		this.coding = coding;
+	}
+	
+	
 
 
 
