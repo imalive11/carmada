@@ -19,7 +19,8 @@ const updateRate = () => {
 
 const setPaymentTypeHandler = () => {
   setPaymentType();
-  updateRate();
+  getBoundaryRateHandler()
+  // updateRate();
 };
 
 const setPaymentType = () => {
@@ -30,7 +31,6 @@ const setPaymentType = () => {
     setElementReadOnly("boundaryShort", true);
     setElementReadOnly("boundary", true);
     setElementValue("boundaryShort", 0);
-    setElementValue("boundary", rate);
   } else if (selectedOptionPaymentType === "SHORT") {
     setElementReadOnly("boundary", false);
     setElementReadOnly("boundaryShort", false);
@@ -62,13 +62,13 @@ const getBoundaryRateHandler = () => {
   setElementValue("boundary", getBoundaryRate());
 };
 
-// const adjustBoundaryRateHandler = () => {
-//   if (rate === null || selectedOptionPaymentType === "NO_BOUNDARY" || selectedOptionPaymentType === "CHARGE_BOUNDARY") {
-//     setElementValue("boundary", 0);
-//   } else {
-//     setElementValue("boundary", rate);
-//   }
-// };
+const adjustBoundaryRateHandler = () => {
+  if (rate === null || selectedOptionPaymentType === "NO_BOUNDARY" || selectedOptionPaymentType === "CHARGE_BOUNDARY") {
+    setElementValue("boundary", 0);
+  } else {
+    setElementValue("boundary", rate);
+  }
+};
 
 const adjustBoundaryRate = () => {
   selectedOptionPaymentType = $('input[name="paymentType"]:checked').val();
@@ -82,7 +82,7 @@ const adjustBoundaryRate = () => {
 
   } else if (selectedRate === "CODING" && rate !== null) {
     setElementValue("boundary", rate - 200);
-    setElementValue("amountRateBoundary", rate - 100); 
+    setElementValue("amountRateBoundary", rate - 200); 
   }
 
   if (rate === null || selectedOptionPaymentType === "NO_BOUNDARY" || selectedOptionPaymentType === "CHARGE_BOUNDARY") {
