@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.carmada.accounting.expense.entity.Expense;
 import com.carmada.accounting.expense.service.ExpenseService;
+import com.carmada.vehicle.entity.Vehicle;
+import com.carmada.vehicle.service.VehicleService;
 
 @Controller
 @RequestMapping("expenses")
@@ -27,6 +29,8 @@ public class ExpenseController {
 	@Autowired
 	private ExpenseService expenseService;
 	
+	@Autowired
+	private VehicleService vehicleService;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder databinder) {
@@ -60,6 +64,8 @@ public class ExpenseController {
 	
 	@GetMapping("/add")
 	public String addExpense(Model model) {
+		
+		listDriverAndVehicleForDropdown(model);
 
 		Expense expense = new Expense();
 		
@@ -83,7 +89,7 @@ public class ExpenseController {
 	}
 	
 	@GetMapping("/update")
-	public String showFormForUpdate(@RequestParam("vehicleId") int id,
+	public String showFormForUpdate(@RequestParam("expenseId") int id,
 									Model model) {
 		
 		Expense expense = expenseService.findById(id);
@@ -95,12 +101,19 @@ public class ExpenseController {
 
 
 	@GetMapping("/delete")
-	public String delete(@RequestParam("vehicleId") int id) {
+	public String delete(@RequestParam("expenseId") int id) {
 		
 		expenseService.delete(id);
 		
 		return "redirect:/expenses/";
 		
+	}
+	
+	private void listDriverAndVehicleForDropdown(Model model) {
+		
+		List<Vehicle> vehicles = vehicleService.findAll();
+		
+		model.addAttribute("vehicles", vehicles);
 	}
 	
 

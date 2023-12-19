@@ -178,7 +178,7 @@ public class DriverController {
 	@GetMapping("/profile")
 	public String viewProfile(@RequestParam("driverId") int driverId,
 			@RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
-            @RequestParam(defaultValue = "1000") int pageSize,
+            @RequestParam(defaultValue = "10000") int pageSize,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(required = false, value = "startDate") String startDate,
             @RequestParam(required = false, value = "endDate") String endDate,
