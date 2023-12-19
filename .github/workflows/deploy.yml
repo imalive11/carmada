@@ -77,7 +77,7 @@ jobs:
             
         - name: Copy Files for Deployment
           run: |
-            cd /home/ec2-user/actions-runner/deployment/carmada/carmada
+            cd /home/ec2-user/actions-runner/_work/carmada/carmada
             cp *.jar /home/ec2-user
             cp Dockerfile /home/ec2-user
             echo "Successful Download of Jar File" >> log.txt
