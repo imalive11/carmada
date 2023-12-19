@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html 
+  lang="en" 
+  xmlns:th="https://www.thymeleaf.org" 
+  xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="login/layout"
+>
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Vehicles - New Vehicle</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="/img/favicon.png" rel="icon">
+  <link href="/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="/vendor/simple-datatables/style.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.5.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <div layout:fragment="content">
+    <div class="pagetitle">
+      <h1>Vehicles</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/home">Home</a></li>
+          <li class="breadcrumb-item"><a href="/accounting/expense">Expenses</a></li>
+          <li class="breadcrumb-item active">New Expense</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+
+        <div class="col-lg-6">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">New Vehicle</h5>
+              <!-- Vertical Form -->
+              <form class="row g-3 needs-validation" action="#" th:action="@{/vehicles/save}" th:object="${vehicle}"
+                method="POST" novalidate>
+                <input type="hidden" th:field="*{id}" />
+                <div class="col-md-6">
+                  <label for="plateNumber" class="form-label">Plate Number</label>
+                  <div class="input-group has-validation">
+                    <input type="text" class="form-control" id="plateNumber" maxlength="15" th:field="*{plateNumber}" required>
+                    <div class="invalid-feedback">
+                      Missing Plate Number!
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="boundaryRate" class="form-label">Boundary Rate</label>
+                  <div class="input-group has-validation">
+                    <input type="number" class="form-control" id="boundaryRate" placeholder="1200" th:field="*{boundaryRate}" required>
+                    <div class="invalid-feedback">
+                      Missing Boundary Rate
+                    </div>
+                  </div>
+                </div>
+                <fieldset class="col-md-12" id="travelType" th:field="*{travelType}">
+                  <legend class="col-form-label col-sm-10 pt-0">Travel Type</legend>
+                  <div class="col-sm-10">
+                    <div class="form-check ">
+                      <input class="form-check-input" type="radio" name="travelType" id="regular" 
+                        value="REGULAR" th:checked="${vehicle.travelType == 'REGULAR'}">
+                      <label class="form-check-label" for="regular">
+                        Regular
+                      </label>
+                    </div>
+                    <div class="form-check ">
+                      <input class="form-check-input" type="radio" name="travelType"
+                        id="daily" value="DAILY" th:checked="${vehicle.travelType == 'DAILY'}">
+                      <label class="form-check-label" for="daily">
+                        Daily
+                      </label>
+                    </div>
+                  </div>
+                </fieldset>
+                <div class="col-md-6">
+                  <label class="col-sm-3 col-form-label">Driver 1</label>
+                  <div class="col-sm-12">
+                    <select name="drivers" id="assignedDriver1" class="form-select" aria-label="Default select example"
+                      th:field="*{assignedDriver1}">
+                      <option value="" selected>Select Driver</option>
+                      <option th:each="driver : ${drivers}" th:text="${driver.firstName} + ' ' + ${driver.lastName}"
+                        th:value="${driver.id}"></option>
+                    </select>
+                  </div>
+                </div>
+                 <div class="col-md-6">
+                  <label class="col-sm-3 col-form-label">Driver 2</label>
+                  <div class="col-sm-12">
+                    <select name="drivers" id="assignedDriver2" class="form-select" aria-label="Default select example"
+                      th:field="*{assignedDriver2}">
+                      <option value="" selected>Select Driver</option>
+                      <option th:each="driver : ${drivers}" th:text="${driver.firstName} + ' ' + ${driver.lastName}"
+                        th:value="${driver.id}"></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="yearModel" class="form-label">Year Model</label>
+                  <div class="input-group has-validation">
+                    <input type="number" class="form-control" id="yearModel" placeholder="2022" th:field="*{yearModel}" required>
+                    <div class="invalid-feedback">
+                      Missing Year Model!
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="expirationYear" class="form-label">Franchise Expiration Year</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="expirationYear" maxlength="15" placeholder="2022" th:field="*{expirationYear}">
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="brand" class="form-label">Brand</label>
+                  <div class="input-group has-validation">
+                    <input type="text" class="form-control" id="brand" maxlength="20" placeholder="Toyota Vios" th:field="*{brand}" required>
+                    <div class="invalid-feedback">
+                      Missing Brand Model!
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="franchise" class="form-label">Franchise</label>
+                  <div class="input-group has-validation">
+                    <input type="text" class="form-control" id="franchise" maxlength="15" placeholder="Lady Ella" th:field="*{franchise}" required>
+                    <div class="invalid-feedback">
+                      Missing Franchise Model!
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+              </form><!-- Vertical Form -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      <!-- All the links in the footer should remain intact. -->
+      <!-- You can delete the links only if you purchased the pro version. -->
+      <!-- Licensing information: https://bootstrapmade.com/license/ -->
+      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+  
+  <!-- Vendor JS Files -->
+  <script src="/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/chart.js/chart.umd.js"></script>
+  <script src="/vendor/echarts/echarts.min.js"></script>
+  <script src="/vendor/quill/quill.min.js"></script>
+  <script src="/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="/vendor/tinymce/tinymce.min.js"></script>
+  <script src="/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="/js/main.js"></script>
+  
+</body>
+
+</html>

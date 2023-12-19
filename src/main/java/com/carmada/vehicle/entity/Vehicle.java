@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.carmada.accounting.expense.entity.Expense;
 import com.carmada.drivers.entity.Driver;
 import com.carmada.incident.entity.Incident;
 import com.carmada.payment.entity.Payment;
@@ -89,6 +90,12 @@ public class Vehicle {
 			cascade = {CascadeType.PERSIST, CascadeType.MERGE,
 					CascadeType.DETACH, CascadeType.REFRESH})
 	private List<Incident> incidents;
+	
+	@JsonIgnoreProperties("vehicle")
+	@OneToMany(mappedBy="vehicle", fetch= FetchType.LAZY,
+			cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+					CascadeType.DETACH, CascadeType.REFRESH})
+	private List<Expense> expenses;
 
 	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.DETACH, CascadeType.REFRESH})
@@ -129,6 +136,17 @@ public class Vehicle {
 
 		incident.setVehicle(this);
 	}
+	
+//	public void addExpense(Expense expense) {
+//
+//		if (this.expenses == null) {
+//			this.expenses = new ArrayList<>();
+//		}
+//
+//		this.incidents.add(expense);
+//
+//		expense.setVehicle(this);
+//	}
 
 	public String getFranchise() {
 		return franchise;
@@ -216,6 +234,14 @@ public class Vehicle {
 		return coding;
 	}
 
+
+	public List<Expense> getExpenses() {
+		return expenses;
+	}
+
+	public void setExpenses(List<Expense> expenses) {
+		this.expenses = expenses;
+	}
 
 	public Vehicle() {
 	}
