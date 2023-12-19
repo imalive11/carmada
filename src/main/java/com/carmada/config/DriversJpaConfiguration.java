@@ -14,6 +14,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.carmada.accounting.expense.entity.Expense;
 import com.carmada.drivers.entity.Driver;
 import com.carmada.incident.entity.Incident;
 import com.carmada.payment.entity.Payment;
@@ -22,7 +23,7 @@ import com.carmada.vehicle.entity.Vehicle;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-  basePackages = {"com.carmada.drivers.dao", "com.carmada.payment.dao", "com.carmada.vehicle.dao", "com.carmada.incident.dao"},
+  basePackages = {"com.carmada.drivers.dao", "com.carmada.payment.dao", "com.carmada.vehicle.dao", "com.carmada.incident.dao", "com.carmada.accounting.expense.dao"},
   entityManagerFactoryRef = "driversEntityManagerFactory",
   transactionManagerRef = "driversTransactionManager"
 )
@@ -34,7 +35,7 @@ public class DriversJpaConfiguration {
       EntityManagerFactoryBuilder builder) {
         return builder
           .dataSource(dataSource)
-          .packages(Driver.class, Payment.class, Vehicle.class, Incident.class)
+          .packages(Driver.class, Payment.class, Vehicle.class, Incident.class, Expense.class)
           .build();
     }
 

@@ -37,6 +37,7 @@ import org.springframework.security.web.SecurityFilterChain;
 //					.antMatchers("/drivers/*").hasRole("EMPLOYEE")
 //					.antMatchers("/payments/*").hasRole("EMPLOYEE")
 //					.antMatchers("/vehicles/*").hasRole("EMPLOYEE")
+//					.antMatchers("/accounting/*").hasRole("EMPLOYEE")
 //					)
 //			
 //			.formLogin(configurer -> 
@@ -74,6 +75,7 @@ public class SecurityConfig {
 					.mvcMatchers("/payments/**").authenticated()
 					.mvcMatchers("/vehicles/**").authenticated()
 					.mvcMatchers("/incidents/**").authenticated()
+					.mvcMatchers("/accounting/**").authenticated()
 					.mvcMatchers("/*").authenticated()
 					)
 	            .oauth2Login()

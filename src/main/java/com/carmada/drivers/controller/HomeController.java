@@ -20,7 +20,7 @@ import com.carmada.payment.entity.Payment;
 import com.carmada.payment.service.PaymentService;
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping("home")
 public class HomeController {
 	
 	@Autowired
@@ -51,6 +51,20 @@ public class HomeController {
         model.addAttribute("page", page);
 		
 		return "login/home-page";
+	}
+	
+	@GetMapping("/report")
+	public String report(){
+		
+		
+		return "reports/report";
+	}
+	
+	@GetMapping("/expenses")
+	public String expenses(){
+		
+		
+		return "accounting/expense-list";
 	}
 	
 	
