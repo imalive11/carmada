@@ -40,8 +40,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Transactional
 	public Page<Payment> findByCurrentDate(Pageable pageable) throws ParseException {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
-		LocalDateTime now = LocalDateTime.now().minusDays(1);  
-		System.out.println();  
+		LocalDateTime now = LocalDateTime.now().minusDays(1);
 		
 		Date dateToday = new SimpleDateFormat("yyyy-MM-dd").parse(dtf.format(now));
 		return paymentRepository.findPaymentsAfterDateOrderByVehicleIdAndFranchiseAsc(dateToday, pageable);

@@ -54,7 +54,8 @@ function exportTableToExcel(reportType, startDate = "", endDate = "", driverName
   var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
   saveAs(new Blob([wbout], { type: 'application/octet-stream' }), file_name);
 }
-// Sum up the values in the second column
+
+// Sum up the values in the column
 var totalAmountReceived = 0;
 var totalAmountBoundary = 0;
 var totalAmountShort = 0;
@@ -296,10 +297,22 @@ var sumCarwashBoyByFranchise = {
   'Arthura': 0
 };
 
+// expenses
 
+var totalExpenseCost = 0;
 
+$("td.expenseCost").each(function () {
+  // Remove Comma before parsing
+  var amount = parseInt($(this).text().replace(/,/g, '', 10));
+  totalExpenseCost += amount;
+})
 
-
+$("#totalExpenseCost").text(totalExpenseCost.toLocaleString("en-US",
+  {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+));
 
 
 // variables for late payments

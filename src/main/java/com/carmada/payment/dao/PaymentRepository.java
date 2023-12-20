@@ -22,15 +22,11 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 	@Query("SELECT p FROM Payment p JOIN p.vehicle v WHERE p.travelDate BETWEEN :startDate AND :endDate ORDER BY v.franchise DESC, v.coding ASC")
 	public Page<Payment> findPaymentsAfterDateOrderByVehicleIdAndFranchiseAsc(@Param("startDate") Date startDate, @Param("endDate") Date endDate, Pageable pageable);
 	
-	public Page<Payment> findFirst56ByOrderByIdDesc(Pageable pageable);
-	
 	public Payment findFirstByOrderByTravelDateDesc();
 	
 	@Query("SELECT p FROM Payment p JOIN p.vehicle v WHERE p.travelDate > :dateToday ORDER BY v.franchise DESC, v.coding ASC")
 	public Page<Payment> findPaymentsAfterDateOrderByVehicleIdAndFranchiseAsc(@Param("dateToday") Date dateToday, Pageable pageable);
-	
-	public Page<Payment> findByPaymentDateAfter(Pageable pageable, Date dateToday);
-	
+
 	@Query("SELECT p FROM Payment p WHERE p.paymentDate = :paymentDate AND p.travelDate < :travelDate")
 	public List<Payment> findLatePayments(Date travelDate, Date paymentDate);
 	
@@ -44,10 +40,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
 	@Query("SELECT p FROM Payment p JOIN p.driver d WHERE p.remarks LIKE %:remarks% AND (d.firstName LIKE %:firstName% OR d.lastName LIKE %:lastName%) AND p.travelDate = :travelDate")
 	public Page<Payment> searchByRemarksLikeAndDriverNameAndtravelDate(@Param("remarks") String remarks, @Param("firstName") String firstName, @Param("lastName") String lastName, @Param("travelDate") Date travelDate, Pageable pageable);
-
-	
-	@Query("SELECT p FROM Payment p WHERE p.paymentDate = :paymentDate")
-	public List<Payment> searchByPaymentDateLike(@Param("paymentDate") Date paymentDate);
 	
 	@Query("SELECT MIN(p.travelDate) FROM Payment p")
 	public Date findFirstTravelDate();
